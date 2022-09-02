@@ -20,21 +20,26 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="连接虚拟机的docker启动的mysql镜像mysql1、下载mysql镜像ubuntu下需要root权限 1docker pull mysql:5.7 2、启动镜像1docker run --name&#x3D;mysql -it -p 3396:3306 -e MYSQL_ROOT_PASSWORD&#x3D;123456 -d mysql:5.7 -it:交互式-p:自定义端口(宿主机端口:容器内启动的端口)每">
+  <meta name="description" content="连接虚拟机的docker启动的mysql镜像整体关系图 mysql1、下载mysql镜像ubuntu下需要root权限 1docker pull mysql:5.7 2、启动镜像1docker run --name&#x3D;mysql -it -p 3396:3306 -e MYSQL_ROOT_PASSWORD&#x3D;123456 -d mysql:5.7 -it:交互式-p:自定义端口(宿主机端口:容器内启">
 <meta property="og:type" content="article">
 <meta property="og:title" content="con_docker">
 <meta property="og:url" content="http://example.com/2022/09/02/con_docker/index.html">
 <meta property="og:site_name" content="德龙的博客">
-<meta property="og:description" content="连接虚拟机的docker启动的mysql镜像mysql1、下载mysql镜像ubuntu下需要root权限 1docker pull mysql:5.7 2、启动镜像1docker run --name&#x3D;mysql -it -p 3396:3306 -e MYSQL_ROOT_PASSWORD&#x3D;123456 -d mysql:5.7 -it:交互式-p:自定义端口(宿主机端口:容器内启动的端口)每">
+<meta property="og:description" content="连接虚拟机的docker启动的mysql镜像整体关系图 mysql1、下载mysql镜像ubuntu下需要root权限 1docker pull mysql:5.7 2、启动镜像1docker run --name&#x3D;mysql -it -p 3396:3306 -e MYSQL_ROOT_PASSWORD&#x3D;123456 -d mysql:5.7 -it:交互式-p:自定义端口(宿主机端口:容器内启">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/.com//09/02/con_docker/1.png">
-<meta property="og:image" content="http://example.com/.com//1.png">
+<meta property="og:image" content="http://example.com/2022/09/02/con_docker/3.png">
+<meta property="og:image" content="http://example.com/2022/09/02/con_docker/1.png">
+<meta property="og:image" content="http://example.com/2022/09/02/con_docker/2.png">
+<meta property="og:image" content="http://example.com/2022/09/02/con_docker/4.png">
+<meta property="og:image" content="http://example.com/2022/09/02/con_docker/5.png">
+<meta property="og:image" content="http://example.com/2022/09/02/con_docker/6.png">
+<meta property="og:image" content="http://example.com/2022/09/02/con_docker/7.png">
 <meta property="article:published_time" content="2022-09-02T11:33:11.000Z">
-<meta property="article:modified_time" content="2022-09-02T14:57:38.426Z">
+<meta property="article:modified_time" content="2022-09-02T16:03:50.403Z">
 <meta property="article:author" content="DeLongSun">
 <meta property="article:tag" content="docker学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/.com//09/02/con_docker/1.png">
+<meta name="twitter:image" content="http://example.com/2022/09/02/con_docker/3.png">
 
 <link rel="canonical" href="http://example.com/2022/09/02/con_docker/">
 
@@ -186,10 +191,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-09-02 19:33:11 / Modified: 22:57:38" itemprop="dateCreated datePublished" datetime="2022-09-02T19:33:11+08:00">2022-09-02</time>
+              <time title="Created: 2022-09-02 19:33:11" itemprop="dateCreated datePublished" datetime="2022-09-02T19:33:11+08:00">2022-09-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-09-03 00:03:50" itemprop="dateModified" datetime="2022-09-03T00:03:50+08:00">2022-09-03</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -218,14 +229,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="连接虚拟机的docker启动的mysql镜像"><a href="#连接虚拟机的docker启动的mysql镜像" class="headerlink" title="连接虚拟机的docker启动的mysql镜像"></a>连接虚拟机的docker启动的mysql镜像</h1><h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="1、下载mysql镜像"><a href="#1、下载mysql镜像" class="headerlink" title="1、下载mysql镜像"></a>1、下载mysql镜像</h3><p><em>ubuntu下需要root权限</em></p>
+        <h1 id="连接虚拟机的docker启动的mysql镜像"><a href="#连接虚拟机的docker启动的mysql镜像" class="headerlink" title="连接虚拟机的docker启动的mysql镜像"></a>连接虚拟机的docker启动的mysql镜像</h1><p>整体关系图<br><img src="/2022/09/02/con_docker/3.png" alt="guanxi"></p>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="1、下载mysql镜像"><a href="#1、下载mysql镜像" class="headerlink" title="1、下载mysql镜像"></a>1、下载mysql镜像</h3><p><em>ubuntu下需要root权限</em></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:5.7</span><br></pre></td></tr></table></figure>
 <h3 id="2、启动镜像"><a href="#2、启动镜像" class="headerlink" title="2、启动镜像"></a>2、启动镜像</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=mysql -it -p 3396:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7</span><br></pre></td></tr></table></figure>
-<dl><dt>-it:交互式<br>-p:自定义端口(宿主机端口:容器内启动的端口)</dt><dd>每个容器启动之后相当于一个系统<br>-e:设置<br>-d:后台挂载<br>–name:容器启动后的名字</dd></dl><h3 id="3、进入mysql镜像"><a href="#3、进入mysql镜像" class="headerlink" title="3、进入mysql镜像"></a>3、进入mysql镜像</h3><p>查看启动之后镜像的id</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-<img src="/.com//09/02/con_docker/1.png" class title="This is an example image">
-<p><img src="/.com//1.png" alt="img"></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ex</span><br></pre></td></tr></table></figure>
+<dl><dt>-it:交互式<br>-p:自定义端口(宿主机端口:容器内启动的端口)</dt><dd>每个容器启动之后相当于一个系统<br>-e:设置<br>-d:后台挂载<br>–name:容器启动后的名字</dd></dl><h3 id="3、进入mysql镜像"><a href="#3、进入mysql镜像" class="headerlink" title="3、进入mysql镜像"></a>3、进入mysql镜像</h3><h4 id="查看启动之后镜像的id"><a href="#查看启动之后镜像的id" class="headerlink" title="查看启动之后镜像的id"></a>查看启动之后镜像的id</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/02/con_docker/1.png" alt="img"><br>如图👆</p>
+<h4 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it dd3be6ee5104 /bin/bash</span><br></pre></td></tr></table></figure>
+<h4 id="启动进入mysql"><a href="#启动进入mysql" class="headerlink" title="启动进入mysql"></a>启动进入mysql</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it dd3be6ee5104 /bin/bash</span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+<h4 id="设置所有地址可用root用户进入"><a href="#设置所有地址可用root用户进入" class="headerlink" title="设置所有地址可用root用户进入"></a>设置所有地址可用root用户进入</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> host <span class="operator">=</span> <span class="string">&#x27;%&#x27;</span> <span class="keyword">where</span> <span class="keyword">user</span> <span class="operator">=</span> <span class="string">&#x27;root&#x27;</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> admin@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;root&#x27;</span> <span class="keyword">with</span> <span class="keyword">grant</span> option;</span><br><span class="line">flush privileges;   刷新权限</span><br></pre></td></tr></table></figure>
+<h4 id="检查是否设置成功"><a href="#检查是否设置成功" class="headerlink" title="检查是否设置成功"></a>检查是否设置成功</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> host,<span class="keyword">user</span>,plugin,authentication_string <span class="keyword">from</span> mysql.user;</span><br></pre></td></tr></table></figure>
+<p>如图<br><img src="/2022/09/02/con_docker/2.png" alt="mysql"><br>mysql8.0以上需要将plugin的caching_sha2_password设置为my_native_password，<br>这里我们用的是mysql5.7所以不用设置<br>mysql设置结束</p>
+<h3 id="4、查看是否能ping通虚拟机"><a href="#4、查看是否能ping通虚拟机" class="headerlink" title="4、查看是否能ping通虚拟机"></a>4、查看是否能ping通虚拟机</h3><h4 id="查看虚拟机ip（enss33网卡上的ip）"><a href="#查看虚拟机ip（enss33网卡上的ip）" class="headerlink" title="查看虚拟机ip（enss33网卡上的ip）"></a>查看虚拟机ip（enss33网卡上的ip）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/02/con_docker/4.png" alt="mysql"><br>红色部分(即192.168.127.129)  </p>
+<h4 id="回到主机-win10-打开cmd"><a href="#回到主机-win10-打开cmd" class="headerlink" title="回到主机(win10)打开cmd"></a>回到主机(win10)打开cmd</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.127.129</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/02/con_docker/5.png" alt="mysql"><br>正常能ping通即可，如果不行就关闭虚拟机的防火墙</p>
+<h3 id="5、使用图形化工具连接mysql-navicat为例"><a href="#5、使用图形化工具连接mysql-navicat为例" class="headerlink" title="5、使用图形化工具连接mysql(navicat为例)"></a>5、使用图形化工具连接mysql(navicat为例)</h3><p><img src="/2022/09/02/con_docker/6.png" alt="img.png"><br><img src="/2022/09/02/con_docker/7.png" alt="img.png"></p>
 
     </div>
 
@@ -306,7 +325,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84docker%E5%90%AF%E5%8A%A8%E7%9A%84mysql%E9%95%9C%E5%83%8F"><span class="nav-number">1.</span> <span class="nav-text">连接虚拟机的docker启动的mysql镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql"><span class="nav-number">1.1.</span> <span class="nav-text">mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%B8%8B%E8%BD%BDmysql%E9%95%9C%E5%83%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">1、下载mysql镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%90%AF%E5%8A%A8%E9%95%9C%E5%83%8F"><span class="nav-number">1.1.2.</span> <span class="nav-text">2、启动镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E8%BF%9B%E5%85%A5mysql%E9%95%9C%E5%83%8F"><span class="nav-number">1.1.3.</span> <span class="nav-text">3、进入mysql镜像</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84docker%E5%90%AF%E5%8A%A8%E7%9A%84mysql%E9%95%9C%E5%83%8F"><span class="nav-number">1.</span> <span class="nav-text">连接虚拟机的docker启动的mysql镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql"><span class="nav-number">1.1.</span> <span class="nav-text">mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%B8%8B%E8%BD%BDmysql%E9%95%9C%E5%83%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">1、下载mysql镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%90%AF%E5%8A%A8%E9%95%9C%E5%83%8F"><span class="nav-number">1.1.2.</span> <span class="nav-text">2、启动镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E8%BF%9B%E5%85%A5mysql%E9%95%9C%E5%83%8F"><span class="nav-number">1.1.3.</span> <span class="nav-text">3、进入mysql镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%90%AF%E5%8A%A8%E4%B9%8B%E5%90%8E%E9%95%9C%E5%83%8F%E7%9A%84id"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">查看启动之后镜像的id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">进入容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%BF%9B%E5%85%A5mysql"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">启动进入mysql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%89%80%E6%9C%89%E5%9C%B0%E5%9D%80%E5%8F%AF%E7%94%A8root%E7%94%A8%E6%88%B7%E8%BF%9B%E5%85%A5"><span class="nav-number">1.1.3.4.</span> <span class="nav-text">设置所有地址可用root用户进入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E6%98%AF%E5%90%A6%E8%AE%BE%E7%BD%AE%E6%88%90%E5%8A%9F"><span class="nav-number">1.1.3.5.</span> <span class="nav-text">检查是否设置成功</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E6%9F%A5%E7%9C%8B%E6%98%AF%E5%90%A6%E8%83%BDping%E9%80%9A%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">1.1.4.</span> <span class="nav-text">4、查看是否能ping通虚拟机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%99%9A%E6%8B%9F%E6%9C%BAip%EF%BC%88enss33%E7%BD%91%E5%8D%A1%E4%B8%8A%E7%9A%84ip%EF%BC%89"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">查看虚拟机ip（enss33网卡上的ip）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9E%E5%88%B0%E4%B8%BB%E6%9C%BA-win10-%E6%89%93%E5%BC%80cmd"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">回到主机(win10)打开cmd</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81%E4%BD%BF%E7%94%A8%E5%9B%BE%E5%BD%A2%E5%8C%96%E5%B7%A5%E5%85%B7%E8%BF%9E%E6%8E%A5mysql-navicat%E4%B8%BA%E4%BE%8B"><span class="nav-number">1.1.5.</span> <span class="nav-text">5、使用图形化工具连接mysql(navicat为例)</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
