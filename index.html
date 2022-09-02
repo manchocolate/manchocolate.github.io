@@ -157,7 +157,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/02/%E8%BF%9E%E6%8E%A5docker%E5%86%85%E7%9A%84%E5%AE%B9%E5%99%A8-mysql/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/02/%E8%BF%9E%E6%8E%A5docker%E5%86%85%E7%9A%84%E5%AE%B9%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/wuwu.jpg">
@@ -171,7 +171,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/09/02/%E8%BF%9E%E6%8E%A5docker%E5%86%85%E7%9A%84%E5%AE%B9%E5%99%A8-mysql/" class="post-title-link" itemprop="url">连接docker内的容器(mysql)</a>
+            <a href="/2022/09/02/%E8%BF%9E%E6%8E%A5docker%E5%86%85%E7%9A%84%E5%AE%B9%E5%99%A8/" class="post-title-link" itemprop="url">连接docker内的容器</a>
         </h2>
 
         <div class="post-meta">
@@ -182,7 +182,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-09-02 16:02:49 / Modified: 16:31:53" itemprop="dateCreated datePublished" datetime="2022-09-02T16:02:49+08:00">2022-09-02</time>
+              <time title="Created: 2022-09-02 19:33:11 / Modified: 19:35:26" itemprop="dateCreated datePublished" datetime="2022-09-02T19:33:11+08:00">2022-09-02</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -210,7 +210,7 @@
 <h3 id="2、启动镜像"><a href="#2、启动镜像" class="headerlink" title="2、启动镜像"></a>2、启动镜像</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=mysql -it -p 3396:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7</span><br></pre></td></tr></table></figure>
 <dl><dt>-it:交互式<br>-p:自定义端口(宿主机端口:容器内启动的端口)</dt><dd>每个容器启动之后相当于一个系统<br>-e:设置<br>-d:后台挂载<br>–name:容器启动后的名字</dd></dl><h3 id="3、进入mysql镜像"><a href="#3、进入mysql镜像" class="headerlink" title="3、进入mysql镜像"></a>3、进入mysql镜像</h3><p>查看启动之后镜像的id</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-<p><img src="/.com//docker/1.png" alt="img"></p>
+<p><img src="/.com//1.png" alt="img"></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ex</span><br></pre></td></tr></table></figure>
 
       
