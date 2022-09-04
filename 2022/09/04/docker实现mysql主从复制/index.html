@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="docker实现mysql主从复制主db端口3307从db端口3308   主mysql设置1、启动mysql123456docker run -p 3307:3306 --name mysql-master -v &#x2F;mydata&#x2F;mysql-master&#x2F;log:&#x2F;var&#x2F;log&#x2F;mysql -v &#x2F;mydata&#x2F;mysql-master&#x2F;data:&#x2F;var&#x2F;lib&#x2F;mysql -v &#x2F;myda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker实现mysql主从复制">
+<meta property="og:url" content="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/index.html">
+<meta property="og:site_name" content="德龙的博客">
+<meta property="og:description" content="docker实现mysql主从复制主db端口3307从db端口3308   主mysql设置1、启动mysql123456docker run -p 3307:3306 --name mysql-master -v &#x2F;mydata&#x2F;mysql-master&#x2F;log:&#x2F;var&#x2F;log&#x2F;mysql -v &#x2F;mydata&#x2F;mysql-master&#x2F;data:&#x2F;var&#x2F;lib&#x2F;mysql -v &#x2F;myda">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/1.png">
+<meta property="og:image" content="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/2.png">
+<meta property="og:image" content="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/3.png">
+<meta property="og:image" content="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/4.png">
+<meta property="og:image" content="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/5.png">
+<meta property="og:image" content="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/6.png">
+<meta property="article:published_time" content="2022-09-04T14:55:50.000Z">
+<meta property="article:modified_time" content="2022-09-04T15:56:57.039Z">
+<meta property="article:author" content="DeLongSun">
+<meta property="article:tag" content="docker学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/1.png">
+
+<link rel="canonical" href="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>docker实现mysql主从复制 | 德龙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">德龙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          docker实现mysql主从复制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-09-04 22:55:50 / Modified: 23:56:57" itemprop="dateCreated datePublished" datetime="2022-09-04T22:55:50+08:00">2022-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="docker实现mysql主从复制"><a href="#docker实现mysql主从复制" class="headerlink" title="docker实现mysql主从复制"></a>docker实现mysql主从复制</h1><p>主db端口3307<br>从db端口3308  </p>
+<h2 id="主mysql设置"><a href="#主mysql设置" class="headerlink" title="主mysql设置"></a>主mysql设置</h2><h3 id="1、启动mysql"><a href="#1、启动mysql" class="headerlink" title="1、启动mysql"></a>1、启动mysql</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run <span class="operator">-</span>p <span class="number">3307</span>:<span class="number">3306</span> <span class="comment">--name mysql-master </span></span><br><span class="line"><span class="operator">-</span>v <span class="operator">/</span>mydata<span class="operator">/</span>mysql<span class="operator">-</span>master<span class="operator">/</span>log:<span class="operator">/</span>var<span class="operator">/</span>log<span class="operator">/</span>mysql </span><br><span class="line"><span class="operator">-</span>v <span class="operator">/</span>mydata<span class="operator">/</span>mysql<span class="operator">-</span>master<span class="operator">/</span>data:<span class="operator">/</span>var<span class="operator">/</span>lib<span class="operator">/</span>mysql </span><br><span class="line"><span class="operator">-</span>v <span class="operator">/</span>mydata<span class="operator">/</span>mysql<span class="operator">-</span>master<span class="operator">/</span>conf:<span class="operator">/</span>etc<span class="operator">/</span>mysql </span><br><span class="line"><span class="operator">-</span>e MYSQL_ROOT_PASSWORD<span class="operator">=</span>root  </span><br><span class="line"><span class="operator">-</span>d mysql:<span class="number">5.7</span></span><br></pre></td></tr></table></figure>
+<h2 id="2、进入-mydata-mysql-master-conf目录下新建my-cnf"><a href="#2、进入-mydata-mysql-master-conf目录下新建my-cnf" class="headerlink" title="2、进入/mydata/mysql-master/conf目录下新建my.cnf"></a>2、进入/mydata/mysql-master/conf目录下新建my.cnf</h2><p>my.conf文件内容  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置server_id，同一局域网中需要唯一</span></span></span><br><span class="line">server_id=101 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 指定不需要同步的数据库名称</span></span></span><br><span class="line">binlog-ignore-db=mysql  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 开启二进制日志功能</span></span></span><br><span class="line">log-bin=mall-mysql-bin  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置二进制日志使用内存大小（事务）</span></span></span><br><span class="line">binlog_cache_size=1M  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置使用的二进制日志格式（mixed,statement,row）</span></span></span><br><span class="line">binlog_format=mixed  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 二进制日志过期清理时间。默认值为0，表示不自动清理。</span></span></span><br><span class="line">expire_logs_days=7  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 跳过主从复制中遇到的所有错误或指定类型的错误，避免slave端复制中断。</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 如：1062错误是指一些主键重复，1032错误是因为主从数据库数据不一致</span></span></span><br><span class="line">slave_skip_errors=1062</span><br></pre></td></tr></table></figure>
+<h2 id="3、重启mysql-进入mysql进行配置"><a href="#3、重启mysql-进入mysql进行配置" class="headerlink" title="3、重启mysql,进入mysql进行配置"></a>3、重启mysql,进入mysql进行配置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart mysql-master</span><br></pre></td></tr></table></figure>
+<h3 id="进入mysql进行配置"><a href="#进入mysql进行配置" class="headerlink" title="进入mysql进行配置"></a>进入mysql进行配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mysql-master /bin/bash</span><br><span class="line">mysql -uroot -proot</span><br></pre></td></tr></table></figure>
+<h3 id="创建从数据库用户"><a href="#创建从数据库用户" class="headerlink" title="创建从数据库用户\"></a>创建从数据库用户\</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REATE <span class="keyword">USER</span> <span class="string">&#x27;slave&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line"><span class="keyword">GRANT</span> REPLICATION SLAVE, REPLICATION CLIENT <span class="keyword">ON</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;slave&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="从数据库配置"><a href="#从数据库配置" class="headerlink" title="从数据库配置"></a>从数据库配置</h2><h3 id="1、启动mysql-1"><a href="#1、启动mysql-1" class="headerlink" title="1、启动mysql"></a>1、启动mysql</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 3308:3306 --name mysql-slave </span><br><span class="line">-v /mydata/mysql-slave/log:/var/log/mysql </span><br><span class="line">-v /mydata/mysql-slave/data:/var/lib/mysql </span><br><span class="line">-v /mydata/mysql-slave/conf:/etc/mysql </span><br><span class="line">-e MYSQL_ROOT_PASSWORD=root  </span><br><span class="line">-d mysql:5.7</span><br></pre></td></tr></table></figure>
+<h2 id="2、进入-mydata-mysql-slave-conf目录下新建my-cnf"><a href="#2、进入-mydata-mysql-slave-conf目录下新建my-cnf" class="headerlink" title="2、进入/mydata/mysql-slave/conf目录下新建my.cnf"></a>2、进入/mydata/mysql-slave/conf目录下新建my.cnf</h2><p>my.conf文件内容  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置server_id，同一局域网中需要唯一</span></span></span><br><span class="line">server_id=102</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 指定不需要同步的数据库名称</span></span></span><br><span class="line">binlog-ignore-db=mysql  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 开启二进制日志功能，以备Slave作为其它数据库实例的Master时使用</span></span></span><br><span class="line">log-bin=mall-mysql-slave1-bin  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置二进制日志使用内存大小（事务）</span></span></span><br><span class="line">binlog_cache_size=1M  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置使用的二进制日志格式（mixed,statement,row）</span></span></span><br><span class="line">binlog_format=mixed  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 二进制日志过期清理时间。默认值为0，表示不自动清理。</span></span></span><br><span class="line">expire_logs_days=7  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 跳过主从复制中遇到的所有错误或指定类型的错误，避免slave端复制中断。</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 如：1062错误是指一些主键重复，1032错误是因为主从数据库数据不一致</span></span></span><br><span class="line">slave_skip_errors=1062  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># relay_log配置中继日志</span></span></span><br><span class="line">relay_log=mall-mysql-relay-bin  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># log_slave_updates表示slave将复制事件写进自己的二进制日志</span></span></span><br><span class="line">log_slave_updates=1  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># slave设置为只读（具有super权限的用户除外）</span></span></span><br><span class="line">read_only=1</span><br></pre></td></tr></table></figure>
+<h2 id="3、重启mysql-进入mysql进行配置-1"><a href="#3、重启mysql-进入mysql进行配置-1" class="headerlink" title="3、重启mysql,进入mysql进行配置"></a>3、重启mysql,进入mysql进行配置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker restart mysql-slave</span><br><span class="line">docker exec -it mysql-slave /bin/bash</span><br><span class="line">mysql -uroot -proot</span><br><span class="line">CREATE USER &#x27;slave&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;123456&#x27;;</span><br><span class="line">GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO &#x27;slave&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+<h3 id="在从数据库中配置主从复制"><a href="#在从数据库中配置主从复制" class="headerlink" title="在从数据库中配置主从复制"></a>在从数据库中配置主从复制</h3><h4 id="查看pos从哪开始"><a href="#查看pos从哪开始" class="headerlink" title="查看pos从哪开始"></a>查看pos从哪开始</h4><p>在master数据库查看position,获取到pos</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> master status;</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/1.png" alt="img"><br>查看本机ip（master的ip）  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/2.png" alt="img"><br>回到slave数据库  </p>
+<h4 id="在slave配置主从复制"><a href="#在slave配置主从复制" class="headerlink" title="在slave配置主从复制"></a>在slave配置主从复制</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">change master <span class="keyword">to</span> master_host<span class="operator">=</span><span class="string">&#x27; 192.168.127.129&#x27;</span>, master_user<span class="operator">=</span><span class="string">&#x27;slave&#x27;</span>, master_password<span class="operator">=</span><span class="string">&#x27;123456&#x27;</span>, master_port<span class="operator">=</span><span class="number">3307</span>, master_log_file<span class="operator">=</span><span class="string">&#x27;mall-mysql-bin.000001&#x27;</span>, master_log_pos<span class="operator">=</span><span class="number">154</span>, master_connect_retry<span class="operator">=</span><span class="number">30</span>;</span><br></pre></td></tr></table></figure>
+<p><em>master_host(刚才查看的宿主机ip)；master_log_pos（刚才在master数据库查看的pos）</em></p>
+<h4 id="在slave查看主从同步状态"><a href="#在slave查看主从同步状态" class="headerlink" title="在slave查看主从同步状态"></a>在slave查看主从同步状态</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> slave status \G;</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/3.png" alt="img"><br>此时连接状态为no<br>开启slave,查看主从同步状态.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> slave;</span><br><span class="line"><span class="keyword">show</span> slave status \G;</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/4.png" alt="img"><br>此时连接为yes，即同步成功</p>
+<h2 id="4、建表查看"><a href="#4、建表查看" class="headerlink" title="4、建表查看"></a>4、建表查看</h2><p>master建表，slave查看<br><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/5.png" alt="img"><br><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/6.png" alt="img"><br>成功</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/docker%E5%AD%A6%E4%B9%A0/" rel="tag"># docker学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/02/con_docker/" rel="prev" title="con_docker">
+      <i class="fa fa-chevron-left"></i> con_docker
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">docker实现mysql主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BBmysql%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.1.</span> <span class="nav-text">主mysql设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%90%AF%E5%8A%A8mysql"><span class="nav-number">1.1.1.</span> <span class="nav-text">1、启动mysql</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E8%BF%9B%E5%85%A5-mydata-mysql-master-conf%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%96%B0%E5%BB%BAmy-cnf"><span class="nav-number">1.2.</span> <span class="nav-text">2、进入&#x2F;mydata&#x2F;mysql-master&#x2F;conf目录下新建my.cnf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E9%87%8D%E5%90%AFmysql-%E8%BF%9B%E5%85%A5mysql%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">3、重启mysql,进入mysql进行配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5mysql%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.1.</span> <span class="nav-text">进入mysql进行配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%A8%E6%88%B7"><span class="nav-number">1.3.2.</span> <span class="nav-text">创建从数据库用户\</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE"><span class="nav-number">1.4.</span> <span class="nav-text">从数据库配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%90%AF%E5%8A%A8mysql-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">1、启动mysql</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E8%BF%9B%E5%85%A5-mydata-mysql-slave-conf%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%96%B0%E5%BB%BAmy-cnf"><span class="nav-number">1.5.</span> <span class="nav-text">2、进入&#x2F;mydata&#x2F;mysql-slave&#x2F;conf目录下新建my.cnf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E9%87%8D%E5%90%AFmysql-%E8%BF%9B%E5%85%A5mysql%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE-1"><span class="nav-number">1.6.</span> <span class="nav-text">3、重启mysql,进入mysql进行配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">1.6.1.</span> <span class="nav-text">在从数据库中配置主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bpos%E4%BB%8E%E5%93%AA%E5%BC%80%E5%A7%8B"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">查看pos从哪开始</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8slave%E9%85%8D%E7%BD%AE%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">在slave配置主从复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8slave%E6%9F%A5%E7%9C%8B%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%E7%8A%B6%E6%80%81"><span class="nav-number">1.6.1.3.</span> <span class="nav-text">在slave查看主从同步状态</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E5%BB%BA%E8%A1%A8%E6%9F%A5%E7%9C%8B"><span class="nav-number">1.7.</span> <span class="nav-text">4、建表查看</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DeLongSun"
+      src="/images/wuwu.jpg">
+  <p class="site-author-name" itemprop="name">DeLongSun</p>
+  <div class="site-description" itemprop="description">upup</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/manchocolate" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/manchocolate" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-gitee fa-fw"></i>Gitee</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DeLongSun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+<script type="text/javascript" src="/js/my_js/clicklove.js"></script>
+</html>
