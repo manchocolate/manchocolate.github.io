@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="ubuntu手动安装rabbitmqubuntu:16erlang:25rabbitmq:3.10.7 erlang安装准备可能需要的库1apt install gcc libncurses5-dev g++ unixodbc-dev freeglut3-dev libssl-dev libwxgtk3.0-dev make 查看erlang和rabbitmq对应的版本信息https:&#x2F;&#x2F;www.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu手动安装rabbitmq">
+<meta property="og:url" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/index.html">
+<meta property="og:site_name" content="德龙的博客">
+<meta property="og:description" content="ubuntu手动安装rabbitmqubuntu:16erlang:25rabbitmq:3.10.7 erlang安装准备可能需要的库1apt install gcc libncurses5-dev g++ unixodbc-dev freeglut3-dev libssl-dev libwxgtk3.0-dev make 查看erlang和rabbitmq对应的版本信息https:&#x2F;&#x2F;www.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/1.png">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/2.png">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/3.png">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/4.png">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/5.png">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/6.png">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/7.png">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/8.png">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/9.png">
+<meta property="og:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/10.png">
+<meta property="article:published_time" content="2022-09-07T14:27:12.000Z">
+<meta property="article:modified_time" content="2022-09-07T15:33:00.317Z">
+<meta property="article:author" content="DeLongSun">
+<meta property="article:tag" content="rabbitmq安装">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/1.png">
+
+<link rel="canonical" href="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>ubuntu手动安装rabbitmq | 德龙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">德龙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ubuntu手动安装rabbitmq
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-09-07 22:27:12 / Modified: 23:33:00" itemprop="dateCreated datePublished" datetime="2022-09-07T22:27:12+08:00">2022-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="ubuntu手动安装rabbitmq"><a href="#ubuntu手动安装rabbitmq" class="headerlink" title="ubuntu手动安装rabbitmq"></a>ubuntu手动安装rabbitmq</h1><p>ubuntu:16<br>erlang:25<br>rabbitmq:3.10.7</p>
+<h2 id="erlang安装"><a href="#erlang安装" class="headerlink" title="erlang安装"></a>erlang安装</h2><h3 id="准备可能需要的库"><a href="#准备可能需要的库" class="headerlink" title="准备可能需要的库"></a>准备可能需要的库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install gcc libncurses5-dev g++ unixodbc-dev freeglut3-dev libssl-dev libwxgtk3.0-dev make</span><br></pre></td></tr></table></figure>
+<h3 id="查看erlang和rabbitmq对应的版本信息"><a href="#查看erlang和rabbitmq对应的版本信息" class="headerlink" title="查看erlang和rabbitmq对应的版本信息"></a>查看erlang和rabbitmq对应的版本信息</h3><p><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://www.rabbitmq.com/which-erlang.html</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/1.png" alt="img"></p>
+<h3 id="下载erlang的tar"><a href="#下载erlang的tar" class="headerlink" title="下载erlang的tar"></a>下载erlang的tar</h3><p><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://github.com/erlang/otp/releases</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/2.png" alt="img"></p>
+<h3 id="安装erlang"><a href="#安装erlang" class="headerlink" title="安装erlang"></a>安装erlang</h3><p>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf otp_src_25.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>进入解压后的文件  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd otp_src_25.0</span><br></pre></td></tr></table></figure>
+<p>创建想要安装的目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /app/erlang_22.5</span><br></pre></td></tr></table></figure>
+<p>使用configure</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/app/erlang_22.5 --with-ssl --enable-threads --enable-smp-support --enable-kernel-poll --enable-hipe --without-javac</span><br></pre></td></tr></table></figure>
+<p>可能会出现缺少部分库的情况<br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/3.png" alt="img"><br><em>缺少openssl</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libssl-dev</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/4.png" alt="img"><br><em>缺少curses</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libncurses5 libncurses5-dev</span><br></pre></td></tr></table></figure>
+<p>最后成功会出现<br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/5.png" alt="img"><br>编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>进入安装的文件夹下（新建的app那个下面）查看是否成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /app/erlang_22.5/bin/erl</span><br></pre></td></tr></table></figure>
+<p>出现下图则成功<br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/6.png" alt="img"><br>设置软链</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /app/erlang_22.5/bin/erl /usr/bin/erl</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/7.png" alt="img"></p>
+<h3 id="安装rabbitmq"><a href="#安装rabbitmq" class="headerlink" title="安装rabbitmq"></a>安装rabbitmq</h3><p>找自己想要的版本<br><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://github.com/rabbitmq/rabbitmq-server/releases</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/8.png" alt="img"><br>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf rabbitmq-server-generic-unix-3.10.7.tar.xz -C /app</span><br></pre></td></tr></table></figure>
+<p>进入app文件夹启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmq-serve</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/9.png" alt="img"><br><em>成功</em><br>安装web界面管理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmq-plugins enable rabbitmq_management </span><br></pre></td></tr></table></figure>
+<p>添加用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmqctl add_user  admin 123456</span><br></pre></td></tr></table></figure>
+<p>授权<br><em><strong>应该是在关闭rabiitmq下进行</strong></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
+<p>访问页面输入刚才设置的用户名admin和密码123456<br><a href="%E8%99%9A%E6%8B%9F%E6%9C%BAip:15672">虚拟机ip:15672</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/10.png" alt="img"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/rabbitmq%E5%AE%89%E8%A3%85/" rel="tag"># rabbitmq安装</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" rel="prev" title="docker实现mysql主从复制">
+      <i class="fa fa-chevron-left"></i> docker实现mysql主从复制
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq"><span class="nav-number">1.</span> <span class="nav-text">ubuntu手动安装rabbitmq</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#erlang%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.</span> <span class="nav-text">erlang安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%8F%AF%E8%83%BD%E9%9C%80%E8%A6%81%E7%9A%84%E5%BA%93"><span class="nav-number">1.1.1.</span> <span class="nav-text">准备可能需要的库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Berlang%E5%92%8Crabbitmq%E5%AF%B9%E5%BA%94%E7%9A%84%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="nav-number">1.1.2.</span> <span class="nav-text">查看erlang和rabbitmq对应的版本信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDerlang%E7%9A%84tar"><span class="nav-number">1.1.3.</span> <span class="nav-text">下载erlang的tar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85erlang"><span class="nav-number">1.1.4.</span> <span class="nav-text">安装erlang</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85rabbitmq"><span class="nav-number">1.1.5.</span> <span class="nav-text">安装rabbitmq</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DeLongSun"
+      src="/images/wuwu.jpg">
+  <p class="site-author-name" itemprop="name">DeLongSun</p>
+  <div class="site-description" itemprop="description">upup</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/manchocolate" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/manchocolate" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-gitee fa-fw"></i>Gitee</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DeLongSun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+<script type="text/javascript" src="/js/my_js/clicklove.js"></script>
+</html>

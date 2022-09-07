@@ -157,6 +157,109 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/" class="post-title-link" itemprop="url">ubuntu手动安装rabbitmq</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-09-07 22:27:12 / Modified: 23:33:00" itemprop="dateCreated datePublished" datetime="2022-09-07T22:27:12+08:00">2022-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="ubuntu手动安装rabbitmq"><a href="#ubuntu手动安装rabbitmq" class="headerlink" title="ubuntu手动安装rabbitmq"></a>ubuntu手动安装rabbitmq</h1><p>ubuntu:16<br>erlang:25<br>rabbitmq:3.10.7</p>
+<h2 id="erlang安装"><a href="#erlang安装" class="headerlink" title="erlang安装"></a>erlang安装</h2><h3 id="准备可能需要的库"><a href="#准备可能需要的库" class="headerlink" title="准备可能需要的库"></a>准备可能需要的库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install gcc libncurses5-dev g++ unixodbc-dev freeglut3-dev libssl-dev libwxgtk3.0-dev make</span><br></pre></td></tr></table></figure>
+<h3 id="查看erlang和rabbitmq对应的版本信息"><a href="#查看erlang和rabbitmq对应的版本信息" class="headerlink" title="查看erlang和rabbitmq对应的版本信息"></a>查看erlang和rabbitmq对应的版本信息</h3><p><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://www.rabbitmq.com/which-erlang.html</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/1.png" alt="img"></p>
+<h3 id="下载erlang的tar"><a href="#下载erlang的tar" class="headerlink" title="下载erlang的tar"></a>下载erlang的tar</h3><p><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://github.com/erlang/otp/releases</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/2.png" alt="img"></p>
+<h3 id="安装erlang"><a href="#安装erlang" class="headerlink" title="安装erlang"></a>安装erlang</h3><p>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf otp_src_25.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>进入解压后的文件  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd otp_src_25.0</span><br></pre></td></tr></table></figure>
+<p>创建想要安装的目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /app/erlang_22.5</span><br></pre></td></tr></table></figure>
+<p>使用configure</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/app/erlang_22.5 --with-ssl --enable-threads --enable-smp-support --enable-kernel-poll --enable-hipe --without-javac</span><br></pre></td></tr></table></figure>
+<p>可能会出现缺少部分库的情况<br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/3.png" alt="img"><br><em>缺少openssl</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libssl-dev</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/4.png" alt="img"><br><em>缺少curses</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libncurses5 libncurses5-dev</span><br></pre></td></tr></table></figure>
+<p>最后成功会出现<br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/5.png" alt="img"><br>编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>进入安装的文件夹下（新建的app那个下面）查看是否成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /app/erlang_22.5/bin/erl</span><br></pre></td></tr></table></figure>
+<p>出现下图则成功<br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/6.png" alt="img"><br>设置软链</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /app/erlang_22.5/bin/erl /usr/bin/erl</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/7.png" alt="img"></p>
+<h3 id="安装rabbitmq"><a href="#安装rabbitmq" class="headerlink" title="安装rabbitmq"></a>安装rabbitmq</h3><p>找自己想要的版本<br><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://github.com/rabbitmq/rabbitmq-server/releases</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/8.png" alt="img"><br>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf rabbitmq-server-generic-unix-3.10.7.tar.xz -C /app</span><br></pre></td></tr></table></figure>
+<p>进入app文件夹启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmq-serve</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/9.png" alt="img"><br><em>成功</em><br>安装web界面管理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmq-plugins enable rabbitmq_management </span><br></pre></td></tr></table></figure>
+<p>添加用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmqctl add_user  admin 123456</span><br></pre></td></tr></table></figure>
+<p>授权<br><em><strong>应该是在关闭rabiitmq下进行</strong></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
+<p>访问页面输入刚才设置的用户名admin和密码123456<br><a href="%E8%99%9A%E6%8B%9F%E6%9C%BAip:15672">虚拟机ip:15672</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/10.png" alt="img"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -614,20 +717,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
