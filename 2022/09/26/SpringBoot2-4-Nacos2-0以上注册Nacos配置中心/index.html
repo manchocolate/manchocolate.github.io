@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://example.com/2022/09/26/SpringBoot2-4-Nacos2-0%E4%BB%A5%E4%B8%8A%E6%B3%A8%E5%86%8CNacos%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/4.png">
 <meta property="og:image" content="http://example.com/2022/09/26/SpringBoot2-4-Nacos2-0%E4%BB%A5%E4%B8%8A%E6%B3%A8%E5%86%8CNacos%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/5.png">
 <meta property="article:published_time" content="2022-09-26T01:52:19.000Z">
-<meta property="article:modified_time" content="2022-09-26T03:24:12.638Z">
+<meta property="article:modified_time" content="2022-10-03T07:15:06.281Z">
 <meta property="article:author" content="DeLongSun">
 <meta property="article:tag" content="nacos">
 <meta name="twitter:card" content="summary">
@@ -189,10 +189,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-09-26 09:52:19 / Modified: 11:24:12" itemprop="dateCreated datePublished" datetime="2022-09-26T09:52:19+08:00">2022-09-26</time>
+              <time title="Created: 2022-09-26 09:52:19" itemprop="dateCreated datePublished" datetime="2022-09-26T09:52:19+08:00">2022-09-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-10-03 15:15:06" itemprop="dateModified" datetime="2022-10-03T15:15:06+08:00">2022-10-03</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -230,6 +236,8 @@
 <h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>写个controller验证一下  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value(&quot;$&#123;default.password&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/test&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">test</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> R.ok().put(<span class="string">&quot;password&quot;</span>, password);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="/2022/09/26/SpringBoot2-4-Nacos2-0%E4%BB%A5%E4%B8%8A%E6%B3%A8%E5%86%8CNacos%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/5.png" alt="img"></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p><em>Nacos2.0版本相比1.X新增了gRPC的通信方式，因此需要增加2个端口。新增端口是在配置的主端口(server.port)基础上，进行一定偏移量自动生成端口 与主端口的偏移量</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --env MODE=standalone --name nacos -d -p 8848:8848 -p 9848:9848 nacos/nacos-server</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -310,7 +318,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringBoot2-4-Nacos2-0%E4%BB%A5%E4%B8%8A%E6%B3%A8%E5%86%8CNacos%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83"><span class="nav-number">1.</span> <span class="nav-text">SpringBoot2.4+Nacos2.0以上注册Nacos配置中心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.</span> <span class="nav-text">版本说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="nav-number">1.2.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEyml%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">配置yml文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8nacos%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">在nacos添加配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-number">1.5.</span> <span class="nav-text">验证</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringBoot2-4-Nacos2-0%E4%BB%A5%E4%B8%8A%E6%B3%A8%E5%86%8CNacos%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83"><span class="nav-number">1.</span> <span class="nav-text">SpringBoot2.4+Nacos2.0以上注册Nacos配置中心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.</span> <span class="nav-text">版本说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="nav-number">1.2.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEyml%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">配置yml文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8nacos%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">在nacos添加配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-number">1.5.</span> <span class="nav-text">验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">1.6.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
