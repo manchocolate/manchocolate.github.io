@@ -188,7 +188,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-10-05 00:11:58" itemprop="dateModified" datetime="2022-10-05T00:11:58+08:00">2022-10-05</time>
+                <time title="Modified: 2022-10-05 13:43:42" itemprop="dateModified" datetime="2022-10-05T13:43:42+08:00">2022-10-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -571,7 +571,55 @@
 <p>体系结构就是这个计算机网络及其部件<strong>所应完成的功能的精确定义</strong>。</p>
 <p><strong>实现</strong>是遵循这种体系结构的前提下用任何硬件或软甲能完成这些功能的问题。</p>
 <p><em><strong>体系结构是抽象的，而实现则是具体的，是真正在运行的计算机硬件和软件</strong></em>。</p>
-<h3 id="具有五层协议的体系结构"><a href="#具有五层协议的体系结构" class="headerlink" title="具有五层协议的体系结构"></a>具有五层协议的体系结构</h3><h3 id="实体、协议、服务和服务访问点"><a href="#实体、协议、服务和服务访问点" class="headerlink" title="实体、协议、服务和服务访问点"></a>实体、协议、服务和服务访问点</h3><h3 id="TCP-IP的体系结构"><a href="#TCP-IP的体系结构" class="headerlink" title="TCP/IP的体系结构"></a>TCP/IP的体系结构</h3>
+<h3 id="具有五层协议的体系结构"><a href="#具有五层协议的体系结构" class="headerlink" title="具有五层协议的体系结构"></a>具有五层协议的体系结构</h3><h4 id="基础知识-2"><a href="#基础知识-2" class="headerlink" title="基础知识"></a>基础知识</h4><p>TCP/IP是四层体系结构：应用层、运输层、网际层和网络接口层。但最下面的网络接口层没有具体内容。</p>
+<p><em><strong>因此往往采用折中的办法，即综合OSI和TCP/IP的有点，采用一种具有五层协议的体系结构</strong></em>。</p>
+<p>体系结构↓  </p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/25.png" alt="img">  </p>
+<h4 id="数据传输过程"><a href="#数据传输过程" class="headerlink" title="数据传输过程"></a>数据传输过程</h4><p>主机1向主机2发送数据：</p>
+<p>应用层（加上应用层首部称为应用层PDU）—-&gt;运输层（加上运输层首部称为运输层报文）—–&gt;网络层（加上网络层首部称为IP数据报（或分组））—–&gt;数据链路层（加上数据链路层首部和尾部称为数据链路层帧）—–&gt;物理层（把比特流传送到物理媒体）—-&gt;另一台主机逆序解析一下  ↓</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/26.png" alt="img"> </p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C27.png" alt="27">  </p>
+<p>传输解析：</p>
+<ul>
+<li>OSI把对等层之间传送的数据单元称为该层的协议数据单元PDU</li>
+<li>任何两个同样的层次把数据（PDU加上控制信息）通过水平虚线直接传递给对方。这就是所谓的“对等层”</li>
+<li><strong>各层协议</strong>实际上就是在各个对等层之间传递数据时的各项规定。</li>
+</ul>
+<h3 id="实体、协议、服务和服务访问点"><a href="#实体、协议、服务和服务访问点" class="headerlink" title="实体、协议、服务和服务访问点"></a>实体、协议、服务和服务访问点</h3><p>基础：</p>
+<ul>
+<li><strong>实体</strong>：表示任何可发送或接受信息的硬件或软件进程。</li>
+<li><strong>协议</strong>：是控制<strong>两个对等实体</strong>进行通信的规则的集合。</li>
+<li>在协议的控制下，两个对等实体间的通信使得本层能够<strong>向上一层提供服务</strong>。</li>
+<li>要实现本层协议，还需要<strong>使用下层所提供的服务</strong>。</li>
+</ul>
+<p>协议和服务：</p>
+<ul>
+<li>本层的服务用户<strong>只能看见服务</strong>而无法看见下面的协议。即下面的协议对上面的服务用户是<strong>透明</strong>的。</li>
+<li>协议是<strong>水平的</strong>，即协议是控制对等实体之间通信的规则。</li>
+<li>服务<strong>垂直</strong>，即服务是由下层向上层通过层间接口提供的。</li>
+<li>上层使用<strong>服务原语</strong>获得下层所提供的服务。</li>
+</ul>
+<p>服务访问点：</p>
+<ul>
+<li>同意系统相邻两层的尸体进行交换的地方称为<strong>服务访问点SAP</strong>。</li>
+<li>服务访问点SAP是一个抽象的概念，他实际上就是一个逻辑接口。</li>
+<li>OSI把曾与层之间交换的数据的单位称为<strong>服务数据单元SDU</strong>。</li>
+<li>SDU可以与PDU不一样，例如，可以是多个SDU合成为一个PDU，也可以是一个SDU划分为几个PDU。</li>
+<li><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C28.png" alt="28">  </li>
+</ul>
+<h3 id="TCP-IP的体系结构"><a href="#TCP-IP的体系结构" class="headerlink" title="TCP/IP的体系结构"></a>TCP/IP的体系结构</h3><h4 id="基础知识-3"><a href="#基础知识-3" class="headerlink" title="基础知识"></a>基础知识</h4><p>TCP/IP体系结构↓</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C30.png" alt="30">  </p>
+<h1 id="第二章-物理层"><a href="#第二章-物理层" class="headerlink" title="第二章 物理层"></a>第二章 物理层</h1><h2 id="物理层的基本概念"><a href="#物理层的基本概念" class="headerlink" title="物理层的基本概念"></a>物理层的基本概念</h2><h3 id="基础知识-4"><a href="#基础知识-4" class="headerlink" title="基础知识"></a>基础知识</h3><p>物理层解决计算机之间传输媒体上的<strong>传输数据比特流</strong>而不是<strong>具体的传输媒体</strong>。</p>
+<p>物理层尽可能<strong>屏蔽</strong>掉不同传输媒体和通信手段差异</p>
+<p>用于物理层的协议也常称为物理层<strong>规程</strong>。</p>
+<h3 id="物理层的主要任务"><a href="#物理层的主要任务" class="headerlink" title="物理层的主要任务"></a>物理层的主要任务</h3><p>主要任务：确定与传输媒体的接口的一些特性。</p>
+<p>机械特性：指明接口所用接线器的形状尺寸、引线数目和排列、固定和锁定装置等。</p>
+<p>电气特性：指明在接口电缆的各条线上出现的电压的范围。</p>
+<p>功能特性：知名某条线上出现的某一电平的电压表式何种意义。</p>
+<p>过程特性：指明对于不同功能的各种可能事件的出现顺序。</p>
+<h2 id="数据通信的基础知识"><a href="#数据通信的基础知识" class="headerlink" title="数据通信的基础知识"></a>数据通信的基础知识</h2><h3 id="数据通信系统的模型"><a href="#数据通信系统的模型" class="headerlink" title="数据通信系统的模型"></a>数据通信系统的模型</h3><p>一个信道系统包括三大部分：原系统（发送端、发送方）、传输系统（或传输网络）和目的系统（接收端、接收方）。  </p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C31.png" alt="31">  </p>
+<h3 id="有关信道的几个基本概念"><a href="#有关信道的几个基本概念" class="headerlink" title="有关信道的几个基本概念"></a>有关信道的几个基本概念</h3><h3 id="信道的极限容量"><a href="#信道的极限容量" class="headerlink" title="信道的极限容量"></a>信道的极限容量</h3><h2 id="物理层下面的传输媒体"><a href="#物理层下面的传输媒体" class="headerlink" title="物理层下面的传输媒体"></a>物理层下面的传输媒体</h2><h2 id="信道复用技术"><a href="#信道复用技术" class="headerlink" title="信道复用技术"></a>信道复用技术</h2><h2 id="数字传输系统"><a href="#数字传输系统" class="headerlink" title="数字传输系统"></a>数字传输系统</h2><h2 id="带宽接入技术"><a href="#带宽接入技术" class="headerlink" title="带宽接入技术"></a>带宽接入技术</h2>
       
     </div>
 
