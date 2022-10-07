@@ -188,7 +188,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-10-06 00:12:25" itemprop="dateModified" datetime="2022-10-06T00:12:25+08:00">2022-10-06</time>
+                <time title="Modified: 2022-10-07 23:56:29" itemprop="dateModified" datetime="2022-10-07T23:56:29+08:00">2022-10-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -660,7 +660,151 @@
 <li>信道能够通过的频率范围</li>
 <li>信噪比</li>
 </ul>
-<h4 id="信道能够通过的频率范围"><a href="#信道能够通过的频率范围" class="headerlink" title="信道能够通过的频率范围"></a>信道能够通过的频率范围</h4><h2 id="物理层下面的传输媒体"><a href="#物理层下面的传输媒体" class="headerlink" title="物理层下面的传输媒体"></a>物理层下面的传输媒体</h2><h2 id="信道复用技术"><a href="#信道复用技术" class="headerlink" title="信道复用技术"></a>信道复用技术</h2><h2 id="数字传输系统"><a href="#数字传输系统" class="headerlink" title="数字传输系统"></a>数字传输系统</h2><h2 id="带宽接入技术"><a href="#带宽接入技术" class="headerlink" title="带宽接入技术"></a>带宽接入技术</h2>
+<h4 id="信道能够通过的频率范围"><a href="#信道能够通过的频率范围" class="headerlink" title="信道能够通过的频率范围"></a>信道能够通过的频率范围</h4><p>奈氏准则。为了避免<strong>码间串扰</strong>，码元的传输速率的上限值。</p>
+<p>在任何信道中，<strong>码元传输的速率是有上限的</strong>，否则就会出现<strong>码间串扰</strong>的问题，使接收端对码元的判决（即识别）称为不可能。</p>
+<p>如果信道的频带越宽，也就是能够通过的信号高频分量越多，那么就可以用更高的速率传送码元而不出现码间串扰。</p>
+<h4 id="信噪比"><a href="#信噪比" class="headerlink" title="信噪比"></a>信噪比</h4><p>噪声会使接收端对码元的判决产生错误。</p>
+<p>信噪比是相对的。如果信号相对强，那么噪声的印象就比较小。</p>
+<p><strong>信噪比</strong>就是信号的平均功率和噪声的平均功率之比。记为S/N,并用分贝（dB）作为度量单位。即：</p>
+<p>信噪比（dB）=10 \log_10 (S/N)</p>
+<p>例，当S/N=10时，信噪比为10dB，而当S/N=1000时，信噪比为30dB。</p>
+<p>S/N=XXXXX没有单位如果转换成dB，需要借助公式 10 \log_10 (S/N)</p>
+<p>有高斯白噪声干扰的信道的<strong>极限、无差错的</strong>信息传输速率（香农公式）。</p>
+<p>信道的极限信息传输速率C可表达为(香浓公式）：</p>
+<p><em><strong>C=W \log_2 (1+S/N)</strong></em>      (bit/s)</p>
+<p><em><strong>W为信道的带宽（以hz为单位；</strong></em></p>
+<p><em><strong>S为信道内所传信号的平均功率；</strong></em></p>
+<p><em><strong>N为信道内的高斯噪声功率。</strong></em></p>
+<p>香农公式表明：</p>
+<ul>
+<li>信噪比越大，则信息的极限传输速率就越高。</li>
+<li>只要信息传输速率低于信道的极限信息传输速率，就一定可以找到某种办法来实现无差错的传输。</li>
+<li>若信道带宽 W 或信噪比 S/N 没有上限（当然实际信道不可能是这样的），则信道的极限信息传输速率 C 也就没有上限。</li>
+<li>实际信道上能够达到的信息传输速率要比香农的极限传输速率低不少。</li>
+</ul>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>对于频带宽度已经确定的信道，如果信噪比不能在提高，而且码元传输速率也不能提高了，也是有办法提高信息的传输速率。</li>
+<li><em><strong>方法就是：用编码的方式让每个码元携带更多比特的信息量</strong></em>。</li>
+</ul>
+<h2 id="物理层下面的传输媒体"><a href="#物理层下面的传输媒体" class="headerlink" title="物理层下面的传输媒体"></a>物理层下面的传输媒体</h2><h3 id="导引型传输媒体"><a href="#导引型传输媒体" class="headerlink" title="导引型传输媒体"></a>导引型传输媒体</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p><strong>传输媒体称为传输介质或传输媒介</strong>，他就是数据传输系统中在发送器和接收器之间的物理通路。</p>
+<p>传输媒体分为导引型和非导引型。</p>
+<p><strong>导引型</strong>：电磁波被导引沿着固体媒体（铜线或光纤）传播。</p>
+<p><strong>非导引型</strong>：就是指自由空间。在非导引型传输媒体中，电磁波的传输常称为无线传输。</p>
+<h4 id="双绞线"><a href="#双绞线" class="headerlink" title="双绞线"></a>双绞线</h4><p>双绞线：</p>
+<ul>
+<li>最常用的传输媒体。</li>
+<li>模拟传输和数字传输都可以使用双绞线，其通信距离一般为几到十几公里。</li>
+<li><strong>屏蔽双绞线</strong>STP：<ul>
+<li>带金属屏蔽层。</li>
+</ul>
+</li>
+<li><strong>无屏蔽双绞线UTP</strong></li>
+</ul>
+<p>图↓</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C33.png" alt="33"> </p>
+<h4 id="双绞线标准"><a href="#双绞线标准" class="headerlink" title="双绞线标准"></a>双绞线标准</h4><p>无屏蔽双绞线和屏蔽双绞线标准：EIA/TIA-568，1995年更新为：EIA/TIA-568-A.</p>
+<p>此标准规定了<strong>五个种类的UTP标准</strong>（从一类线到五类线）。对于传输数据来说，现在最常用的UTP是五类线（Category5或CAT5).</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C34.png" alt="34"> </p>
+<h4 id="同轴电缆"><a href="#同轴电缆" class="headerlink" title="同轴电缆"></a>同轴电缆</h4><p>同轴电缆：</p>
+<ul>
+<li>同轴电缆的带宽取决于电缆的质量。</li>
+<li>50 Ω 同轴电缆 —— LAN / 数字传输常用</li>
+<li>75 Ω 同轴电缆 —— 有线电视 / 模拟传输常用</li>
+</ul>
+<h4 id="光缆"><a href="#光缆" class="headerlink" title="光缆"></a>光缆</h4><p>光纤是光纤通信的传输媒体。</p>
+<p>一个光纤通信系统的传输带宽远远大于目前其他各种传输媒体的带宽。</p>
+<p>光纤优点：</p>
+<ul>
+<li>通信容量大。</li>
+<li>传输损耗小，中继距离长。</li>
+<li>抗雷电和电磁干扰性能好。</li>
+<li>无传音干扰，保密性好。</li>
+<li>体积小，重量轻。</li>
+</ul>
+<h3 id="非导引型传输媒体"><a href="#非导引型传输媒体" class="headerlink" title="非导引型传输媒体"></a>非导引型传输媒体</h3><h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><p>将自由空间称为“非导引型传输媒体”。</p>
+<p><strong>短波通信</strong>（高频通信）主要是靠电离层反射，但短波通信的通信质量较差，传输速率低。</p>
+<p><strong>微波</strong>在空间是直线传播。</p>
+<p>传统微波通信有两种方式：</p>
+<ul>
+<li>地面微博接力通信。</li>
+<li>卫星通信</li>
+</ul>
+<h2 id="信道复用技术"><a href="#信道复用技术" class="headerlink" title="信道复用技术"></a>信道复用技术</h2><h3 id="频分复用，时分复用和统计时分复用"><a href="#频分复用，时分复用和统计时分复用" class="headerlink" title="频分复用，时分复用和统计时分复用"></a>频分复用，时分复用和统计时分复用</h3><h4 id="复用"><a href="#复用" class="headerlink" title="复用"></a>复用</h4><p>复用是通信技术中的基本概念。它允许用户使用一个<strong>共享</strong>信道进行通信，降低成本，提高利用率。</p>
+<h4 id="频分复用FDM"><a href="#频分复用FDM" class="headerlink" title="频分复用FDM"></a>频分复用FDM</h4><p>将整个带宽分为多份，用户在分配到一定的频带后，在通信过程中自始至终都占用这个频带。</p>
+<p><strong>频分复用</strong>的所有用户在同样的时间<strong>占用不通的带宽资源</strong>（这里的“带宽”是频率带宽而不是数据的发送速率）。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C35.png" alt="35"> </p>
+<h4 id="时分复用"><a href="#时分复用" class="headerlink" title="时分复用"></a>时分复用</h4><p><strong>时分复用</strong>则是将时间划分为一段等长的<strong>时分复用帧</strong>（TDM帧）。</p>
+<p>每一个用户所占用的时隙是<strong>周期性出现</strong>（周期就是TDM帧长）。</p>
+<p>TDM信号也称为<strong>等时</strong>信号。</p>
+<p><em><strong>时分复用的所有用户是在不同的时间占用同样的频带宽度</strong></em>。</p>
+<p><em>时分复用可能会造成线路资源浪费</em></p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C36.png" alt="36"> </p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C37.png" alt="37"> </p>
+<h4 id="统计时分复用STDM"><a href="#统计时分复用STDM" class="headerlink" title="统计时分复用STDM"></a>统计时分复用STDM</h4><p>统计时分复用：STDM帧<strong>不是固定分配</strong>时隙的而是<strong>按需动态的</strong>分配时隙，因此统计时分复用可以提高线路的利用率。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C38.png" alt="38"> </p>
+<h3 id="波分复用"><a href="#波分复用" class="headerlink" title="波分复用"></a>波分复用</h3><p>波分复用就是光的频分复用。使用一根光纤来同时传输多个光载波信号。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C39.png" alt="39"> </p>
+<h3 id="码分复用CDM"><a href="#码分复用CDM" class="headerlink" title="码分复用CDM"></a>码分复用CDM</h3><h4 id="基础-1"><a href="#基础-1" class="headerlink" title="基础"></a>基础</h4><p><strong>码分多址</strong>CMDA，各用户使用经过特殊挑选的不同码型，因此彼此不会造成干扰。这种系统发送的信号有很强的抗干扰能力。</p>
+<h4 id="码片序列"><a href="#码片序列" class="headerlink" title="码片序列"></a>码片序列</h4><p>每一个比特时间划分为m个短的间隔，称为<strong>码片</strong>。</p>
+<p>每个站被指派一个唯一的mbit<strong>码片序列</strong>。：</p>
+<ul>
+<li>如发送比特1，则发送自己的mbit码片序列。</li>
+<li>如发送比特0，则发送该码片序列的二进制反码。</li>
+</ul>
+<p>例如，S站的8bit码片序列是00011011.：</p>
+<ul>
+<li>发送比特1时，就发送序列00011011，</li>
+<li>发送比特0时，就发送序列11100100.</li>
+</ul>
+<p>S站码片序列：（-1-1-1+1+1-1+1+1）</p>
+<p>码片实现了扩频</p>
+<p>假定S站要发送信息的数据率为 b bit/s。由于每一个比特要转换成 m 个比特的码片，因此 S 站实际上发送的数据率提高到 mb bit/s，同时 S 站所占用的频带宽度也提高到原来数值的 m 倍。这种通信方式就是<strong>扩频</strong>。</p>
+<p>扩频通信通常有两大类：</p>
+<ul>
+<li>一种是<strong>直接序列扩频DSSS</strong>，上面就是这一类</li>
+<li>一种是<strong>跳频扩频FHSS</strong>。</li>
+</ul>
+<p>CDMA的重要性:</p>
+<ul>
+<li>每个站分配的码片序列不仅<strong>必须各不相同</strong>，并且还<strong>必须互相正交</strong>。</li>
+<li>在实用的系统中是使用<strong>伪随机码序列</strong>。</li>
+</ul>
+<p>码片序列的正交关系：</p>
+<ul>
+<li>令向量S表示站S的码片向量，令T表示其他任何站的码片向量。</li>
+<li>两个不通站的码片序列正交，就是向量S和T的规划<strong>内积</strong>等于0：<img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C40.png" alt="40"> </li>
+<li>任何一个码片向量和该码片向量自己的规划内积都是1<img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C41.png" alt="41"> </li>
+<li>一个码片向量和该码片反码的向量的规划内积值是-1.</li>
+</ul>
+<p>CDMA的工作原理：</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%5C%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C42.png" alt="42"> </p>
+<h2 id="数字传输系统"><a href="#数字传输系统" class="headerlink" title="数字传输系统"></a>数字传输系统</h2><h3 id="旧系统"><a href="#旧系统" class="headerlink" title="旧系统"></a>旧系统</h3><p><strong>脉码调制PCM</strong>体制最初是为了在电话局之间的中继线上传送多路的电话。</p>
+<p>由于历史上的原因，PCM有两个互不兼容的国际标准：</p>
+<ul>
+<li>北美的24路PCM（简称为T1）</li>
+<li>欧洲的30路PCM（简称为E1）</li>
+<li>我国采用的是欧洲的E1标准</li>
+</ul>
+<p>旧的数字传输系统存在许多缺点：</p>
+<ul>
+<li>速率标准不统一<ul>
+<li>如果不对高次群的数字传输速率进行标准化，国际范围的<strong>基于光纤高速数据传输就很难实现</strong></li>
+</ul>
+</li>
+<li>不是同步传输<ul>
+<li>在过去相当长的时间，为了节约经费，各国数字网主要是采用准同步方式。</li>
+<li>当数据传输的速率很高时，<strong>收发双方的时钟同步就会称为很大的问题</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="同步光纤网"><a href="#同步光纤网" class="headerlink" title="同步光纤网"></a>同步光纤网</h3><p><strong>同步光纤网</strong>SONET，的各级时钟都来自一个非常精确的主时钟。</p>
+<p>SONET（同步光纤网）定义了同步传输的线路速率等级结构：</p>
+<ul>
+<li>对电信号称为第1级<strong>同步传送信号</strong>STS-1，其传输速率是51.84Mbit/S.</li>
+<li>对光信号则称为第1级<strong>光载波</strong>OC-1.</li>
+</ul>
+<h2 id="带宽接入技术"><a href="#带宽接入技术" class="headerlink" title="带宽接入技术"></a>带宽接入技术</h2>
       
     </div>
 
