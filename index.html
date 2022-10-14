@@ -188,7 +188,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-10-11 23:51:57" itemprop="dateModified" datetime="2022-10-11T23:51:57+08:00">2022-10-11</time>
+                <time title="Modified: 2022-10-14 19:14:17" itemprop="dateModified" datetime="2022-10-14T19:14:17+08:00">2022-10-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1080,7 +1080,107 @@
 <li>交换式集线器常称为交换机或第二层交换机，强调他工作在数据链路层。</li>
 </ul>
 <h4 id="以太网交换机的特点"><a href="#以太网交换机的特点" class="headerlink" title="以太网交换机的特点"></a>以太网交换机的特点</h4><p>以太网交换机实质上就是一个<strong>多接口的网桥</strong>。通常由十几个甚至更多的接口。</p>
-<h3 id="虚拟局域网"><a href="#虚拟局域网" class="headerlink" title="虚拟局域网"></a>虚拟局域网</h3><h2 id="高速的以太网"><a href="#高速的以太网" class="headerlink" title="高速的以太网"></a>高速的以太网</h2>
+<p>一般都<strong>工作在全双工方式</strong>。</p>
+<p>以太网交换机具有<strong>并行性</strong>。能同时联通多对接口使多对主机能同时通信。</p>
+<p>相互通信的主机都是独占传输媒体，无碰撞地传输数据。</p>
+<p>交换机的接口有<strong>储存器</strong>，能进行帧缓存。</p>
+<p>以太网交换机是一种即插即用设备，其内部的帧交换表（又称为地址表）是通过自学习算法自动地逐渐建立起来的。</p>
+<p>优点:</p>
+<ul>
+<li>用户独享带宽，增加了总容量。<ul>
+<li>普通10Mbit/s共享以太网，若有N个用户，则每个用户为10/N(Mbit/s)。</li>
+<li>以太网交换机，每个接口还是10Mbit/s，所以拥有N个接口的以太网交换机总容量为NX10Mbit/s。</li>
+</ul>
+</li>
+<li>从共享总线以太网转换到交换式以太网时，所有的接入设备的软件、硬件和适配器等不需要做改动。</li>
+<li>以太网交换机一般都具有多种速率的接口。</li>
+</ul>
+<h5 id="以太网交换机的交换方式"><a href="#以太网交换机的交换方式" class="headerlink" title="以太网交换机的交换方式"></a>以太网交换机的交换方式</h5><p>交换方式：</p>
+<ul>
+<li>储存转发。先把整个数据帧缓存然后再进行处理。</li>
+<li>直通方式<ul>
+<li>接收数据帧的同时就<strong>立即按数据帧的目的mac地址</strong>决定该帧的转发接口，提高帧的转发速度。</li>
+<li>缺点是没有检查差错就转发，有可能转发一些无效帧给其他站。</li>
+</ul>
+</li>
+</ul>
+<h5 id="以太网交换机的自学习能力"><a href="#以太网交换机的自学习能力" class="headerlink" title="以太网交换机的自学习能力"></a>以太网交换机的自学习能力</h5><p>以太网交换机运行自学习算法自动维护交换表。</p>
+<p>归纳：</p>
+<ul>
+<li>交换机收到一帧后先进行<strong>自学习</strong>。查找交换表中收到帧的<strong>源地址有无相匹配</strong>的项目。<ul>
+<li>如果没有，就在交换表中增加一个项目（源地址，进入的接口和有效时间）。</li>
+<li>如果有，则把原有的项目进行更新（接入的接口或有效时间）。</li>
+</ul>
+</li>
+<li><strong>转发帧</strong>。查找交换表中与收到帧的<strong>目的地址有无相匹配的项目</strong>。<ul>
+<li>如果没有，则向所有其他接口（接入的接口除外）转发。</li>
+<li>如果有，则按交换表中给出的接口进行转发。</li>
+<li>若交换表中给出的接口就是该帧进入交换机的接口，则应丢弃这个帧（因为这时不需要经过交换机进行转发）</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/66.png" alt="66"> </p>
+<p>交换机使用了生成树协议：</p>
+<ul>
+<li>要点：不改变网络的实际拓扑，但在逻辑上则切断某些链路，使得从一台主机到所有其他主机的路径是无环路的树状结构，从而消除了兜圈子现象。</li>
+</ul>
+<h5 id="从总线以太网到星形以太网"><a href="#从总线以太网到星形以太网" class="headerlink" title="从总线以太网到星形以太网"></a>从总线以太网到星形以太网</h5><p>以前的总线以太网是半双工工作方式。</p>
+<p>现在的星形以太网是全双工方式工作。</p>
+<h3 id="虚拟局域网"><a href="#虚拟局域网" class="headerlink" title="虚拟局域网"></a>虚拟局域网</h3><p>虚拟局域网VLAN。</p>
+<p>虚拟局域网歧视只是局域网给用户提供的一种服务，并不是一种新型局域网。</p>
+<h4 id="虚拟局域网使用的以太网帧格式"><a href="#虚拟局域网使用的以太网帧格式" class="headerlink" title="虚拟局域网使用的以太网帧格式"></a>虚拟局域网使用的以太网帧格式</h4><p>虚拟局域网协议允许再以太网的帧格式中插入一个4字节的标识符，称为<strong>VLAN标记</strong>（tag），用来指明发送该帧的计算机属于哪个虚拟局域网。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/67.jpg" alt="67"> </p>
+<h2 id="高速的以太网"><a href="#高速的以太网" class="headerlink" title="高速的以太网"></a>高速的以太网</h2><h3 id="100BASE-T-以太网"><a href="#100BASE-T-以太网" class="headerlink" title="100BASE-T 以太网"></a>100BASE-T 以太网</h3><p>速率达到或者超过100Mbit/s的以太网称为高速以太网。</p>
+<p>100BASE-T以太网又被称为<strong>快速以太网</strong>。</p>
+<h4 id="100BASE-T以太网的特点"><a href="#100BASE-T以太网的特点" class="headerlink" title="100BASE-T以太网的特点"></a>100BASE-T以太网的特点</h4><p>可在全双工方式下工作而无冲突发生。<strong>在全双工工作方式下工作时，不适用CSMA/CD协议</strong>。</p>
+<p>MAC帧格式仍然是802.3标准规定的。</p>
+<p>保持最短帧长不变，但将一个网段的最大电缆长度减少到100m。</p>
+<h4 id="100Mbit-s以太网的三种不同的物理层标准"><a href="#100Mbit-s以太网的三种不同的物理层标准" class="headerlink" title="100Mbit/s以太网的三种不同的物理层标准"></a>100Mbit/s以太网的三种不同的物理层标准</h4><p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/68.png" alt="68"> </p>
+<h3 id="吉比特以太网"><a href="#吉比特以太网" class="headerlink" title="吉比特以太网"></a>吉比特以太网</h3><h4 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h4><p>允许在1Gbit/s下以全双工和半双工两种方式工作。</p>
+<p>半双工使用CSMA/CD协议，全双工方式不适用CSMA/CD协议。</p>
+<p><em><strong>吉比特以太网可用作现有网络的主干网，也可在高带宽（高速率）的应用场合中。</strong></em></p>
+<h4 id="吉比特以太网的物理层"><a href="#吉比特以太网的物理层" class="headerlink" title="吉比特以太网的物理层"></a>吉比特以太网的物理层</h4><p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/69.png" alt="69"> </p>
+<h4 id="半双工方式工作的吉比特以太网"><a href="#半双工方式工作的吉比特以太网" class="headerlink" title="半双工方式工作的吉比特以太网"></a>半双工方式工作的吉比特以太网</h4><p>吉比特以太网工作在半双工方式时，必须进行碰撞检测。</p>
+<p>吉比特以太网增加了两个功能：</p>
+<ul>
+<li>载波延伸<ul>
+<li>最短帧长为64字节，争用时间增大为512字节。</li>
+<li><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/70.png" alt="70"> </li>
+</ul>
+</li>
+<li>分组突发<ul>
+<li>很多短帧要发送时，第一个短帧采用载波延伸填充，随后的一些就一个接一个发送。这样就形成了一串分组的突发，直到1500字节或稍多一些为止。</li>
+</ul>
+</li>
+</ul>
+<h3 id="10吉比特以太网（10GE）和更快的以太网"><a href="#10吉比特以太网（10GE）和更快的以太网" class="headerlink" title="10吉比特以太网（10GE）和更快的以太网"></a>10吉比特以太网（10GE）和更快的以太网</h3><p>10吉比特以太网（10GE）并非把吉比特以太网的速率简单的提高到10倍，其特点为：</p>
+<ul>
+<li>与10、100、1Gbit/s以太网的帧格式完全相同。</li>
+<li>保留了802.3标准规定的以太网最小和最大帧长，便于升级。</li>
+<li>不再使用铜线而只使用光纤作为传输媒体。</li>
+<li><strong>只工作再全双工方式</strong>，因此没有争用问题，也不使用CSMA/CD协议。</li>
+</ul>
+<h4 id="10吉比特以太网的物理层"><a href="#10吉比特以太网的物理层" class="headerlink" title="10吉比特以太网的物理层"></a>10吉比特以太网的物理层</h4><p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/71.png" alt="71"> </p>
+<h4 id="更快的以太网"><a href="#更快的以太网" class="headerlink" title="更快的以太网"></a>更快的以太网</h4><p>10GE之后又定制了40GE/100GE的标准。</p>
+<p>40GE/100GE只工作再全双工传输方式，不适用CSMA/CD协议。</p>
+<p>100GE在使用单模光纤传输时，仍然可以达到40KM的传输距离，但这使需要波分复用（4个波长复用一根光纤，没根速率使25Gbit/s）。</p>
+<h4 id="端到端的以太网传输"><a href="#端到端的以太网传输" class="headerlink" title="端到端的以太网传输"></a>端到端的以太网传输</h4><p> 以太网实现了<strong>端到端的以太网传输</strong>。</p>
+<p>这种工作方式的好处有：</p>
+<ul>
+<li>技术成熟。</li>
+<li>互操作性很好。</li>
+<li>在广域网中使用以太网时价格很便宜。</li>
+<li>采用统一的帧格式，简化了操作和管理。</li>
+</ul>
+<h4 id="以太网从10Mbit-s到100Gbit-s的演进"><a href="#以太网从10Mbit-s到100Gbit-s的演进" class="headerlink" title="以太网从10Mbit/s到100Gbit/s的演进"></a>以太网从10Mbit/s到100Gbit/s的演进</h4><h3 id="使用以太网进行宽带接入"><a href="#使用以太网进行宽带接入" class="headerlink" title="使用以太网进行宽带接入"></a>使用以太网进行宽带接入</h3><p>以太网宽带接入具有一下特点：</p>
+<ul>
+<li>可以提供<strong>双向</strong>的宽带通信。</li>
+<li>可以根据用户对带宽的需求灵活的进行带宽<strong>升级</strong>。</li>
+<li>可以实现端到端的以太网传输，中间不需要<strong>进行帧的格式的转换</strong>。提高了效率降低了成本。</li>
+<li><em><strong>但是不支持用户身份鉴别</strong></em>。</li>
+</ul>
+<h4 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h4><p>PPPoE意思是“在以太网上运行PPP”。</p>
+<h1 id="第四章-网络层"><a href="#第四章-网络层" class="headerlink" title="第四章 网络层"></a>第四章 网络层</h1><h2 id="网络层提供的两种服务"><a href="#网络层提供的两种服务" class="headerlink" title="网络层提供的两种服务"></a>网络层提供的两种服务</h2><h2 id="网际协议IP"><a href="#网际协议IP" class="headerlink" title="网际协议IP"></a>网际协议IP</h2><h2 id="划分子网和构造超网"><a href="#划分子网和构造超网" class="headerlink" title="划分子网和构造超网"></a>划分子网和构造超网</h2><h2 id="网际控制报文协议ICMP"><a href="#网际控制报文协议ICMP" class="headerlink" title="网际控制报文协议ICMP"></a>网际控制报文协议ICMP</h2><h2 id="互联网的路由选择协议"><a href="#互联网的路由选择协议" class="headerlink" title="互联网的路由选择协议"></a>互联网的路由选择协议</h2><h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><h2 id="IP多播"><a href="#IP多播" class="headerlink" title="IP多播"></a>IP多播</h2><h2 id="虚拟专用网VPN和网络地址转换NAT"><a href="#虚拟专用网VPN和网络地址转换NAT" class="headerlink" title="虚拟专用网VPN和网络地址转换NAT"></a>虚拟专用网VPN和网络地址转换NAT</h2><h2 id="多协议标记交换MPLS"><a href="#多协议标记交换MPLS" class="headerlink" title="多协议标记交换MPLS"></a>多协议标记交换MPLS</h2>
       
     </div>
 
