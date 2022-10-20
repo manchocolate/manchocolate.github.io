@@ -188,7 +188,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-10-14 19:14:17" itemprop="dateModified" datetime="2022-10-14T19:14:17+08:00">2022-10-14</time>
+                <time title="Modified: 2022-10-21 00:01:04" itemprop="dateModified" datetime="2022-10-21T00:01:04+08:00">2022-10-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1180,7 +1180,369 @@
 <li><em><strong>但是不支持用户身份鉴别</strong></em>。</li>
 </ul>
 <h4 id="PPPoE"><a href="#PPPoE" class="headerlink" title="PPPoE"></a>PPPoE</h4><p>PPPoE意思是“在以太网上运行PPP”。</p>
-<h1 id="第四章-网络层"><a href="#第四章-网络层" class="headerlink" title="第四章 网络层"></a>第四章 网络层</h1><h2 id="网络层提供的两种服务"><a href="#网络层提供的两种服务" class="headerlink" title="网络层提供的两种服务"></a>网络层提供的两种服务</h2><h2 id="网际协议IP"><a href="#网际协议IP" class="headerlink" title="网际协议IP"></a>网际协议IP</h2><h2 id="划分子网和构造超网"><a href="#划分子网和构造超网" class="headerlink" title="划分子网和构造超网"></a>划分子网和构造超网</h2><h2 id="网际控制报文协议ICMP"><a href="#网际控制报文协议ICMP" class="headerlink" title="网际控制报文协议ICMP"></a>网际控制报文协议ICMP</h2><h2 id="互联网的路由选择协议"><a href="#互联网的路由选择协议" class="headerlink" title="互联网的路由选择协议"></a>互联网的路由选择协议</h2><h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><h2 id="IP多播"><a href="#IP多播" class="headerlink" title="IP多播"></a>IP多播</h2><h2 id="虚拟专用网VPN和网络地址转换NAT"><a href="#虚拟专用网VPN和网络地址转换NAT" class="headerlink" title="虚拟专用网VPN和网络地址转换NAT"></a>虚拟专用网VPN和网络地址转换NAT</h2><h2 id="多协议标记交换MPLS"><a href="#多协议标记交换MPLS" class="headerlink" title="多协议标记交换MPLS"></a>多协议标记交换MPLS</h2>
+<h1 id="第四章-网络层"><a href="#第四章-网络层" class="headerlink" title="第四章 网络层"></a>第四章 网络层</h1><h2 id="网络层提供的两种服务"><a href="#网络层提供的两种服务" class="headerlink" title="网络层提供的两种服务"></a>网络层提供的两种服务</h2><h3 id="一种让网络负责可靠交付"><a href="#一种让网络负责可靠交付" class="headerlink" title="一种让网络负责可靠交付"></a>一种让网络负责可靠交付</h3><p>让网络负责可靠交付，计算机网络应模仿电信网络，使用<strong>面向连接</strong>的通信方式。</p>
+<p>通信之前先建立<strong>虚电路</strong>，以保证双方通信所需的一切网络资源。</p>
+<p>虚电路是一条（逻辑上的连接），分组都沿着这条逻辑连接<strong>按照存储转发方式传送</strong>，而这并不是真正建立了一条物理连接。</p>
+<p><em><strong>注意，电路交换的电话通信是建立了一条真正的连接</strong></em>。</p>
+<h3 id="另一种观点网络提供数据包服务"><a href="#另一种观点网络提供数据包服务" class="headerlink" title="另一种观点网络提供数据包服务"></a>另一种观点网络提供数据包服务</h3><p>网络层向上提供简单灵活的、<strong>无连接的、尽最大努力交付的数据报服务</strong>。</p>
+<p>网络在发送分组时，不需要先建立连接。</p>
+<p><em><strong>网络层不提供服务质量的承诺</strong></em>。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/72.png" alt="72"> </p>
+<h2 id="网际协议IP"><a href="#网际协议IP" class="headerlink" title="网际协议IP"></a>网际协议IP</h2><p>网际协议IP是TCP/IP体系中两个重要协议之一。</p>
+<p>与IP协议配套使用的还有三个协议：</p>
+<ul>
+<li>地址解析协议ARP</li>
+<li>网际控制报文协议ICMP</li>
+<li>网际组管理协议IGMP</li>
+</ul>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/73.png" alt="73"> </p>
+<h3 id="虚拟互联网络"><a href="#虚拟互联网络" class="headerlink" title="虚拟互联网络"></a>虚拟互联网络</h3><p>将网络互连并能够互相通信，会遇到许多问题需要解决。</p>
+<p>如何将异构网络互相连接起来：</p>
+<ul>
+<li>使用一些中间设备进行互连。<ul>
+<li>中间设备又被称为<strong>中间系统</strong>或<strong>中继系统</strong>。</li>
+<li>有一下五种不同的中间设备<ul>
+<li><strong>物理层</strong>中级系统：转发器</li>
+<li><strong>数据链路层</strong>中继系统：网桥或桥接器</li>
+<li><strong>网络层</strong>中继系统：路由器</li>
+<li>网桥和路由器混合物：桥路器</li>
+<li><strong>网络层以上</strong>的中继系统：网关</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="分类的IP地址"><a href="#分类的IP地址" class="headerlink" title="分类的IP地址"></a>分类的IP地址</h3><p>在TCP/IP中，IP地址是一个最基本的概念。</p>
+<h4 id="IP地址及其表示方法"><a href="#IP地址及其表示方法" class="headerlink" title="IP地址及其表示方法"></a>IP地址及其表示方法</h4><p>IP 地址就是给每个连接在互联网上的主机（或路由器）分配一个在全世界范围是<strong>唯一的 32 位的标识符</strong>。</p>
+<p>IP地址现在由<strong>互联网名字和数字分配机构</strong>ICANN进行分配。</p>
+<h4 id="IP地址编制方法"><a href="#IP地址编制方法" class="headerlink" title="IP地址编制方法"></a>IP地址编制方法</h4><p>方法：</p>
+<ul>
+<li>分类IP地址</li>
+<li>子网划分</li>
+<li>构成超网</li>
+</ul>
+<h5 id="分类IP"><a href="#分类IP" class="headerlink" title="分类IP"></a>分类IP</h5><p>将IP地址分为若干个固定类。一个IP地址在整个互联网范围是唯一的。</p>
+<p>两级IP地址结构为：网络号+主机号</p>
+<p>各类IP地址的网络号字段和主机号字段</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/74.png" alt="74"> </p>
+<p>机器中存放的IP地址是32位二进制代码组成，每8位为一组。</p>
+<p>常用的三种类别的ip地址</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/75.png" alt="75"> </p>
+<p>一般不使用的特殊的IP地址</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/76.png" alt="76"> </p>
+<h6 id="IP地址的一些重要特点"><a href="#IP地址的一些重要特点" class="headerlink" title="IP地址的一些重要特点"></a>IP地址的一些重要特点</h6><p>（1）IP地址是一种分等级的地址结构。</p>
+<p>（2）实际上IP地址是标志一个主机（或路由器）和一条链路的接口。</p>
+<p>（3）用转发器或网桥连接起来的若干个局域网仍为一个网络，这些局域网都具有同样的网络号net-id。</p>
+<p>（4）所有分配到网络号 net-id 的网络，无论是范围很小的局域网，还是可能覆盖很大地理范围的广域网，都是平等的。</p>
+<h3 id="IP地址与硬件地址"><a href="#IP地址与硬件地址" class="headerlink" title="IP地址与硬件地址"></a>IP地址与硬件地址</h3><p>IP地址与硬件地址不同。</p>
+<p>层次角度：</p>
+<ul>
+<li>硬件地址（物理地址）是数据链路层使用的地址。</li>
+<li>IP地址是网络层和以上各层使用的地址，是一种逻辑地址。</li>
+</ul>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/77.png" alt="77"> </p>
+<p>路由器只根据目的站的IP地址的网络号进行路由选择。</p>
+<p>在具体的物理网络层只能看见MAC帧看不见IP数据报。</p>
+<p>IP层屏蔽了下层很复杂的细节。直接研究主机和主机或主机和路由器之间的通信。</p>
+<h3 id="地址解析协议ARP"><a href="#地址解析协议ARP" class="headerlink" title="地址解析协议ARP"></a>地址解析协议ARP</h3><p>通信时使用了两个地址：</p>
+<ul>
+<li>IP地址（网络层）</li>
+<li>MAC地址（数据链路层）</li>
+</ul>
+<p>ARP协议就是用来找到对应的MAC地址。</p>
+<p>每个主机都设有一个<strong>ARP高速缓存</strong>里面有所在的局域网上的个主机和路由器的IP地址到硬件地址的映射表。</p>
+<p>ARP高速缓存的作用：<strong>存放最近获得的IP地址到MAC地址的绑定以减少ARP广播的数量</strong>。</p>
+<p><em><strong>ARP是解决同一局域网上的主机或路由器的IP地址和硬件地址的映射问题。如果不在同一局域网，那么就要找到一个位于本局域网上的硬件地址，然后分组发送给这个路由器，让这个路由器分组转发给下一个网络</strong></em>。</p>
+<h3 id="IP数据报的格式"><a href="#IP数据报的格式" class="headerlink" title="IP数据报的格式"></a>IP数据报的格式</h3><p>一个IP数据报由<strong>首部</strong>和<strong>数据</strong>两部分组成。首部的前一部分是固定长度，共20字节，是所有IP数据报必须具有的。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/78.jpg" alt="78"> </p>
+<h3 id="IP层转发分组流程"><a href="#IP层转发分组流程" class="headerlink" title="IP层转发分组流程"></a>IP层转发分组流程</h3><h4 id="查找路由表"><a href="#查找路由表" class="headerlink" title="查找路由表"></a>查找路由表</h4><p>根据目的网络地址就能确定下一跳路由器，这样结果：</p>
+<ul>
+<li>IP数据报最终一定可以找到目的主机所在路由器（经过多次间接交付）。</li>
+<li>只有到达最后一个路由器时，才试图向目的主机直接交付。</li>
+</ul>
+<h4 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h4><p>路由表指出，到某个网络应当先到某个路由器（即下一跳路由器）。在到达吓一跳路由器后，再记录查找其他路由知道再下一步应该到哪一个路由器。</p>
+<h2 id="划分子网和构造超网"><a href="#划分子网和构造超网" class="headerlink" title="划分子网和构造超网"></a>划分子网和构造超网</h2><h3 id="划分子网"><a href="#划分子网" class="headerlink" title="划分子网"></a>划分子网</h3><h4 id="从两级IP地址到三级IP地址"><a href="#从两级IP地址到三级IP地址" class="headerlink" title="从两级IP地址到三级IP地址"></a>从两级IP地址到三级IP地址</h4><p>1985年起在IP地址中增加了一个“子网号字段”，使两级的IP地址变成为<strong>三级的IP地址</strong>这种做法叫<strong>划分子网</strong>。 </p>
+<h4 id="划分子网的基本思路"><a href="#划分子网的基本思路" class="headerlink" title="划分子网的基本思路"></a>划分子网的基本思路</h4><p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/79.png" alt="79"> </p>
+<p>然后根据IP数据报的目的网络号，先找到网络上的路由器，然后此路由器收到后，再按目的网络号和子网号找到目的子网。</p>
+<h4 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h4><p>使用子网掩码可以找出IP地址中的子网部分。</p>
+<p>规则：</p>
+<ul>
+<li>子网掩码长度=32位</li>
+<li>某位=1：IP地址中的对应位为网络号和子网号</li>
+<li>某位=0：IP地址中的对应位为主机号</li>
+</ul>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/80.jpg" alt="80"> </p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/81.png" alt="81"> </p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/82.png" alt="82"> </p>
+<h4 id="子网划分方法"><a href="#子网划分方法" class="headerlink" title="子网划分方法"></a>子网划分方法</h4><p>有固定长度子网和变长子网两种子网划分方法。</p>
+<p>划分子网增加了灵活性，却减少了能连接再网络上主机总数。</p>
+<h3 id="使用子网时分组的转发"><a href="#使用子网时分组的转发" class="headerlink" title="使用子网时分组的转发"></a>使用子网时分组的转发</h3><p>在划分子网情况下，从IP地址却不能唯一得出网络地址来，这是因为网络地址取决于那个网络所采用的子网掩码，但<strong>数据报的首部并没有提供子网掩码的信息</strong>。</p>
+<h4 id="在划分子网情况下路由器转发分组的算法"><a href="#在划分子网情况下路由器转发分组的算法" class="headerlink" title="在划分子网情况下路由器转发分组的算法"></a>在划分子网情况下路由器转发分组的算法</h4><p>(1) 从收到的分组的首部提取目的 IP 地址 D。</p>
+<p>(2) 先用各网络的子网掩码和 D 逐位相“与”，看是否和相应的网<br>     络地址匹配。若匹配，则将分组直接交付。否则就是间接交付，<br>     执行 (3)。</p>
+<p>(3)重复（1）（2）如果找不到就报告转发分组出错。</p>
+<h3 id="无分类编制CIDR（构造超网）"><a href="#无分类编制CIDR（构造超网）" class="headerlink" title="无分类编制CIDR（构造超网）"></a>无分类编制CIDR（构造超网）</h3><p>CIDR特点：</p>
+<ul>
+<li>消除了ABC类地址以及划分子网的概念，因而可以更加有效地分配IPv4地址空间。</li>
+<li>CIDR使用各种长度地<strong>网络前缀</strong>来代替分类地址中地网络号和子网号。</li>
+</ul>
+<p>CIDR使用<strong>斜线记法</strong>又称为CIDR记法，在IP地址后加上一个斜线“/”，然后写上网络前缀所占位数。如220.78.168.0/24</p>
+<h4 id="CIDR地址块"><a href="#CIDR地址块" class="headerlink" title="CIDR地址块"></a>CIDR地址块</h4><p>CIDR把网络前缀想追相同的连续IP地址组成<strong>CIDR地址块</strong>。</p>
+<p>128.14.32.0/20 表示的地址块共有 212 个地址（因为斜线后面的 20 是网络前缀的位数，所以这个地址的主机号是 12 位）。</p>
+<ul>
+<li>这个地址块的起始地址是128.14.32.0。</li>
+<li>在不需要指出地址块的起始地址时，也可将这样的地址块简称为“/20 地址块”。</li>
+<li>128.14.32.0/20 地址块的最小地址：128.14.32.0</li>
+<li>128.14.32.0/20 地址块的最大地址：128.14.47.255</li>
+<li>全 0 和全 1 的主机号地址一般不使用。</li>
+</ul>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/83.png" alt="83"> </p>
+<h4 id="路由聚合"><a href="#路由聚合" class="headerlink" title="路由聚合"></a>路由聚合</h4><p>一个CIDR地址块可以代表很多地址，这种地址的聚合常称为路由聚合。</p>
+<p>路由聚合也成为<strong>构成超网</strong>。</p>
+<p>CIDE虽然不适用子网，但使用<strong>掩码</strong>这一词（不叫子网掩码）。</p>
+<h4 id="常用CIDR地址块"><a href="#常用CIDR地址块" class="headerlink" title="常用CIDR地址块"></a>常用CIDR地址块</h4><p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/84.jpg" alt="84"> </p>
+<h4 id="构成超网"><a href="#构成超网" class="headerlink" title="构成超网"></a>构成超网</h4><p>前缀地址不超过23位的CIDR地址块包含了多个C类地址，这些C类地址合起来就构成了超网。CIDR地址数一定是2的整数次幂。</p>
+<h4 id="最长前缀匹配"><a href="#最长前缀匹配" class="headerlink" title="最长前缀匹配"></a>最长前缀匹配</h4><p>使用CIDR时，路由表由<strong>网络前缀</strong>和<strong>下一跳地址</strong>组成。在查找路由表时可能会得到不止一个匹配结果。</p>
+<p>应当从匹配结果中选择具有最长网络前缀的路由：<strong>最长前缀匹配</strong>。又称为<em><strong>最长匹配或最佳匹配</strong></em>。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/85.png" alt="85"> </p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/86.jpg" alt="86"> </p>
+<p>选第二个因为他的相同位数比较长。</p>
+<h4 id="使用二叉线索查找路由表"><a href="#使用二叉线索查找路由表" class="headerlink" title="使用二叉线索查找路由表"></a>使用二叉线索查找路由表</h4><p>类似于二叉树，略……</p>
+<h2 id="网际控制报文协议ICMP"><a href="#网际控制报文协议ICMP" class="headerlink" title="网际控制报文协议ICMP"></a>网际控制报文协议ICMP</h2><h3 id="ICMP报文的种类"><a href="#ICMP报文的种类" class="headerlink" title="ICMP报文的种类"></a>ICMP报文的种类</h3><p>ICMP时互联网的标准协议。但ICMP不是高层协议，他是IP层的协议。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/87.png" alt="87"> </p>
+<p>分为ICMP差错报文和ICMP询问报文。</p>
+<p>ICMP差错报告报文有四种</p>
+<ul>
+<li>重点不可达</li>
+<li>时间超时</li>
+<li>参数问题</li>
+<li>改变路由（重定向）</li>
+</ul>
+<p>ICMP询问报文有两种：</p>
+<ul>
+<li>回送请求和回答报文。</li>
+<li>时间戳请求和回答报文。</li>
+</ul>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/88.png" alt="88"> </p>
+<h3 id="ICMP的应用举例"><a href="#ICMP的应用举例" class="headerlink" title="ICMP的应用举例"></a>ICMP的应用举例</h3><p>ping两个主机之间的连通性。</p>
+<p>Tracetoute用来追踪一个分组从源头到终点的路径。</p>
+<h2 id="互联网的路由选择协议"><a href="#互联网的路由选择协议" class="headerlink" title="互联网的路由选择协议"></a>互联网的路由选择协议</h2><h3 id="有关路由选择协议的几个基本概念"><a href="#有关路由选择协议的几个基本概念" class="headerlink" title="有关路由选择协议的几个基本概念"></a>有关路由选择协议的几个基本概念</h3><h4 id="理想算法"><a href="#理想算法" class="headerlink" title="理想算法"></a>理想算法</h4><h4 id="最佳路由"><a href="#最佳路由" class="headerlink" title="最佳路由"></a>最佳路由</h4><h4 id="分层次的路由选择协议"><a href="#分层次的路由选择协议" class="headerlink" title="分层次的路由选择协议"></a>分层次的路由选择协议</h4><p>互联网采用分层次的路由选择协议。</p>
+<h4 id="自治系统"><a href="#自治系统" class="headerlink" title="自治系统"></a>自治系统</h4><p>互联网两大类路由选择协议：</p>
+<ul>
+<li>内部网关系IGP（在一个自治系统内部）<ul>
+<li>如RIP,OSPF等</li>
+</ul>
+</li>
+<li>外部网关协议EGP（源站和目的站处在不同的自治系统）<ul>
+<li>在外部网关协议中目前使用最多的时BGP-4</li>
+</ul>
+</li>
+<li><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/89.jpg" alt="89"> </li>
+</ul>
+<h3 id="内部网关协议RIP"><a href="#内部网关协议RIP" class="headerlink" title="内部网关协议RIP"></a>内部网关协议RIP</h3><h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><p>RIP协议时一种分布式的、基于距离向量的路由选择协议，它要求网络中的每一个路由器都要维护从他自己到其他每一个网络的距离记录。</p>
+<h4 id="“距离”的定义"><a href="#“距离”的定义" class="headerlink" title="“距离”的定义"></a>“距离”的定义</h4><p>从一个路由器<strong>直接连接</strong>的网络的距离定义为1，距离也称为跳数。</p>
+<p>RIP认为一个好的路由就是它通过的路由数目少即距离短。</p>
+<p><em><strong>RIP允许一条路径最多只能包含15个路由器，距离的最大值为16时即相当于不可达</strong></em>。</p>
+<p>RIP不能在两个网络之间同时使用多条路由。</p>
+<h4 id="RIP协议的三个特点"><a href="#RIP协议的三个特点" class="headerlink" title="RIP协议的三个特点"></a>RIP协议的三个特点</h4><p>1、仅和<strong>相邻路由器</strong>交换信息。</p>
+<p>2、交换信息时当前路由器所知道的<strong>全部信息，即自己的路由表</strong>。</p>
+<p>3、按固定的时间间隔交换路由信息。</p>
+<h4 id="路由表的建立"><a href="#路由表的建立" class="headerlink" title="路由表的建立"></a>路由表的建立</h4><h4 id="距离向量算法"><a href="#距离向量算法" class="headerlink" title="距离向量算法"></a>距离向量算法</h4><p>路由器收到相邻路由器（其地址为 X）的一个 RIP 报文：<br>(1) 先修改此 RIP 报文中的所有项目：把“下一跳”字段中的地址都改为 X，并把所有的“距离”字段的值加 1。<br>(2) 对修改后的 RIP 报文中的每一个项目，重复以下步骤：<br>     若项目中的目的网络不在路由表中，则把该项目加到路由表中。<br>         否则<br>             若下一跳字段给出的路由器地址是同样的，则把收到的项目替换原路由表中的项目。<br>                否则<br>                    若收到项目中的距离小于路由表中的距离，则进行更新，<br>              否则，什么也不做。<br>(3) 若 3 分钟还没有收到相邻路由器的更新路由表，则把此相邻路由器记为不可达路由器，即将距离置为 16（表示不可达）。<br>(4) 返回。</p>
+<p>例↓</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/90.png" alt="90"> </p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/91.png" alt="91"> </p>
+<p><em><strong>先将路由器发来的路由表中的距离+1，然后生成新的表，用新的表去和目前路由器的表进行比较。如果目前路由器表中没有就添加；如果表中有，且下一条的路由器是发送信息来的路由器，就更新；如果表中有，且下一条的路由器不是发送信息来的路由器，就需要比较距离，取较短距离的；最后更新表</strong></em>。</p>
+<h4 id="RIP2协议的报文格式"><a href="#RIP2协议的报文格式" class="headerlink" title="RIP2协议的报文格式"></a>RIP2协议的报文格式</h4><p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/92.png" alt="92"> </p>
+<p>RIP协议的特点：好消息传播的快，坏消息传播的慢。</p>
+<h3 id="内部网关协议OSPF"><a href="#内部网关协议OSPF" class="headerlink" title="内部网关协议OSPF"></a>内部网关协议OSPF</h3><h4 id="OSPF协议的基本特点"><a href="#OSPF协议的基本特点" class="headerlink" title="OSPF协议的基本特点"></a>OSPF协议的基本特点</h4><p>开放：公开发表。</p>
+<p>最短路径优先：使用Dijkstra提出的SPF算法。</p>
+<p>采用分布式链路状态协议。</p>
+<h4 id="OSPF的区域"><a href="#OSPF的区域" class="headerlink" title="OSPF的区域"></a>OSPF的区域</h4><p>OSPF将一个自治系统再划分为若干个更小的范围，叫做区域。</p>
+<p>区域不能太大，在一个区域内的路由器最好不要超过200个。</p>
+<h4 id="OSPF直接用IP数据报发送"><a href="#OSPF直接用IP数据报发送" class="headerlink" title="OSPF直接用IP数据报发送"></a>OSPF直接用IP数据报发送</h4><p>OSPF不用UDP而是用IP数据报传送。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/93.jpg" alt="93"> </p>
+<h4 id="OSPF的五种分组类型"><a href="#OSPF的五种分组类型" class="headerlink" title="OSPF的五种分组类型"></a>OSPF的五种分组类型</h4><p>类型一，问候分组。</p>
+<p>类型二，数据库描述分组。</p>
+<p>类型三，链路状态请求分组。</p>
+<p>类型四，链路状态更新分组，用洪泛法对全网更新链路状态。</p>
+<p>类型五，链路状态确认分组。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/94.png" alt="94"> </p>
+<h3 id="外部网关协议BGP"><a href="#外部网关协议BGP" class="headerlink" title="外部网关协议BGP"></a>外部网关协议BGP</h3><p>BGP是<strong>不同自治系统的路由器之间</strong>交换信息的协议。</p>
+<h4 id="BGP发言人"><a href="#BGP发言人" class="headerlink" title="BGP发言人"></a>BGP发言人</h4><p>每一个自治系统的管理员至少选择一个路由作为该自治系统的<strong>“BGP发言人”</strong>。</p>
+<h4 id="BGP交换路由信息"><a href="#BGP交换路由信息" class="headerlink" title="BGP交换路由信息"></a>BGP交换路由信息</h4><p>一个BGP发言人要和其他系统中的发言人交换路由信息，就要建立TCP连接。</p>
+<h4 id="BGP协议的特点"><a href="#BGP协议的特点" class="headerlink" title="BGP协议的特点"></a>BGP协议的特点</h4><p>BGP协议交换路由信息的结点数量级是<strong>自治系统数的量级</strong>，这要比自治系统内部网络数少很多。</p>
+<p>每个自治系统中的BGP发言人（或边界路由器）数目很少。</p>
+<p><strong>BGP支持CIDR</strong>，BGP刚运行时，BGP的临站是交换整个BGP路由表，但以后只需要在发生变化时更新有变化的部分。</p>
+<h4 id="BGP-4共使用四种报文"><a href="#BGP-4共使用四种报文" class="headerlink" title="BGP-4共使用四种报文"></a>BGP-4共使用四种报文</h4><p>1、打开。</p>
+<p>2、更新。</p>
+<p>3、保活。</p>
+<p>4、通知。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/95.jpg" alt="95"> </p>
+<h3 id="路由器构成"><a href="#路由器构成" class="headerlink" title="路由器构成"></a>路由器构成</h3><p>路由器是一种典型的网络层设备。</p>
+<p>路由器主要作用：</p>
+<ul>
+<li>联通不同的网络。</li>
+<li>选择信息传送的线路。</li>
+</ul>
+<h4 id="路由器的结构"><a href="#路由器的结构" class="headerlink" title="路由器的结构"></a>路由器的结构</h4><p>路由器可以分为两大部分：</p>
+<ul>
+<li>路由选择部分<ul>
+<li>也叫控制部分，核心构件是路由选择处理机。</li>
+<li>路由选择处理机的任务是根据所选定的路由选择协议构造出路由表，同时经常或定期地和相邻路由器交换路由信息而不断地更新和维护路由表。</li>
+</ul>
+</li>
+<li>分组转发部分<ul>
+<li>交换结构</li>
+<li>一组输入端口</li>
+<li>一组输出端口</li>
+</ul>
+</li>
+</ul>
+<h4 id="交换结构"><a href="#交换结构" class="headerlink" title="交换结构"></a>交换结构</h4><p>交换方法有三种：</p>
+<ul>
+<li>通过储存器</li>
+<li>通过总线</li>
+<li>通过纵横交换结构</li>
+</ul>
+<h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><h3 id="IPv6的基本首部"><a href="#IPv6的基本首部" class="headerlink" title="IPv6的基本首部"></a>IPv6的基本首部</h3><p>ipv6扔支持无连接的传送，但将协议数据单元PDU称为分组。</p>
+<p>主要变化：</p>
+<ul>
+<li>更大的地址空间，ipv6将地址从ipv4的32位增大到128位。</li>
+<li>扩展的地址层次结构。</li>
+<li>灵活的首部格式。</li>
+<li>改进的选项。</li>
+<li>允许协议继续扩充。</li>
+<li>支持即插即用。(自动配置)</li>
+<li>支持资源的预分配。</li>
+<li>ipv6首部改为8字节对齐。</li>
+</ul>
+<h3 id="ipv6数据报的一般形式"><a href="#ipv6数据报的一般形式" class="headerlink" title="ipv6数据报的一般形式"></a>ipv6数据报的一般形式</h3><p>ipv6数据报由两大部分组成：</p>
+<ul>
+<li><p>基本首部</p>
+<ul>
+<li>首部长度位<strong>固定的40字节</strong>。</li>
+<li>ipv6首部的字段数减少到只有8个。</li>
+</ul>
+</li>
+<li><p>有效载荷（净载荷）。有效载荷允许有零个或多个扩展首部，在后面是数据部分。</p>
+</li>
+</ul>
+<h3 id="IPv6的地址"><a href="#IPv6的地址" class="headerlink" title="IPv6的地址"></a>IPv6的地址</h3><p>ipv6数据包的目的地址可以是以下三种基本类型地址之一：</p>
+<ul>
+<li>单播：传统的点对点通信。</li>
+<li>多播：一点对多点的通信。</li>
+<li>任播：任播的目的站是一组计算机，但数据报在交付时只交付其中一个，通常是距离最近的一个。</li>
+</ul>
+<h4 id="结点与接口"><a href="#结点与接口" class="headerlink" title="结点与接口"></a>结点与接口</h4><p>ipv6将实现ipv6的主机和路由器均称为<strong>结点</strong>。</p>
+<p>ipv6地址是分配给节点上面的接口的。</p>
+<ul>
+<li>一个接口可以有多个单播地址。</li>
+<li>其中的任何一个地址都可以当作到达该结点的目的地址。</li>
+</ul>
+<h4 id="冒号十六进制记法"><a href="#冒号十六进制记法" class="headerlink" title="冒号十六进制记法"></a>冒号十六进制记法</h4><p>ipv6使用冒号十六进制记法。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/96.jpg" alt="96"> </p>
+<h4 id="ipv6地址分类"><a href="#ipv6地址分类" class="headerlink" title="ipv6地址分类"></a>ipv6地址分类</h4><p>未指明地址：</p>
+<ul>
+<li>这是16字节的全0地址，可缩写为两个冒号“：：”。</li>
+<li>这个地址只能为还没有配置到一个标准IP地址的主机当作源地址使用。</li>
+<li>这类地址仅此一个。</li>
+</ul>
+<p>环回地址：</p>
+<ul>
+<li>即0：0：0：0：0：0：0：1（记为：：1）。</li>
+<li>作用和IPV4的环回地址一样。</li>
+<li>这类地址也是仅此一个。</li>
+</ul>
+<p>多播地址：</p>
+<ul>
+<li>功能和IPV4的一样。</li>
+<li>这类地址站IPv6地址总数的1/256.</li>
+</ul>
+<p>本地链路单播地址：</p>
+<ul>
+<li>有些单位的网络使用TCP/IP协议，但没有连接到互联网。只能进行内部通信，不能和互联网上的主机通信。</li>
+<li>这类地址占IPv6地址总数的1/1024。</li>
+</ul>
+<p>全球单播地址：</p>
+<ul>
+<li>IPv6这类单播地址是使用的最多的一类。</li>
+</ul>
+<h3 id="从IPv4向IPv6过度"><a href="#从IPv4向IPv6过度" class="headerlink" title="从IPv4向IPv6过度"></a>从IPv4向IPv6过度</h3><p>两种向IPv6过度策略：</p>
+<ul>
+<li>使用双协议栈<ul>
+<li>装有两个协议栈，一个IPv4，一个IPv6.</li>
+<li>双协议栈的主机记为IPv4/IPv6，表明他同时具有两种IP地址：一个4和一个6.</li>
+</ul>
+</li>
+<li>使用隧道技术<ul>
+<li>IPv6数据报进入IPv4网络时，把IPv6数据报封装成为IPv4数据报的数据部分。</li>
+<li>当 IPv4 数据报离开 IPv4 网络中的隧道时，再把数据部分（即原来的 IPv6 数据报）交给主机的 IPv6 协议栈。</li>
+</ul>
+</li>
+</ul>
+<h3 id="ICMPv6"><a href="#ICMPv6" class="headerlink" title="ICMPv6"></a>ICMPv6</h3><p>IPv6也不能保证数据报的可靠交付，因为路由器可能会丢弃数据报。因此IPv6也需要使用ICMP来反馈一些差错信息。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/97.jpg" alt="97"> </p>
+<h4 id="ICMPv6报文的分类"><a href="#ICMPv6报文的分类" class="headerlink" title="ICMPv6报文的分类"></a>ICMPv6报文的分类</h4><p>IPv6报文：差错报文，信息报文，邻站发现报文，组成员关系报文。</p>
+<h2 id="IP多播"><a href="#IP多播" class="headerlink" title="IP多播"></a>IP多播</h2><h3 id="IP多播的基本概念"><a href="#IP多播的基本概念" class="headerlink" title="IP多播的基本概念"></a>IP多播的基本概念</h3><p>目的：更好的支持一对多通信。</p>
+<p>一对多通信：一个源点发送到许多个终点。</p>
+<p>在互联网上进行多播就叫<strong>IP多播</strong>。</p>
+<p>IP多播所传送的分组需要使用多播IP地址。</p>
+<p>多播组的标识符就是IP地址中的D类地址（多播地址）。</p>
+<p>多播地址只能用于目的地址，不能用于源地址。</p>
+<h4 id="多播数据报"><a href="#多播数据报" class="headerlink" title="多播数据报"></a>多播数据报</h4><p>多播数据报使用D类IP地址，并且不产生ICMP差错报文。</p>
+<h3 id="在局域网上进行硬件多播"><a href="#在局域网上进行硬件多播" class="headerlink" title="在局域网上进行硬件多播"></a>在局域网上进行硬件多播</h3><p>TCP/IP协议使用的以太网多播地址块范围是从<strong>00-00-5E-00-00-00</strong>到<strong>00-00-5E-FF-FF-FF</strong>。</p>
+<p>由于多播IP地址与以太网硬件地址的映射关系不是唯一的，因此还要在IP层利用软件进行过滤，把不是本主机要接收的数据报丢弃。</p>
+<h3 id="网际组管理协议IGMP和多播路由选择协议"><a href="#网际组管理协议IGMP和多播路由选择协议" class="headerlink" title="网际组管理协议IGMP和多播路由选择协议"></a>网际组管理协议IGMP和多播路由选择协议</h3><p>IP多播需要两种协议：</p>
+<ul>
+<li>网际组管理协议IGMP。</li>
+<li>多播路由选择协议。</li>
+</ul>
+<h4 id="IGMP的使用范围"><a href="#IGMP的使用范围" class="headerlink" title="IGMP的使用范围"></a>IGMP的使用范围</h4><p>IGMP协议是让连接在本地局域网上的多播路由器知道本局域网上是否有主机（严格讲，是主机上某个进程）参加或退出了某个多播组。</p>
+<h4 id="多播路由选择协议更复杂"><a href="#多播路由选择协议更复杂" class="headerlink" title="多播路由选择协议更复杂"></a>多播路由选择协议更复杂</h4><p>多播路由选择协议更复杂。多播转发必须动态的适应多播组成员变化。</p>
+<h4 id="网际组管理协议IGMP"><a href="#网际组管理协议IGMP" class="headerlink" title="网际组管理协议IGMP"></a>网际组管理协议IGMP</h4><p>IGMP工作可以分为两阶段：</p>
+<ul>
+<li>第一阶段：加入多播组。</li>
+<li>第二阶段：探寻组成员变化情况。</li>
+</ul>
+<h2 id="虚拟专用网VPN和网络地址转换NAT"><a href="#虚拟专用网VPN和网络地址转换NAT" class="headerlink" title="虚拟专用网VPN和网络地址转换NAT"></a>虚拟专用网VPN和网络地址转换NAT</h2><h3 id="虚拟专用网VPN"><a href="#虚拟专用网VPN" class="headerlink" title="虚拟专用网VPN"></a>虚拟专用网VPN</h3><p>RFC1918指明了一些<strong>专用地址</strong>。专用地址只能用作本地地址而不能用作全球地址。在互联网中的所有路由器，对目的地址是专用地址的数据报一律不进行转发。</p>
+<p>三个转月IP地址块↓</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/98.png" alt="98"> </p>
+<p>本地的IP地址叫做专用网。</p>
+<p>利用公用的互联网作为本机构各专用网之间的通信载体，这样的专用网又称为<strong>虚拟专用网</strong>。</p>
+<h4 id="内联网intranet和外联网extranet"><a href="#内联网intranet和外联网extranet" class="headerlink" title="内联网intranet和外联网extranet"></a>内联网intranet和外联网extranet</h4><p>他们都是基于TCP/IP协议的。</p>
+<p>由部门A和B的内部网络构成的虚拟专用VPN又称为<strong>内联网</strong>，表示部门A和B都是在<strong>同一机构的内部</strong>。</p>
+<p>一个机构和<strong>某些外部机构</strong>共同建立的虚拟专用网VPN又称为<strong>外联网</strong>。</p>
+<p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/99.png" alt="99"> </p>
+<h4 id="远程接入VPN"><a href="#远程接入VPN" class="headerlink" title="远程接入VPN"></a>远程接入VPN</h4><p>远程接入VPN可以满足外部流动员工访问公司网络的需求。</p>
+<h3 id="网络地址转换NAT"><a href="#网络地址转换NAT" class="headerlink" title="网络地址转换NAT"></a>网络地址转换NAT</h3><p>问题：在专用网上使用专用地址的主机如何与互联网的上主机通信（并不需要加密）。</p>
+<p>解决：</p>
+<ul>
+<li>再申请全球IP（不可能）。</li>
+<li>采用网络地址转换NAT。（使用最多的方法）</li>
+</ul>
+<p>NAT需要再专用网连接到互联网的路由器上安装NAT软件，装有NAT软件的路由器叫做NAT路由器，他至少由一个有效的外部全球IP地址。</p>
+<p>所有使用本地地址的主机在和外界通信时，都要再NAT路由器上将其本地地址转换成全球IP地址才能和互联网连接。</p>
+<h4 id="网络地址转换的过程"><a href="#网络地址转换的过程" class="headerlink" title="网络地址转换的过程"></a>网络地址转换的过程</h4><p>内部主机A用本地地址$IP_A$和互联网上主机B通信所发送的数据报必须经过NAT路由器。</p>
+<p>NAT路由器<strong>将数据报的源地址$IP_A$转换成全球地址$IP_G$</strong>,并把转换结果记录到<strong>NAT地址转换表</strong>中，目的地址$IP_B$，保持不变，然后发送到互联网。</p>
+<p>NAT路由器收到主机B发回的数据报时，知道数据报中的源地址是$IP_B$而目的地址是$IP_G$。</p>
+<p><strong>根据NAT转换表</strong>，NAT路由器将**目的地址$IP_G$转换为$IP_A$,转发给追钟的内部主机A。</p>
+<p>发生了两次地址转换：</p>
+<ul>
+<li>离开专用网时：替换源地址，将内部地址替换为全球地址；</li>
+<li>进入专用网络时：替换目的地址，将全球地址替换为内部地址；</li>
+</ul>
+<h2 id="多协议标记交换MPLS"><a href="#多协议标记交换MPLS" class="headerlink" title="多协议标记交换MPLS"></a>多协议标记交换MPLS</h2><h3 id="MPLS的工作原理"><a href="#MPLS的工作原理" class="headerlink" title="MPLS的工作原理"></a>MPLS的工作原理</h3><p>“多协议”表示再MPLS的<strong>上层</strong>可以采用多种协议；可以使用<strong>多种数据链路层协议</strong>。</p>
+<p><strong>标记</strong>是指每个分组被打上一个标记，根据该标记对分组进行转发。</p>
+<h4 id="MPLS特点"><a href="#MPLS特点" class="headerlink" title="MPLS特点"></a>MPLS特点</h4><p>MPLS<strong>并没有取代IP</strong>，而是作为一种<strong>IP增强技术</strong>，被广泛的应用再互联网中。</p>
+<p>MPLS具有以下三个方面的特点：</p>
+<ul>
+<li>支持面向连接的服务质量；</li>
+<li>支持流量工程，平衡网络负载；</li>
+<li>有效的支持虚拟专用网VPN。</li>
+</ul>
+<h4 id="基本工作过程"><a href="#基本工作过程" class="headerlink" title="基本工作过程"></a>基本工作过程</h4><p>IP分组转发。</p>
+<p>转发等价类FEC。</p>
+<h3 id="MPLS首部的位置与格式"><a href="#MPLS首部的位置与格式" class="headerlink" title="MPLS首部的位置与格式"></a>MPLS首部的位置与格式</h3><p><img src="/2022/10/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/100.png" alt="100"> </p>
+
       
     </div>
 
