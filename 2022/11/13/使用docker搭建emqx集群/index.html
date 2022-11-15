@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="IP分类 主机1：192.168.127.129 主机1docker:172.16.200.1&#x2F;24 docker1的emqx：172.16.111.11 主机2：192.168.127.130 主机2docker2:172.16.201.1&#x2F;24 docker2emqx：172.16.222.22 修改docker的ip主机1修改daemon.json文件 1vim &#x2F;ect&#x2F;docker&#x2F;da">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用docker搭建emqx集群">
+<meta property="og:url" content="http://example.com/2022/11/13/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/index.html">
+<meta property="og:site_name" content="德龙的博客">
+<meta property="og:description" content="IP分类 主机1：192.168.127.129 主机1docker:172.16.200.1&#x2F;24 docker1的emqx：172.16.111.11 主机2：192.168.127.130 主机2docker2:172.16.201.1&#x2F;24 docker2emqx：172.16.222.22 修改docker的ip主机1修改daemon.json文件 1vim &#x2F;ect&#x2F;docker&#x2F;da">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/11/13/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/1.png">
+<meta property="og:image" content="http://example.com/2022/11/13/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/2.png">
+<meta property="article:published_time" content="2022-11-13T14:25:09.000Z">
+<meta property="article:modified_time" content="2022-11-15T07:54:29.636Z">
+<meta property="article:author" content="DeLongSun">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/11/13/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/1.png">
+
+<link rel="canonical" href="http://example.com/2022/11/13/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>使用docker搭建emqx集群 | 德龙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">德龙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/13/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用docker搭建emqx集群
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-11-13 22:25:09" itemprop="dateCreated datePublished" datetime="2022-11-13T22:25:09+08:00">2022-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-11-15 15:54:29" itemprop="dateModified" datetime="2022-11-15T15:54:29+08:00">2022-11-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="IP分类"><a href="#IP分类" class="headerlink" title="IP分类"></a>IP分类</h1><p><img src="/2022/11/13/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/1.png" alt="1"></p>
+<p>主机1：192.168.127.129</p>
+<p>主机1docker:172.16.200.1/24</p>
+<p>docker1的emqx：172.16.111.11</p>
+<p>主机2：192.168.127.130</p>
+<p>主机2docker2:172.16.201.1/24</p>
+<p>docker2emqx：172.16.222.22</p>
+<h1 id="修改docker的ip"><a href="#修改docker的ip" class="headerlink" title="修改docker的ip"></a>修改docker的ip</h1><h2 id="主机1"><a href="#主机1" class="headerlink" title="主机1"></a>主机1</h2><p>修改daemon.json文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /ect/docker/daemon.json</span><br></pre></td></tr></table></figure>
+
+<p>内容大致如下↓</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;bip&quot;</span><span class="punctuation">:</span><span class="string">&quot;172.16.201.1/24&quot;</span><span class="punctuation">,</span> # docker的ip</span><br><span class="line">  <span class="attr">&quot;registry-mirrors&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;https://hub-mirror.c.163.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;https://ghcr.io&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;https://mirror.baidubce.com&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> # docker源</span><br><span class="line">  <span class="attr">&quot;insecure-registries&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="string">&quot;192.168.127.129:5000&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="主机2"><a href="#主机2" class="headerlink" title="主机2"></a>主机2</h2><p>修改daemon.json文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /ect/docker/daemon.json</span><br></pre></td></tr></table></figure>
+
+<p>内容大致如下↓</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;bip&quot;</span><span class="punctuation">:</span><span class="string">&quot;172.16.201.1/24&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;registry-mirrors&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;https://hub-mirror.c.163.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;https://ghcr.io&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;https://mirror.baidubce.com&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;insecure-registries&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="string">&quot;192.168.127.129:5000&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后<em><strong>重启docker</strong></em>。</p>
+<h1 id="ubuntu开启路由，加入路由规则"><a href="#ubuntu开启路由，加入路由规则" class="headerlink" title="ubuntu开启路由，加入路由规则"></a>ubuntu开启路由，加入路由规则</h1><h2 id="开启IP转发"><a href="#开启IP转发" class="headerlink" title="开启IP转发"></a>开启IP转发</h2><p>执行以下指令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl net.ipv4.ip_forward=1</span><br></pre></td></tr></table></figure>
+
+<p>或者进入 /etc/sysctl.conf</p>
+<p>添加↓</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward=1</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载相关工具"><a href="#下载相关工具" class="headerlink" title="下载相关工具"></a>下载相关工具</h2><p>安装 iptables-persistent</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install iptables-persistent</span><br></pre></td></tr></table></figure>
+
+<p>将ip规则追加到rules.v4中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-save &gt; /etc/iptables/rules.v4</span><br></pre></td></tr></table></figure>
+
+<p>还原iptables配置。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore &lt; /etc/iptables/rules.v4</span><br></pre></td></tr></table></figure>
+
+<h2 id="主机1-1"><a href="#主机1-1" class="headerlink" title="主机1"></a>主机1</h2><p>依次执行以下指令↓</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -F	//清除所有的iptables规则</span><br><span class="line">iptables -P INPUT ACCEPT	//允许接收</span><br><span class="line">iptables -P FORWARD ACCEPT	//允许发送数据包</span><br></pre></td></tr></table></figure>
+
+<p>添加路由↓</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 172.16.111.0/24 -o ens33 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+
+<p>另一个容器的路由</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip route add 172.172.222.0/24 via 192.168.127.130</span><br></pre></td></tr></table></figure>
+
+<h2 id="主机2-1"><a href="#主机2-1" class="headerlink" title="主机2"></a>主机2</h2><p>依次执行以下指令↓</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -F	//清除所有的iptables规则</span><br><span class="line">iptables -P INPUT ACCEPT	//允许接收</span><br><span class="line">iptables -P FORWARD ACCEPT	//允许发送数据包</span><br></pre></td></tr></table></figure>
+
+<p>添加路由↓</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 172.16.222.0/24 -o ens33 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+
+<p>另一个容器的路由</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip route add 172.172.111.0/24 via 192.168.127.129</span><br></pre></td></tr></table></figure>
+
+<h1 id="docker配置"><a href="#docker配置" class="headerlink" title="docker配置"></a>docker配置</h1><h2 id="主机1-2"><a href="#主机1-2" class="headerlink" title="主机1"></a>主机1</h2><p>创建相应网关</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create --subnet=172.16.111.0/24  emqxnet</span><br></pre></td></tr></table></figure>
+
+<p>启动容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -itd  --name emqx11  --ip 172.16.111.11  --network=emqxnet -p 4369:4369 -p 18083:18083 -p 1883:1883 -p 8084:8084 -p 8883:8883 -p 8083:8083  -p 4370:4370 -p 5368:5368 -e  EMQX_NAME=emqx -e EMQX_HOST=172.16.111.11  -e EMQX_CLUSTER__DISCOVERY_STRATEGY=static emqx/emqx:5.0.4</span><br></pre></td></tr></table></figure>
+
+<h2 id="主机2-2"><a href="#主机2-2" class="headerlink" title="主机2"></a>主机2</h2><p>创建相应网关</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create --subnet=172.16.222.0/24  emqxnet</span><br></pre></td></tr></table></figure>
+
+<p>启动容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -itd  --name emqx22  --ip 172.16.222.22  --network=emqxnet -p 4369:4369 -p 18083:18083 -p 1883:1883 -p 8084:8084 -p 8883:8883 -p 8083:8083  -p 4370:4370 -p 5368:5368 -e  EMQX_NAME=emqx -e EMQX_HOST=172.16.222.22  -e EMQX_CLUSTER__DISCOVERY_STRATEGY=static emqx/emqx:5.0.4</span><br></pre></td></tr></table></figure>
+
+<h1 id="节点2加入集群"><a href="#节点2加入集群" class="headerlink" title="节点2加入集群"></a>节点2加入集群</h1><p>进入容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it emqx22 /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>加入节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/emqx_ctl cluster join emqx@172.16.111.11</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/11/13/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/2.png" alt="2"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/12/docker%E5%AE%89%E8%A3%85mongodb/" rel="prev" title="docker安装mongodb">
+      <i class="fa fa-chevron-left"></i> docker安装mongodb
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/" rel="next" title="操作系统复习">
+      操作系统复习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IP%E5%88%86%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">IP分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9docker%E7%9A%84ip"><span class="nav-number">2.</span> <span class="nav-text">修改docker的ip</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA1"><span class="nav-number">2.1.</span> <span class="nav-text">主机1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA2"><span class="nav-number">2.2.</span> <span class="nav-text">主机2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ubuntu%E5%BC%80%E5%90%AF%E8%B7%AF%E7%94%B1%EF%BC%8C%E5%8A%A0%E5%85%A5%E8%B7%AF%E7%94%B1%E8%A7%84%E5%88%99"><span class="nav-number">3.</span> <span class="nav-text">ubuntu开启路由，加入路由规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AFIP%E8%BD%AC%E5%8F%91"><span class="nav-number">3.1.</span> <span class="nav-text">开启IP转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E7%9B%B8%E5%85%B3%E5%B7%A5%E5%85%B7"><span class="nav-number">3.2.</span> <span class="nav-text">下载相关工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA1-1"><span class="nav-number">3.3.</span> <span class="nav-text">主机1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA2-1"><span class="nav-number">3.4.</span> <span class="nav-text">主机2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docker%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">docker配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA1-2"><span class="nav-number">4.1.</span> <span class="nav-text">主机1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA2-2"><span class="nav-number">4.2.</span> <span class="nav-text">主机2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8A%82%E7%82%B92%E5%8A%A0%E5%85%A5%E9%9B%86%E7%BE%A4"><span class="nav-number">5.</span> <span class="nav-text">节点2加入集群</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DeLongSun"
+      src="/images/wuwu.jpg">
+  <p class="site-author-name" itemprop="name">DeLongSun</p>
+  <div class="site-description" itemprop="description">upup</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/manchocolate" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/manchocolate" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-gitee fa-fw"></i>Gitee</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DeLongSun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+<script type="text/javascript" src="/js/my_js/clicklove.js"></script>
+</html>

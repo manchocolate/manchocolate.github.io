@@ -157,6 +157,288 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/" class="post-title-link" itemprop="url">ubuntu手动安装rabbitmq</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-09-07 22:27:12 / Modified: 23:33:00" itemprop="dateCreated datePublished" datetime="2022-09-07T22:27:12+08:00">2022-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="ubuntu手动安装rabbitmq"><a href="#ubuntu手动安装rabbitmq" class="headerlink" title="ubuntu手动安装rabbitmq"></a>ubuntu手动安装rabbitmq</h1><p>ubuntu:16<br>erlang:25<br>rabbitmq:3.10.7</p>
+<h2 id="erlang安装"><a href="#erlang安装" class="headerlink" title="erlang安装"></a>erlang安装</h2><h3 id="准备可能需要的库"><a href="#准备可能需要的库" class="headerlink" title="准备可能需要的库"></a>准备可能需要的库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install gcc libncurses5-dev g++ unixodbc-dev freeglut3-dev libssl-dev libwxgtk3.0-dev make</span><br></pre></td></tr></table></figure>
+<h3 id="查看erlang和rabbitmq对应的版本信息"><a href="#查看erlang和rabbitmq对应的版本信息" class="headerlink" title="查看erlang和rabbitmq对应的版本信息"></a>查看erlang和rabbitmq对应的版本信息</h3><p><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://www.rabbitmq.com/which-erlang.html</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/1.png" alt="img"></p>
+<h3 id="下载erlang的tar"><a href="#下载erlang的tar" class="headerlink" title="下载erlang的tar"></a>下载erlang的tar</h3><p><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://github.com/erlang/otp/releases</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/2.png" alt="img"></p>
+<h3 id="安装erlang"><a href="#安装erlang" class="headerlink" title="安装erlang"></a>安装erlang</h3><p>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf otp_src_25.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>进入解压后的文件  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd otp_src_25.0</span><br></pre></td></tr></table></figure>
+<p>创建想要安装的目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /app/erlang_22.5</span><br></pre></td></tr></table></figure>
+<p>使用configure</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/app/erlang_22.5 --with-ssl --enable-threads --enable-smp-support --enable-kernel-poll --enable-hipe --without-javac</span><br></pre></td></tr></table></figure>
+<p>可能会出现缺少部分库的情况<br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/3.png" alt="img"><br><em>缺少openssl</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libssl-dev</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/4.png" alt="img"><br><em>缺少curses</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libncurses5 libncurses5-dev</span><br></pre></td></tr></table></figure>
+<p>最后成功会出现<br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/5.png" alt="img"><br>编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>进入安装的文件夹下（新建的app那个下面）查看是否成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /app/erlang_22.5/bin/erl</span><br></pre></td></tr></table></figure>
+<p>出现下图则成功<br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/6.png" alt="img"><br>设置软链</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /app/erlang_22.5/bin/erl /usr/bin/erl</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/7.png" alt="img"></p>
+<h3 id="安装rabbitmq"><a href="#安装rabbitmq" class="headerlink" title="安装rabbitmq"></a>安装rabbitmq</h3><p>找自己想要的版本<br><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://github.com/rabbitmq/rabbitmq-server/releases</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/8.png" alt="img"><br>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf rabbitmq-server-generic-unix-3.10.7.tar.xz -C /app</span><br></pre></td></tr></table></figure>
+<p>进入app文件夹启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmq-serve</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/9.png" alt="img"><br><em>成功</em><br>安装web界面管理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmq-plugins enable rabbitmq_management </span><br></pre></td></tr></table></figure>
+<p>添加用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmqctl add_user  admin 123456</span><br></pre></td></tr></table></figure>
+<p>授权<br><em><strong>应该是在关闭rabiitmq下进行</strong></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/rabbitmq_server-3.10.7/sbin/rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
+<p>访问页面输入刚才设置的用户名admin和密码123456<br><a href="%E8%99%9A%E6%8B%9F%E6%9C%BAip:15672">虚拟机ip:15672</a><br><img src="/2022/09/07/ubuntu%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85rabbitmq/10.png" alt="img"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" class="post-title-link" itemprop="url">docker实现mysql主从复制</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-09-04 22:55:50 / Modified: 23:56:57" itemprop="dateCreated datePublished" datetime="2022-09-04T22:55:50+08:00">2022-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="docker实现mysql主从复制"><a href="#docker实现mysql主从复制" class="headerlink" title="docker实现mysql主从复制"></a>docker实现mysql主从复制</h1><p>主db端口3307<br>从db端口3308  </p>
+<h2 id="主mysql设置"><a href="#主mysql设置" class="headerlink" title="主mysql设置"></a>主mysql设置</h2><h3 id="1、启动mysql"><a href="#1、启动mysql" class="headerlink" title="1、启动mysql"></a>1、启动mysql</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run <span class="operator">-</span>p <span class="number">3307</span>:<span class="number">3306</span> <span class="comment">--name mysql-master </span></span><br><span class="line"><span class="operator">-</span>v <span class="operator">/</span>mydata<span class="operator">/</span>mysql<span class="operator">-</span>master<span class="operator">/</span>log:<span class="operator">/</span>var<span class="operator">/</span>log<span class="operator">/</span>mysql </span><br><span class="line"><span class="operator">-</span>v <span class="operator">/</span>mydata<span class="operator">/</span>mysql<span class="operator">-</span>master<span class="operator">/</span>data:<span class="operator">/</span>var<span class="operator">/</span>lib<span class="operator">/</span>mysql </span><br><span class="line"><span class="operator">-</span>v <span class="operator">/</span>mydata<span class="operator">/</span>mysql<span class="operator">-</span>master<span class="operator">/</span>conf:<span class="operator">/</span>etc<span class="operator">/</span>mysql </span><br><span class="line"><span class="operator">-</span>e MYSQL_ROOT_PASSWORD<span class="operator">=</span>root  </span><br><span class="line"><span class="operator">-</span>d mysql:<span class="number">5.7</span></span><br></pre></td></tr></table></figure>
+<h2 id="2、进入-mydata-mysql-master-conf目录下新建my-cnf"><a href="#2、进入-mydata-mysql-master-conf目录下新建my-cnf" class="headerlink" title="2、进入/mydata/mysql-master/conf目录下新建my.cnf"></a>2、进入/mydata/mysql-master/conf目录下新建my.cnf</h2><p>my.conf文件内容  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置server_id，同一局域网中需要唯一</span></span></span><br><span class="line">server_id=101 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 指定不需要同步的数据库名称</span></span></span><br><span class="line">binlog-ignore-db=mysql  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 开启二进制日志功能</span></span></span><br><span class="line">log-bin=mall-mysql-bin  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置二进制日志使用内存大小（事务）</span></span></span><br><span class="line">binlog_cache_size=1M  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置使用的二进制日志格式（mixed,statement,row）</span></span></span><br><span class="line">binlog_format=mixed  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 二进制日志过期清理时间。默认值为0，表示不自动清理。</span></span></span><br><span class="line">expire_logs_days=7  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 跳过主从复制中遇到的所有错误或指定类型的错误，避免slave端复制中断。</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 如：1062错误是指一些主键重复，1032错误是因为主从数据库数据不一致</span></span></span><br><span class="line">slave_skip_errors=1062</span><br></pre></td></tr></table></figure>
+<h2 id="3、重启mysql-进入mysql进行配置"><a href="#3、重启mysql-进入mysql进行配置" class="headerlink" title="3、重启mysql,进入mysql进行配置"></a>3、重启mysql,进入mysql进行配置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart mysql-master</span><br></pre></td></tr></table></figure>
+<h3 id="进入mysql进行配置"><a href="#进入mysql进行配置" class="headerlink" title="进入mysql进行配置"></a>进入mysql进行配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mysql-master /bin/bash</span><br><span class="line">mysql -uroot -proot</span><br></pre></td></tr></table></figure>
+<h3 id="创建从数据库用户"><a href="#创建从数据库用户" class="headerlink" title="创建从数据库用户\"></a>创建从数据库用户\</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REATE <span class="keyword">USER</span> <span class="string">&#x27;slave&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line"><span class="keyword">GRANT</span> REPLICATION SLAVE, REPLICATION CLIENT <span class="keyword">ON</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;slave&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="从数据库配置"><a href="#从数据库配置" class="headerlink" title="从数据库配置"></a>从数据库配置</h2><h3 id="1、启动mysql-1"><a href="#1、启动mysql-1" class="headerlink" title="1、启动mysql"></a>1、启动mysql</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 3308:3306 --name mysql-slave </span><br><span class="line">-v /mydata/mysql-slave/log:/var/log/mysql </span><br><span class="line">-v /mydata/mysql-slave/data:/var/lib/mysql </span><br><span class="line">-v /mydata/mysql-slave/conf:/etc/mysql </span><br><span class="line">-e MYSQL_ROOT_PASSWORD=root  </span><br><span class="line">-d mysql:5.7</span><br></pre></td></tr></table></figure>
+<h2 id="2、进入-mydata-mysql-slave-conf目录下新建my-cnf"><a href="#2、进入-mydata-mysql-slave-conf目录下新建my-cnf" class="headerlink" title="2、进入/mydata/mysql-slave/conf目录下新建my.cnf"></a>2、进入/mydata/mysql-slave/conf目录下新建my.cnf</h2><p>my.conf文件内容  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置server_id，同一局域网中需要唯一</span></span></span><br><span class="line">server_id=102</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 指定不需要同步的数据库名称</span></span></span><br><span class="line">binlog-ignore-db=mysql  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 开启二进制日志功能，以备Slave作为其它数据库实例的Master时使用</span></span></span><br><span class="line">log-bin=mall-mysql-slave1-bin  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置二进制日志使用内存大小（事务）</span></span></span><br><span class="line">binlog_cache_size=1M  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 设置使用的二进制日志格式（mixed,statement,row）</span></span></span><br><span class="line">binlog_format=mixed  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 二进制日志过期清理时间。默认值为0，表示不自动清理。</span></span></span><br><span class="line">expire_logs_days=7  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 跳过主从复制中遇到的所有错误或指定类型的错误，避免slave端复制中断。</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 如：1062错误是指一些主键重复，1032错误是因为主从数据库数据不一致</span></span></span><br><span class="line">slave_skip_errors=1062  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># relay_log配置中继日志</span></span></span><br><span class="line">relay_log=mall-mysql-relay-bin  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># log_slave_updates表示slave将复制事件写进自己的二进制日志</span></span></span><br><span class="line">log_slave_updates=1  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># slave设置为只读（具有super权限的用户除外）</span></span></span><br><span class="line">read_only=1</span><br></pre></td></tr></table></figure>
+<h2 id="3、重启mysql-进入mysql进行配置-1"><a href="#3、重启mysql-进入mysql进行配置-1" class="headerlink" title="3、重启mysql,进入mysql进行配置"></a>3、重启mysql,进入mysql进行配置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker restart mysql-slave</span><br><span class="line">docker exec -it mysql-slave /bin/bash</span><br><span class="line">mysql -uroot -proot</span><br><span class="line">CREATE USER &#x27;slave&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;123456&#x27;;</span><br><span class="line">GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO &#x27;slave&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+<h3 id="在从数据库中配置主从复制"><a href="#在从数据库中配置主从复制" class="headerlink" title="在从数据库中配置主从复制"></a>在从数据库中配置主从复制</h3><h4 id="查看pos从哪开始"><a href="#查看pos从哪开始" class="headerlink" title="查看pos从哪开始"></a>查看pos从哪开始</h4><p>在master数据库查看position,获取到pos</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> master status;</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/1.png" alt="img"><br>查看本机ip（master的ip）  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/2.png" alt="img"><br>回到slave数据库  </p>
+<h4 id="在slave配置主从复制"><a href="#在slave配置主从复制" class="headerlink" title="在slave配置主从复制"></a>在slave配置主从复制</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">change master <span class="keyword">to</span> master_host<span class="operator">=</span><span class="string">&#x27; 192.168.127.129&#x27;</span>, master_user<span class="operator">=</span><span class="string">&#x27;slave&#x27;</span>, master_password<span class="operator">=</span><span class="string">&#x27;123456&#x27;</span>, master_port<span class="operator">=</span><span class="number">3307</span>, master_log_file<span class="operator">=</span><span class="string">&#x27;mall-mysql-bin.000001&#x27;</span>, master_log_pos<span class="operator">=</span><span class="number">154</span>, master_connect_retry<span class="operator">=</span><span class="number">30</span>;</span><br></pre></td></tr></table></figure>
+<p><em>master_host(刚才查看的宿主机ip)；master_log_pos（刚才在master数据库查看的pos）</em></p>
+<h4 id="在slave查看主从同步状态"><a href="#在slave查看主从同步状态" class="headerlink" title="在slave查看主从同步状态"></a>在slave查看主从同步状态</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> slave status \G;</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/3.png" alt="img"><br>此时连接状态为no<br>开启slave,查看主从同步状态.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> slave;</span><br><span class="line"><span class="keyword">show</span> slave status \G;</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/4.png" alt="img"><br>此时连接为yes，即同步成功</p>
+<h2 id="4、建表查看"><a href="#4、建表查看" class="headerlink" title="4、建表查看"></a>4、建表查看</h2><p>master建表，slave查看<br><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/5.png" alt="img"><br><img src="/2022/09/04/docker%E5%AE%9E%E7%8E%B0mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/6.png" alt="img"><br>成功</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/02/con_docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/02/con_docker/" class="post-title-link" itemprop="url">con_docker</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-09-02 19:33:11" itemprop="dateCreated datePublished" datetime="2022-09-02T19:33:11+08:00">2022-09-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-09-03 00:03:50" itemprop="dateModified" datetime="2022-09-03T00:03:50+08:00">2022-09-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="连接虚拟机的docker启动的mysql镜像"><a href="#连接虚拟机的docker启动的mysql镜像" class="headerlink" title="连接虚拟机的docker启动的mysql镜像"></a>连接虚拟机的docker启动的mysql镜像</h1><p>整体关系图<br><img src="/2022/09/02/con_docker/3.png" alt="guanxi"></p>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="1、下载mysql镜像"><a href="#1、下载mysql镜像" class="headerlink" title="1、下载mysql镜像"></a>1、下载mysql镜像</h3><p><em>ubuntu下需要root权限</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:5.7</span><br></pre></td></tr></table></figure>
+<h3 id="2、启动镜像"><a href="#2、启动镜像" class="headerlink" title="2、启动镜像"></a>2、启动镜像</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=mysql -it -p 3396:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7</span><br></pre></td></tr></table></figure>
+<dl><dt>-it:交互式<br>-p:自定义端口(宿主机端口:容器内启动的端口)</dt><dd>每个容器启动之后相当于一个系统<br>-e:设置<br>-d:后台挂载<br>–name:容器启动后的名字</dd></dl><h3 id="3、进入mysql镜像"><a href="#3、进入mysql镜像" class="headerlink" title="3、进入mysql镜像"></a>3、进入mysql镜像</h3><h4 id="查看启动之后镜像的id"><a href="#查看启动之后镜像的id" class="headerlink" title="查看启动之后镜像的id"></a>查看启动之后镜像的id</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/02/con_docker/1.png" alt="img"><br>如图👆</p>
+<h4 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it dd3be6ee5104 /bin/bash</span><br></pre></td></tr></table></figure>
+<h4 id="启动进入mysql"><a href="#启动进入mysql" class="headerlink" title="启动进入mysql"></a>启动进入mysql</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it dd3be6ee5104 /bin/bash</span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+<h4 id="设置所有地址可用root用户进入"><a href="#设置所有地址可用root用户进入" class="headerlink" title="设置所有地址可用root用户进入"></a>设置所有地址可用root用户进入</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> host <span class="operator">=</span> <span class="string">&#x27;%&#x27;</span> <span class="keyword">where</span> <span class="keyword">user</span> <span class="operator">=</span> <span class="string">&#x27;root&#x27;</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> admin@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;root&#x27;</span> <span class="keyword">with</span> <span class="keyword">grant</span> option;</span><br><span class="line">flush privileges;   刷新权限</span><br></pre></td></tr></table></figure>
+<h4 id="检查是否设置成功"><a href="#检查是否设置成功" class="headerlink" title="检查是否设置成功"></a>检查是否设置成功</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> host,<span class="keyword">user</span>,plugin,authentication_string <span class="keyword">from</span> mysql.user;</span><br></pre></td></tr></table></figure>
+<p>如图<br><img src="/2022/09/02/con_docker/2.png" alt="mysql"><br>mysql8.0以上需要将plugin的caching_sha2_password设置为my_native_password，<br>这里我们用的是mysql5.7所以不用设置<br>mysql设置结束</p>
+<h3 id="4、查看是否能ping通虚拟机"><a href="#4、查看是否能ping通虚拟机" class="headerlink" title="4、查看是否能ping通虚拟机"></a>4、查看是否能ping通虚拟机</h3><h4 id="查看虚拟机ip（enss33网卡上的ip）"><a href="#查看虚拟机ip（enss33网卡上的ip）" class="headerlink" title="查看虚拟机ip（enss33网卡上的ip）"></a>查看虚拟机ip（enss33网卡上的ip）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/02/con_docker/4.png" alt="mysql"><br>红色部分(即192.168.127.129)  </p>
+<h4 id="回到主机-win10-打开cmd"><a href="#回到主机-win10-打开cmd" class="headerlink" title="回到主机(win10)打开cmd"></a>回到主机(win10)打开cmd</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.127.129</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/09/02/con_docker/5.png" alt="mysql"><br>正常能ping通即可，如果不行就关闭虚拟机的防火墙</p>
+<h3 id="5、使用图形化工具连接mysql-navicat为例"><a href="#5、使用图形化工具连接mysql-navicat为例" class="headerlink" title="5、使用图形化工具连接mysql(navicat为例)"></a>5、使用图形化工具连接mysql(navicat为例)</h3><p><img src="/2022/09/02/con_docker/6.png" alt="img.png"><br><img src="/2022/09/02/con_docker/7.png" alt="img.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/17/%E5%B8%B8%E7%94%A8%E7%9A%84%E5%8A%A0%E5%AF%86%E5%92%8C%E7%BC%96%E7%A0%81-md5-base64/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -438,14 +720,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
