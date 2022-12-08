@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、选择题（共30小题，每题1分，共 30 分）二、名词解释（共5小题，每题2分，共 10 分）三、简答题：（共5小题，每题 4分，共 20 分）四、综合计算题（共4小题，每题5分，共 20 分）五、综合应用题（共2小题，每题10分，共20分） 选择题30道，复习范围：题库 简答题：如何理解计算机组成和计算机体系结构？P71、计算机组成是指如何实现计算机体系结构所体现的属性，他包含了许多对程序员来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成原理复习">
+<meta property="og:url" content="http://example.com/2022/11/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="德龙的博客">
+<meta property="og:description" content="一、选择题（共30小题，每题1分，共 30 分）二、名词解释（共5小题，每题2分，共 10 分）三、简答题：（共5小题，每题 4分，共 20 分）四、综合计算题（共4小题，每题5分，共 20 分）五、综合应用题（共2小题，每题10分，共20分） 选择题30道，复习范围：题库 简答题：如何理解计算机组成和计算机体系结构？P71、计算机组成是指如何实现计算机体系结构所体现的属性，他包含了许多对程序员来">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-11-22T03:34:16.000Z">
+<meta property="article:modified_time" content="2022-12-07T17:34:38.766Z">
+<meta property="article:author" content="DeLongSun">
+<meta property="article:tag" content="学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/11/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%A4%8D%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>计算机组成原理复习 | 德龙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">德龙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机组成原理复习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-11-22 11:34:16" itemprop="dateCreated datePublished" datetime="2022-11-22T11:34:16+08:00">2022-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-12-08 01:34:38" itemprop="dateModified" datetime="2022-12-08T01:34:38+08:00">2022-12-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%A4%8D%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">计算机组成原理复习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>一、选择题（共30小题，每题1分，共 30 分）<br>二、名词解释（共5小题，每题2分，共 10 分）<br>三、简答题：（共5小题，每题 4分，共 20 分）<br>四、综合计算题（共4小题，每题5分，共 20 分）<br>五、综合应用题（共2小题，每题10分，共20分）</p>
+<p>选择题30道，复习范围：题库</p>
+<h1 id="简答题："><a href="#简答题：" class="headerlink" title="简答题："></a>简答题：</h1><h2 id="如何理解计算机组成和计算机体系结构？P7"><a href="#如何理解计算机组成和计算机体系结构？P7" class="headerlink" title="如何理解计算机组成和计算机体系结构？P7"></a>如何理解计算机组成和计算机体系结构？P7</h2><p>1、计算机组成是指如何实现计算机体系结构所体现的属性，他包含了许多对程序员来说是透明的硬件细节；</p>
+<p>2、计算机体系结构是程序员所看到的计算机的属性，即概念性结构与功能特性。</p>
+<h2 id="冯诺依曼计算机的特点是什么？P8"><a href="#冯诺依曼计算机的特点是什么？P8" class="headerlink" title="冯诺依曼计算机的特点是什么？P8"></a>冯诺依曼计算机的特点是什么？P8</h2><p>1.冯·诺依曼计算机主要由五大部件组成，分别是：运算器、控制器、存储器、输入设备和输出设备；</p>
+<p>2.冯诺依曼体系结构的指令和数据均采用二进制码表示；</p>
+<p>3.指令和数据以同等地位存放于存储器中，均可按地址寻访；</p>
+<p>4.指令由操作码和地址码组成，操作码用来表示操作的性质，地址码用来表示操作数所在存储器中的位置；</p>
+<p>5.指令在存储器中按顺序存放，通常指令是按顺序执行的，特定条件下，可以根据运算结果或者设定的条件改变执行顺序；</p>
+<p>6.机器以运算器为中心，输入输出设备和存储器的数据传送通过运算器。</p>
+<h2 id="请指出计算机的5大硬件组成及计算机硬件的3个主要技术指标。P9-P17"><a href="#请指出计算机的5大硬件组成及计算机硬件的3个主要技术指标。P9-P17" class="headerlink" title="请指出计算机的5大硬件组成及计算机硬件的3个主要技术指标。P9 P17"></a>请指出计算机的5大硬件组成及计算机硬件的3个主要技术指标。P9 P17</h2><p>控制器：整机的指挥中心，它使计算机的各个部件自动协调工作。</p>
+<p>运算器：对数据信息进行处理的部件，用来进行算术运算和逻辑运算。</p>
+<p>存储器：存放程序和数据，是计算机实现“存储程序控制”的基础。 </p>
+<p>输入设备：将人们熟悉的信息形式转换成计算机可以接受并识别的信息形式的设备。</p>
+<p>输出设备：将计算机处理的结果（二进制信息）转换成人类或其它设备可以接收和识别的信息形式的设备<br>计算机硬件的主要技术指标是：1、机器字长，；2、运算速度；3、存储容量，指存放二进制信息的总位数。CPU一次能处理数据的位数与CPU中的寄存器位数有关。</p>
+<h2 id="常见的总线集中控制优先权仲裁方式有哪几种？P57"><a href="#常见的总线集中控制优先权仲裁方式有哪几种？P57" class="headerlink" title="常见的总线集中控制优先权仲裁方式有哪几种？P57"></a>常见的总线集中控制优先权仲裁方式有哪几种？P57</h2><p>s常见的集中式总线控制有三种：<br>    链式查询——只需很少几根线就能按一定优先次序实现总线控制，并且很容易扩充设备，但对电路故障很敏感，且优先级别低的设备可能很难获得请求。<br>    计数器定时查询——计数可以从“0”开始，此时一旦设备的优先次序被固定，设备的优先级就按0,1….，n的顺序降序排列，而且固定不变；计数也可以从上一次计数的终止点开始，即是一种循环方法，此时设备使用总线的优先级相等；计数的初始值还可以由程序设置，故优先顺序可以改变。<br>    独立请求方式——响应速度快，优先顺序控制灵活，但控制线数量多，总线控制更复杂。</p>
+<h2 id="请写总线周期的4个阶段分别是什么？P59"><a href="#请写总线周期的4个阶段分别是什么？P59" class="headerlink" title="请写总线周期的4个阶段分别是什么？P59"></a>请写总线周期的4个阶段分别是什么？P59</h2><p>1）申请分配阶段:由需要使用总线的主模块（或主设备）提出申请，经总线仲裁机构决定将下一传输周期的总线使用权授予某一申请者。也可将此阶段细分为传输请求和总线仲裁两个阶段。<br>2）寻址阶段:获得使用权的主模块通过总线发出本次要访问的从模块的地址及有关命令，启动参与本次传输的从模块。<br>3) 传数阶段:主模块和从模块进行数据交换，可单向或双向进行数据传送。<br>4）结束阶段:主模块的有关信息均从系统总线上撤除，让出总线使用权。</p>
+<h2 id="存储系统层次结构主要体现在哪两个存储层次上？分别主要解决什么问题？P71"><a href="#存储系统层次结构主要体现在哪两个存储层次上？分别主要解决什么问题？P71" class="headerlink" title="存储系统层次结构主要体现在哪两个存储层次上？分别主要解决什么问题？P71"></a>存储系统层次结构主要体现在哪两个存储层次上？分别主要解决什么问题？P71</h2><p>储存系统层次结构主要体现再缓存——主存和主存——辅存这两个储存层次上。</p>
+<p>缓存——主存层次主要解决CPU和主存速度不匹配的问题。主存和缓存之间数据调用是由硬件自动完成的。</p>
+<p>主存——辅存层次主要解决储存系统的容量问题。主存和辅存之间的数据调用时由硬件和操作系统共同完成。</p>
+<h2 id="动态RAM和静态RAM的区别。P87"><a href="#动态RAM和静态RAM的区别。P87" class="headerlink" title="动态RAM和静态RAM的区别。P87"></a>动态RAM和静态RAM的区别。P87</h2><p>原理：动态RAM运用电容存储电荷，通过充放电来保存01代码，充完电为1，否则为0。静态RAM运用触发器原理来保存数据，触发器一端为源端，一端为非端。一端为0，一端为1。</p>
+<p>集成度：动态RAM为一个单元电路有一个晶体管和一个电容器，静态RAM一个单元电路拥有六个晶体管。</p>
+<p>芯片引用脚：动态RAM行、列分别传输，地址条数少一半。静态RAM行列一起传输，芯片引脚较多。</p>
+<p>功耗：动态RAM较小，静态RAM较大。</p>
+<p>价格：动态较低，静态较高。</p>
+<p>速度：动态RAM需要不断刷新，速度相对较慢，静态RAM速度较快。</p>
+<p>一般而言，动态RAM价格较低，集成度较高，容量大，较为适合作为主存，而静态RAM价格较高，速度较快，容量小，比较适合应用于缓存cache。</p>
+<h2 id="常用的提高访存速度的区别。P103"><a href="#常用的提高访存速度的区别。P103" class="headerlink" title="常用的提高访存速度的区别。P103"></a>常用的提高访存速度的区别。P103</h2><p>寻找高速原件和采用层次结构，调整主存的结构。</p>
+<p>1.单体多字系统</p>
+<p>每次从存储器中取出4个值或指令放到数据寄存器中，CPU使用时，通过单字长寄存器从其中取出一个即可。</p>
+<p>2.多体并行系统</p>
+<p>3.高性能存储芯片<br>（1）SDRAM（同步DRAM）<br>（2）RDRAM<br>（3）带Cache的DRAM</p>
+<h2 id="输入输出系统的发展大致分几个阶段？P156"><a href="#输入输出系统的发展大致分几个阶段？P156" class="headerlink" title="输入输出系统的发展大致分几个阶段？P156"></a>输入输出系统的发展大致分几个阶段？P156</h2><p>四个阶段</p>
+<p>—-1、早期阶段</p>
+<p>早期的I/O设备种类较少，I/O设备与主存交换信息都必须通过CPU，</p>
+<p>—2、接口模块和DMA阶段</p>
+<p>这个阶段I/O设备通过接口模块与主机连接，计算机系统采用了总线结构</p>
+<p>—3、具有通道结构的阶段</p>
+<p>在小型和微型计算机中，采用DMA方式可实现高速I/O设备与主机之间成组数据的交换，但在大中型计算机中，I/O设备配置繁多，数据传送频繁，若仍采用DMA方式会出现一系列问题。① 如果每台I/O设备都配置专用的DMA接口，不仅增加了硬件成本，而且为了解决众多DMA接口同时访问主存的冲突问题，会使控制变得十分复杂。②CPU需要对众多的DMA接口进行管理，同样会占用CPU的工作时间，而且因频繁地进入周期挪用阶段，也会直接影响CPU的整体工作效率。因此在大中型计算机系统中，采用I/O通道的方式来进行数据交换。<br>—4、具有I/O处理机的阶段</p>
+<p>输入输出系统发展到第四阶段，出现了I/O处理机。I/O处理机又称为外围处理机（Peripheral Processor），它基本独立于主机工作，既可完成I/O通道要完成的I/O控制，又可完成码制变换、格式处理、数据块检错、纠错等操作。具有I/O处理机的输入输出系统与CPU工作的并行性更高，这说明I/O系统对主机来说具有更大的独立性。</p>
+<h2 id="简述I-O设备与主机信息传输的控制方式。P162"><a href="#简述I-O设备与主机信息传输的控制方式。P162" class="headerlink" title="简述I/Ｏ设备与主机信息传输的控制方式。P162"></a>简述I/Ｏ设备与主机信息传输的控制方式。P162</h2><p>1.程序查询方式：<br>    这种方式的特点是主机与I/O串行工作。当CPU启动I/O后，时刻查询I/O是否准备好，若设备准备就绪，CPU便转入处理I//O与主机间传送信息的程序；若设备未做好准备，则CPU反复查询，“踏步”等待直到I/O准备就绪为止。这种方式CPU效率很低。</p>
+<p>2.程序中断方式：<br>    这种方式的特点是主机与I/O并行工作。当CPU启动I/O后，不必时刻查询I/O是否准备好，而是继续执行程序。当I/O准备就绪时，向CPU发中断请求信号，CPU在适当的时候响应I/O的中断请求，暂停现行程序为I/O服务。这种方式消除了“踏步”现象，提高了CPU的效率。</p>
+<p>3.DMA方式：<br>    这种方式的特点是主机与I/O并行工作，主存和I/O之间有一条直接数据通路。CPU启动I/O后，不必查询I/O是否准备好，当I/O准备就绪后，发出DMA请求，此时CPU不直接参与I/O和主存间的信息交换，只是把外部总线 (地址线、数据线及有关控制线) 的使用权暂时交赋予DMA，仍然可以完成自身内部的操作 (如加法、移位等)，故不必中断现行程序，只需暂停一个存取周期访存 (即周期挪用)，CPU的效率更高。</p>
+<h2 id="指令一般是由哪两部分组成的？各部分的作用分别是什么？P300"><a href="#指令一般是由哪两部分组成的？各部分的作用分别是什么？P300" class="headerlink" title="指令一般是由哪两部分组成的？各部分的作用分别是什么？P300"></a>指令一般是由哪两部分组成的？各部分的作用分别是什么？P300</h2><p>指令通常有操作码和地址码两部分组成,操作码指出指令应该执行什么性质的操作和具有何种功能；地址码指出指令中操作数所在的存储器地址、寄存器地址或I/O地址。</p>
+<h2 id="相比CISC机，RISC机的主要优点有哪些？P333"><a href="#相比CISC机，RISC机的主要优点有哪些？P333" class="headerlink" title="相比CISC机，RISC机的主要优点有哪些？P333"></a>相比CISC机，RISC机的主要优点有哪些？P333</h2><p>复杂指令集计算机CISC结构主要优点是：<br>1.指令丰富，功能强大<br>2.寻址方式灵活。<br>3.以微程序控制器为核心，指令存储器与数据存储器共享同一个物理存储空间，性能强大。</p>
+<p>精简指令集计算机RISC结构主要优点是：<br>1.具备结构简单、易于设计<br>2.指令精简，使用率均衡<br>3.程序执行效率高</p>
+<h2 id="构成CPU的主要四个部件分别是什么？P338"><a href="#构成CPU的主要四个部件分别是什么？P338" class="headerlink" title="构成CPU的主要四个部件分别是什么？P338"></a>构成CPU的主要四个部件分别是什么？P338</h2><p>中央处理器主要包括运算器（算术逻辑运算单元，ALU，Arithmetic Logic Unit）和寄存器、中断系统、控制单元CU）。</p>
+<h2 id="影响流水线性能的因素有哪些？P349"><a href="#影响流水线性能的因素有哪些？P349" class="headerlink" title="影响流水线性能的因素有哪些？P349"></a>影响流水线性能的因素有哪些？P349</h2><p>结构相关（资源冲突）</p>
+<p>结构相关是当指令在重叠执行过程中，不同指令征用同一功能部件产生资源冲突时产生的，故又有资源相关之称。</p>
+<p>数据相关（数据冲突）</p>
+<p>数据相关是流水线中的各条指令因重复操作，可能改变对操作数的读写访问顺序，从而导致了数据相关冲突。</p>
+<p>控制相关（控制冲突）</p>
+<p>控制相关主要是由转移指令引起的。当流水线遇到转移指令和其他改变pc值的指令而造成断流时，会引起控制相关。</p>
+<h2 id="简述组合逻辑设计控制单元的步骤。P401"><a href="#简述组合逻辑设计控制单元的步骤。P401" class="headerlink" title="简述组合逻辑设计控制单元的步骤。P401"></a>简述组合逻辑设计控制单元的步骤。P401</h2><p>1.列出操作时间表</p>
+<p>2.写出微操作最简表达式</p>
+<p>3.画出逻辑图</p>
+<h2 id="简述微程序设计控制单元的步骤。P415"><a href="#简述微程序设计控制单元的步骤。P415" class="headerlink" title="简述微程序设计控制单元的步骤。P415"></a>简述微程序设计控制单元的步骤。P415</h2><p>1、 写出对应机器指令的微操作命令及节拍安排。</p>
+<ul>
+<li>（1）取指阶段的微操作及节拍安排</li>
+<li>（2）执行阶段的微操作及节拍安排</li>
+</ul>
+<p>2、确定微指令格式</p>
+<ul>
+<li>（1）微指令的编码方式</li>
+<li>（2）后续微指令地址的形成方式</li>
+<li>（3）微指令字长</li>
+</ul>
+<p>3、编写微指令码点</p>
+<h1 id="名词解释："><a href="#名词解释：" class="headerlink" title="名词解释："></a>名词解释：</h1><p>1.7. 解释下列概念：</p>
+<h2 id="主机、CPU、主存、存储单元、存储元件、存储基元、存储元、存储字、存储字长、存储容量、机器字长、指令字长、寻址方式、存储器带宽、总线周期。"><a href="#主机、CPU、主存、存储单元、存储元件、存储基元、存储元、存储字、存储字长、存储容量、机器字长、指令字长、寻址方式、存储器带宽、总线周期。" class="headerlink" title="主机、CPU、主存、存储单元、存储元件、存储基元、存储元、存储字、存储字长、存储容量、机器字长、指令字长、寻址方式、存储器带宽、总线周期。"></a>主机、CPU、主存、存储单元、存储元件、存储基元、存储元、存储字、存储字长、存储容量、机器字长、指令字长、寻址方式、存储器带宽、总线周期。</h2><p>解：P9-10<br> <em><strong>主机：是计算机硬件的主体部分，由CPU和主存储器MM合成为主机。</strong></em></p>
+<p><em><strong>CPU：中央处理器，是计算机硬件的核心部件，由运算器和控制器组成；（早期的运算器和控制器不在同一芯片上，现在的CPU内除含有运算器和控制器外还集成了CACHE）。</strong></em><br> 主存：计算机中存放正在运行的程序和数据的存储器，为计算机的主要工作存储器，可随机存取；由存储体、各种逻辑部件及控制电路组成。<br> 存储单元：可存放一个机器字并具有特定存储地址的存储单位。<br> 存储元件：存储一位二进制信息的物理元件，是存储器中最小的存储单位，又叫存储基元或存储元，不能单独存取。<br> 存储字：一个存储单元所存二进制代码的逻辑单位。<br> 存储字长：一个存储单元所存储的二进制代码的总位数。<br> 存储容量：存储器中可存二进制代码的总量；（通常主、辅存容量分开描述）。<br> 机器字长：指CPU一次能处理的二进制数据的位数，通常与CPU的寄存器位数有关。<br> 指令字长：机器指令中二进制代码的总位数。</p>
+<p><em><strong>寻址方式：是指确定本条指令的数据地址以及下一条将要执行的指令地址的方法，与硬件结构紧密相关，而且直接影响指令格式和指令功能。</strong></em></p>
+<p><em><strong>存储器带宽：存储器的带宽指单位时间内从存储器进出信息的最大数量。</strong></em></p>
+<p><em><strong>总线周期：指令执行的一个阶段中的，对外部其它资源（内存，I/O设备）进行一次访问的时间。</strong></em></p>
+<p>1.8. 解释下列英文缩写的中文含义：</p>
+<h2 id="CPU、PC、IR、CU、ALU、ACC、MQ、X、MAR、MDR、I-O、MIPS、CPI、CMDR、FLOPS"><a href="#CPU、PC、IR、CU、ALU、ACC、MQ、X、MAR、MDR、I-O、MIPS、CPI、CMDR、FLOPS" class="headerlink" title="CPU、PC、IR、CU、ALU、ACC、MQ、X、MAR、MDR、I/O、MIPS、CPI、CMDR、FLOPS"></a>CPU、PC、IR、CU、ALU、ACC、MQ、X、MAR、MDR、I/O、MIPS、CPI、CMDR、FLOPS</h2><p>解：全面的回答应分英文全称、中文名、功能三部分。<br>CPU：Central Processing Unit，中央处理机（器），是计算机硬件的核心部件，主要由运算器和控制器组成。<br><em><strong>PC：Program Counter，程序计数器，其功能是存放当前欲执行指令的地址，并可自动计数形成下一条指令地址。</strong></em><br>IR：Instruction Register，指令寄存器，其功能是存放当前正在执行的指令。<br>CU：Control Unit，控制单元（部件），为控制器的核心部件，其功能是产生微操作命令序列。<br><em><strong>ALU：Arithmetic Logic Unit，算术逻辑运算单元，为运算器的核心部件，其功能是进行算术、逻辑运算。</strong></em><br>ACC：Accumulator，累加器，是运算器中既能存放运算前的操作数，又能存放运算结果的寄存器。<br>MQ：Multiplier-Quotient Register，乘商寄存器，乘法运算时存放乘数、除法时存放商的寄存器。<br>X：此字母没有专指的缩写含义，可以用作任一部件名，在此表示操作数寄存器，即运算器中工作寄存器之一，用来存放操作数；<br>MAR：Memory Address Register，存储器地址寄存器，在主存中用来存放欲访问的存储单元的地址。<br>MDR：Memory Data Register，存储器数据缓冲寄存器，在主存中用来存放从某单元读出、或要写入某存储单元的数据。<br>I/O：Input/Output equipment，输入/输出设备，为输入设备和输出设备的总称，用于计算机内部和外界信息的转换与传送。<br>MIPS：Million Instruction Per Second，每秒执行百万条指令数，为计算机运算速度指标的一种计量单位。</p>
+<p>总线:是一种能由多个部件分时共享的公共信息传送线路。<br>总线宽度：通常指数据总线的根数；<br>总线带宽：总线的数据传输率，指单位时间内总线上传输数据的位数；<br>总线复用：指同一条信号线可以分时传输不同的信号。<br>总线的主设备（主模块）：指一次总线传输期间，拥有总线控制权的设备（模块）；<br>总线的从设备（从模块）：指一次总线传输期间，配合主设备完成数据传输的设备（模块），它只能被动接受主设备发来的命令；<br>总线周期：通常指完成一次总线操作的时间；<br>总线的通信控制：指总线传送过程中双方的时间配合方式。</p>
+<p>辅存：辅助存储器，用于存放当前暂不执行的程序和数据，以及一些需要永久保存的信息。<br>Cache：高速缓冲存储器，介于CPU和主存之间，用于解决CPU和主存之间速度不匹配问题。<br>RAM：半导体随机存取存储器，主要用作计算机中的主存。<br>SRAM：静态半导体随机存取存储器。<br>DRAM：动态半导体随机存取存储器。<br>ROM：掩膜式半导体只读存储器。由芯片制造商在制造时写入内容，以后只能读出而不能写入。<br>PROM：可编程只读存储器，由用户根据需要确定写入内容，只能写入一次。<br>EPROM：紫外线擦写可编程只读存储器。需要修改内容时，现将其全部内容擦除，然后再编程。擦除依靠紫外线使浮动栅极上的电荷泄露而实现。<br><em><strong>EEPROM：电擦写可编程只读存储器。</strong></em><br>CDROM：只读型光盘。<br>Flash Memory：闪速存储器。或称快擦型存储器。</p>
+<p><em><strong>CPI：执行一条指令所需要的时钟周期数 = 总时钟周期数/IC；IC：总指令数</strong></em></p>
+<p><em><strong>CMDR：控制存储器地址寄存器</strong></em></p>
+<ol start="4">
+<li>说明存取周期和存取时间的区别。<br>解：存取周期和存取时间的主要区别是：存取时间仅为完成一次操作的时间，而存取周期不仅包含操作时间，还包含操作后线路的恢复时间。即：<br>存取周期 = 存取时间 + 恢复时间</li>
+<li>什么是存储器的带宽？若存储器的数据总线宽度为32位，存取周期为200ns，则存储器的带宽是多少？<br>解：存储器的带宽指单位时间内从存储器进出信息的最大数量。<br>存储器带宽 = 1/200ns ×32位 = 160M位/秒 = 20MB/秒 = 5M字/秒<br>注意：字长32位，不是16位。（注：1ns=10-9s）</li>
+</ol>
+<p>机器指令：是人们习惯把每一条机器语言的语句称为机器指令。<br>指令系统：全部机器指令的集合称为机器的指令系统。</p>
+<p>寻址方式：确定本条指令的数据地址以及下一条将要执行的指令地址的方法。</p>
+<p>向量地址：是硬件电路（向量编码器）产生的中断源的内存地址编号；<br>中断入口地址：是中断服务程序首址。<br>    中断向量地址和入口地址的联系：    中断向量地址可理解为中断服务程序入口地址指示器（入口地址的地址），通过它访存可获得中断服务程序入口地址。 (两种方法：在向量地址所指单元内</p>
+<p>指令周期：CPU每取出并执行一条指令所需的全部时间。<br>机器周期：是在同步控制的机器中，执行指令周期中一步相对完整的操作（指令<br>步）所需时间，通常安排机器周期长度等于主存周期；<br>时钟周期：是指计算机主时钟的周期时间，它是计算机运行时最基本的时序单位，<br>对应完成一个微操作所需时间，通常时钟周期等于计算机主频的倒数。</p>
+<p>大题6—7个： 扩容、磁盘、cache、十进制的整数、小数化成二进制数，求真值的原码反码补码，求相反数的补码，求两数相加或减的补码计算过程，7章例题，9.1 、 10.1这些大题必须会。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/" rel="prev" title="操作系统复习">
+      <i class="fa fa-chevron-left"></i> 操作系统复习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="next" title="计算机网络期末复习">
+      计算机网络期末复习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">简答题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%92%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%EF%BC%9FP7"><span class="nav-number">1.1.</span> <span class="nav-text">如何理解计算机组成和计算机体系结构？P7</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%89%B9%E7%82%B9%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9FP8"><span class="nav-number">1.2.</span> <span class="nav-text">冯诺依曼计算机的特点是什么？P8</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E6%8C%87%E5%87%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%845%E5%A4%A7%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90%E5%8F%8A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%9A%843%E4%B8%AA%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87%E3%80%82P9-P17"><span class="nav-number">1.3.</span> <span class="nav-text">请指出计算机的5大硬件组成及计算机硬件的3个主要技术指标。P9 P17</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%80%BB%E7%BA%BF%E9%9B%86%E4%B8%AD%E6%8E%A7%E5%88%B6%E4%BC%98%E5%85%88%E6%9D%83%E4%BB%B2%E8%A3%81%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%9FP57"><span class="nav-number">1.4.</span> <span class="nav-text">常见的总线集中控制优先权仲裁方式有哪几种？P57</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E5%86%99%E6%80%BB%E7%BA%BF%E5%91%A8%E6%9C%9F%E7%9A%844%E4%B8%AA%E9%98%B6%E6%AE%B5%E5%88%86%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9FP59"><span class="nav-number">1.5.</span> <span class="nav-text">请写总线周期的4个阶段分别是什么？P59</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E4%B8%BB%E8%A6%81%E4%BD%93%E7%8E%B0%E5%9C%A8%E5%93%AA%E4%B8%A4%E4%B8%AA%E5%AD%98%E5%82%A8%E5%B1%82%E6%AC%A1%E4%B8%8A%EF%BC%9F%E5%88%86%E5%88%AB%E4%B8%BB%E8%A6%81%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9FP71"><span class="nav-number">1.6.</span> <span class="nav-text">存储系统层次结构主要体现在哪两个存储层次上？分别主要解决什么问题？P71</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81RAM%E5%92%8C%E9%9D%99%E6%80%81RAM%E7%9A%84%E5%8C%BA%E5%88%AB%E3%80%82P87"><span class="nav-number">1.7.</span> <span class="nav-text">动态RAM和静态RAM的区别。P87</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%90%E9%AB%98%E8%AE%BF%E5%AD%98%E9%80%9F%E5%BA%A6%E7%9A%84%E5%8C%BA%E5%88%AB%E3%80%82P103"><span class="nav-number">1.8.</span> <span class="nav-text">常用的提高访存速度的区别。P103</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%91%E5%B1%95%E5%A4%A7%E8%87%B4%E5%88%86%E5%87%A0%E4%B8%AA%E9%98%B6%E6%AE%B5%EF%BC%9FP156"><span class="nav-number">1.9.</span> <span class="nav-text">输入输出系统的发展大致分几个阶段？P156</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0I-O%E8%AE%BE%E5%A4%87%E4%B8%8E%E4%B8%BB%E6%9C%BA%E4%BF%A1%E6%81%AF%E4%BC%A0%E8%BE%93%E7%9A%84%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F%E3%80%82P162"><span class="nav-number">1.10.</span> <span class="nav-text">简述I&#x2F;Ｏ设备与主机信息传输的控制方式。P162</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E4%B8%80%E8%88%AC%E6%98%AF%E7%94%B1%E5%93%AA%E4%B8%A4%E9%83%A8%E5%88%86%E7%BB%84%E6%88%90%E7%9A%84%EF%BC%9F%E5%90%84%E9%83%A8%E5%88%86%E7%9A%84%E4%BD%9C%E7%94%A8%E5%88%86%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9FP300"><span class="nav-number">1.11.</span> <span class="nav-text">指令一般是由哪两部分组成的？各部分的作用分别是什么？P300</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E6%AF%94CISC%E6%9C%BA%EF%BC%8CRISC%E6%9C%BA%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BC%98%E7%82%B9%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9FP333"><span class="nav-number">1.12.</span> <span class="nav-text">相比CISC机，RISC机的主要优点有哪些？P333</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E6%88%90CPU%E7%9A%84%E4%B8%BB%E8%A6%81%E5%9B%9B%E4%B8%AA%E9%83%A8%E4%BB%B6%E5%88%86%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9FP338"><span class="nav-number">1.13.</span> <span class="nav-text">构成CPU的主要四个部件分别是什么？P338</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%B1%E5%93%8D%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%80%A7%E8%83%BD%E7%9A%84%E5%9B%A0%E7%B4%A0%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9FP349"><span class="nav-number">1.14.</span> <span class="nav-text">影响流水线性能的因素有哪些？P349</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83%E7%9A%84%E6%AD%A5%E9%AA%A4%E3%80%82P401"><span class="nav-number">1.15.</span> <span class="nav-text">简述组合逻辑设计控制单元的步骤。P401</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0%E5%BE%AE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83%E7%9A%84%E6%AD%A5%E9%AA%A4%E3%80%82P415"><span class="nav-number">1.16.</span> <span class="nav-text">简述微程序设计控制单元的步骤。P415</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">名词解释：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E3%80%81CPU%E3%80%81%E4%B8%BB%E5%AD%98%E3%80%81%E5%AD%98%E5%82%A8%E5%8D%95%E5%85%83%E3%80%81%E5%AD%98%E5%82%A8%E5%85%83%E4%BB%B6%E3%80%81%E5%AD%98%E5%82%A8%E5%9F%BA%E5%85%83%E3%80%81%E5%AD%98%E5%82%A8%E5%85%83%E3%80%81%E5%AD%98%E5%82%A8%E5%AD%97%E3%80%81%E5%AD%98%E5%82%A8%E5%AD%97%E9%95%BF%E3%80%81%E5%AD%98%E5%82%A8%E5%AE%B9%E9%87%8F%E3%80%81%E6%9C%BA%E5%99%A8%E5%AD%97%E9%95%BF%E3%80%81%E6%8C%87%E4%BB%A4%E5%AD%97%E9%95%BF%E3%80%81%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F%E3%80%81%E5%AD%98%E5%82%A8%E5%99%A8%E5%B8%A6%E5%AE%BD%E3%80%81%E6%80%BB%E7%BA%BF%E5%91%A8%E6%9C%9F%E3%80%82"><span class="nav-number">2.1.</span> <span class="nav-text">主机、CPU、主存、存储单元、存储元件、存储基元、存储元、存储字、存储字长、存储容量、机器字长、指令字长、寻址方式、存储器带宽、总线周期。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU%E3%80%81PC%E3%80%81IR%E3%80%81CU%E3%80%81ALU%E3%80%81ACC%E3%80%81MQ%E3%80%81X%E3%80%81MAR%E3%80%81MDR%E3%80%81I-O%E3%80%81MIPS%E3%80%81CPI%E3%80%81CMDR%E3%80%81FLOPS"><span class="nav-number">2.2.</span> <span class="nav-text">CPU、PC、IR、CU、ALU、ACC、MQ、X、MAR、MDR、I&#x2F;O、MIPS、CPI、CMDR、FLOPS</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DeLongSun"
+      src="/images/wuwu.jpg">
+  <p class="site-author-name" itemprop="name">DeLongSun</p>
+  <div class="site-description" itemprop="description">upup</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/manchocolate" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/manchocolate" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-gitee fa-fw"></i>Gitee</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DeLongSun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+<script type="text/javascript" src="/js/my_js/clicklove.js"></script>
+</html>
