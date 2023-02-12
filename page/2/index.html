@@ -157,6 +157,91 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/10/docker-compose%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/10/docker-compose%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/" class="post-title-link" itemprop="url">docker-compose搭建emqx集群</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-11-10 14:43:23 / Modified: 14:56:00" itemprop="dateCreated datePublished" datetime="2022-11-10T14:43:23+08:00">2022-11-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="配置docker-compose-yml"><a href="#配置docker-compose-yml" class="headerlink" title="配置docker-compose.yml"></a>配置docker-compose.yml</h1><p>官网↓</p>
+<p>[<a target="_blank" rel="noopener" href="https://www.emqx.io/docs/zh/v5.0/deploy/install.html#%E9%80%9A%E8%BF%87-docker-%E8%BF%90%E8%A1%8C-%E5%8C%85%E5%90%AB%E7%AE%80%E5%8D%95%E7%9A%84-docker-compose-%E9%9B%86%E7%BE%A4">安装 | EMQX 5.0 文档</a>](<a target="_blank" rel="noopener" href="https://www.emqx.io/docs/zh/v5.0/deploy/install.html#%E9%80%9A%E8%BF%87-docker-%E8%BF%90%E8%A1%8C-%E5%8C%85%E5%90%AB%E7%AE%80%E5%8D%95%E7%9A%84-docker-compose-%E9%9B%86%E7%BE%A4">安装 | EMQX 5.0 文档</a>)</p>
+<p>docker-compose.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">emqx1:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">emqx/emqx:5.0.4</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">emqx1</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">1883</span><span class="string">:1883</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8083</span><span class="string">:8083</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">4369</span><span class="string">:4369</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">18083</span><span class="string">:18083</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;EMQX_NODE_NAME=emqx@node1.emqx.io&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;EMQX_CLUSTER__DISCOVERY_STRATEGY=static&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;EMQX_CLUSTER__STATIC__SEEDS=[emqx@node1.emqx.io,emqx@node2.emqx.io]&quot;</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;/opt/emqx/bin/emqx_ctl&quot;</span>, <span class="string">&quot;status&quot;</span>]</span><br><span class="line">      <span class="attr">interval:</span> <span class="string">5s</span></span><br><span class="line">      <span class="attr">timeout:</span> <span class="string">25s</span></span><br><span class="line">      <span class="attr">retries:</span> <span class="number">5</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="attr">emqx-bridge:</span></span><br><span class="line">        <span class="attr">aliases:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">node1.emqx.io</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">emqx2:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">emqx/emqx:5.0.4</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">1884</span><span class="string">:1883</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8084</span><span class="string">:8083</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">4370</span><span class="string">:4369</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">18084</span><span class="string">:18083</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;EMQX_NODE_NAME=emqx@node2.emqx.io&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;EMQX_CLUSTER__DISCOVERY_STRATEGY=static&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;EMQX_CLUSTER__STATIC__SEEDS=[emqx@node1.emqx.io,emqx@node2.emqx.io]&quot;</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;/opt/emqx/bin/emqx_ctl&quot;</span>, <span class="string">&quot;status&quot;</span>]</span><br><span class="line">      <span class="attr">interval:</span> <span class="string">5s</span></span><br><span class="line">      <span class="attr">timeout:</span> <span class="string">25s</span></span><br><span class="line">      <span class="attr">retries:</span> <span class="number">5</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="attr">emqx-bridge:</span></span><br><span class="line">        <span class="attr">aliases:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">node2.emqx.io</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">emqx-bridge:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br></pre></td></tr></table></figure>
+
+<p>端口说明：(<a target="_blank" rel="noopener" href="https://www.emqx.com/zh/blog/install-emqx-mqtt-broker">MQTT 服务器搭建：EMQX 安装指南和常见问题 | EMQ</a>)[<a target="_blank" rel="noopener" href="https://www.emqx.com/zh/blog/install-emqx-mqtt-broker">MQTT 服务器搭建：EMQX 安装指南和常见问题 | EMQ</a>]</p>
+<p><img src="/2022/11/10/docker-compose%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/5.png" alt="5"></p>
+<h1 id="运行，查看节点"><a href="#运行，查看节点" class="headerlink" title="运行，查看节点"></a>运行，查看节点</h1><p>1、在compose根目录下运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/11/10/docker-compose%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/1.png" alt="1"> </p>
+<p>2、检验</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">docker <span class="built_in">exec</span> -it emqx1 sh -c <span class="string">&quot;emqx_ctl cluster status&quot;</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/11/10/docker-compose%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/2.png" alt="2"> </p>
+<p>3、查看运行节点</p>
+<p>进入web管理页面输入网址ip+188083，默认用户名admin默认密码public。</p>
+<p><img src="/2022/11/10/docker-compose%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/4.png" alt="4"> </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/09/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85docker-compose/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -5022,91 +5107,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/17/%E5%B8%B8%E7%94%A8%E7%9A%84%E5%8A%A0%E5%AF%86%E5%92%8C%E7%BC%96%E7%A0%81-md5-base64/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/wuwu.jpg">
-      <meta itemprop="name" content="DeLongSun">
-      <meta itemprop="description" content="upup">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="德龙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/17/%E5%B8%B8%E7%94%A8%E7%9A%84%E5%8A%A0%E5%AF%86%E5%92%8C%E7%BC%96%E7%A0%81-md5-base64/" class="post-title-link" itemprop="url">常用的加密和编码(md5,base64...)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-08-17 08:38:55" itemprop="dateCreated datePublished" datetime="2022-08-17T08:38:55+08:00">2022-08-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-08-20 22:49:22" itemprop="dateModified" datetime="2022-08-20T22:49:22+08:00">2022-08-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">java项目后端</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="md5加密（用于密码加密）"><a href="#md5加密（用于密码加密）" class="headerlink" title="md5加密（用于密码加密）"></a>md5加密（用于密码加密）</h1><h2 id="md5加密简介"><a href="#md5加密简介" class="headerlink" title="md5加密简介"></a>md5加密简介</h2><p>MD5消息摘要算法，属Hash算法一类。MD5算法对输入任意长度的消息进行运行，产生一个128位的消息摘要(32位的数字字母混合码)。<br><em>加密不可逆可以用于密码加密</em></p>
-<p>java工具类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"><span class="keyword">import</span> java.security.MessageDigest;</span><br><span class="line"><span class="keyword">import</span> java.security.NoSuchAlgorithmException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Md5Utils</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">code</span><span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">MessageDigest</span> <span class="variable">md</span> <span class="operator">=</span> MessageDigest.getInstance(<span class="string">&quot;MD5&quot;</span>);</span><br><span class="line">            md.update(str.getBytes());</span><br><span class="line">            <span class="type">byte</span>[] byteDigest = md.digest();</span><br><span class="line">            <span class="type">int</span> i;</span><br><span class="line">            <span class="type">StringBuffer</span> <span class="variable">buf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">offset</span> <span class="operator">=</span> <span class="number">0</span>; offset &lt; byteDigest.length; offset++) &#123;</span><br><span class="line">                i = byteDigest[offset];</span><br><span class="line">                <span class="keyword">if</span> (i &lt; <span class="number">0</span>)</span><br><span class="line">                    i += <span class="number">256</span>;</span><br><span class="line">                <span class="keyword">if</span> (i &lt; <span class="number">16</span>)</span><br><span class="line">                    buf.append(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">                buf.append(Integer.toHexString(i));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//32位加密(小写)</span></span><br><span class="line">            <span class="keyword">return</span> buf.toString();</span><br><span class="line">            <span class="comment">//32位加密(大写)</span></span><br><span class="line">            <span class="comment">//return buf.toString().toUpperCase();</span></span><br><span class="line">            <span class="comment">// 16位的加密(小写)</span></span><br><span class="line">            <span class="comment">//return buf.toString().substring(8, 24);</span></span><br><span class="line">            <span class="comment">// 16位的加密(大写)</span></span><br><span class="line">            <span class="comment">//return buf.toString().substring(8, 24).toUpperCase();</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>md5加密代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> md5Utils.code(<span class="string">&quot;要加密的字符串&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p>与数据库密码比对</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user1.getPassword().equals(md5Utils.code(param.getString(<span class="string">&quot;password&quot;</span>)));</span><br></pre></td></tr></table></figure>
-<h1 id="base64编码"><a href="#base64编码" class="headerlink" title="base64编码"></a>base64编码</h1><h2 id="base64简介"><a href="#base64简介" class="headerlink" title="base64简介"></a>base64简介</h2><p>Base64是一种基于64个字符的编码算法，根据RFC 2045的定义：“Base64内容传送编码是以一种任意8位字节序列组合的描述形式，这种形式不易被人直接识别”。<em><strong>base64是一种编码方式，不是加密方法</strong></em></p>
-<p>工具类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.util.Base64Utils;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> 87312</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Base64Util</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">byte</span>[] decryptBASE64(<span class="type">byte</span>[] key) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">return</span> Base64Utils.decode(key);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">encryptBASE64</span><span class="params">(<span class="type">byte</span>[] key)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">String</span>(Base64Utils.encode(key));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>base64简单使用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jiami = Base64Util.encryptBASE64(<span class="string">&quot;字符串&quot;</span>.getBytes());</span><br><span class="line"><span class="type">String</span> <span class="variable">jiemi</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(Base64Util.decryptBASE64(jiami.getBytes()), <span class="string">&quot;UTF-8&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -5178,7 +5178,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -5191,7 +5191,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
