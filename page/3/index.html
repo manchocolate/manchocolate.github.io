@@ -157,6 +157,91 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/17/%E5%B8%B8%E7%94%A8%E7%9A%84%E5%8A%A0%E5%AF%86%E5%92%8C%E7%BC%96%E7%A0%81-md5-base64/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/17/%E5%B8%B8%E7%94%A8%E7%9A%84%E5%8A%A0%E5%AF%86%E5%92%8C%E7%BC%96%E7%A0%81-md5-base64/" class="post-title-link" itemprop="url">常用的加密和编码(md5,base64...)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-08-17 08:38:55" itemprop="dateCreated datePublished" datetime="2022-08-17T08:38:55+08:00">2022-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-08-20 22:49:22" itemprop="dateModified" datetime="2022-08-20T22:49:22+08:00">2022-08-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">java项目后端</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="md5加密（用于密码加密）"><a href="#md5加密（用于密码加密）" class="headerlink" title="md5加密（用于密码加密）"></a>md5加密（用于密码加密）</h1><h2 id="md5加密简介"><a href="#md5加密简介" class="headerlink" title="md5加密简介"></a>md5加密简介</h2><p>MD5消息摘要算法，属Hash算法一类。MD5算法对输入任意长度的消息进行运行，产生一个128位的消息摘要(32位的数字字母混合码)。<br><em>加密不可逆可以用于密码加密</em></p>
+<p>java工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"><span class="keyword">import</span> java.security.MessageDigest;</span><br><span class="line"><span class="keyword">import</span> java.security.NoSuchAlgorithmException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Md5Utils</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">code</span><span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">MessageDigest</span> <span class="variable">md</span> <span class="operator">=</span> MessageDigest.getInstance(<span class="string">&quot;MD5&quot;</span>);</span><br><span class="line">            md.update(str.getBytes());</span><br><span class="line">            <span class="type">byte</span>[] byteDigest = md.digest();</span><br><span class="line">            <span class="type">int</span> i;</span><br><span class="line">            <span class="type">StringBuffer</span> <span class="variable">buf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">offset</span> <span class="operator">=</span> <span class="number">0</span>; offset &lt; byteDigest.length; offset++) &#123;</span><br><span class="line">                i = byteDigest[offset];</span><br><span class="line">                <span class="keyword">if</span> (i &lt; <span class="number">0</span>)</span><br><span class="line">                    i += <span class="number">256</span>;</span><br><span class="line">                <span class="keyword">if</span> (i &lt; <span class="number">16</span>)</span><br><span class="line">                    buf.append(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">                buf.append(Integer.toHexString(i));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//32位加密(小写)</span></span><br><span class="line">            <span class="keyword">return</span> buf.toString();</span><br><span class="line">            <span class="comment">//32位加密(大写)</span></span><br><span class="line">            <span class="comment">//return buf.toString().toUpperCase();</span></span><br><span class="line">            <span class="comment">// 16位的加密(小写)</span></span><br><span class="line">            <span class="comment">//return buf.toString().substring(8, 24);</span></span><br><span class="line">            <span class="comment">// 16位的加密(大写)</span></span><br><span class="line">            <span class="comment">//return buf.toString().substring(8, 24).toUpperCase();</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>md5加密代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> md5Utils.code(<span class="string">&quot;要加密的字符串&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>与数据库密码比对</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user1.getPassword().equals(md5Utils.code(param.getString(<span class="string">&quot;password&quot;</span>)));</span><br></pre></td></tr></table></figure>
+<h1 id="base64编码"><a href="#base64编码" class="headerlink" title="base64编码"></a>base64编码</h1><h2 id="base64简介"><a href="#base64简介" class="headerlink" title="base64简介"></a>base64简介</h2><p>Base64是一种基于64个字符的编码算法，根据RFC 2045的定义：“Base64内容传送编码是以一种任意8位字节序列组合的描述形式，这种形式不易被人直接识别”。<em><strong>base64是一种编码方式，不是加密方法</strong></em></p>
+<p>工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.util.Base64Utils;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> 87312</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Base64Util</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">byte</span>[] decryptBASE64(<span class="type">byte</span>[] key) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">return</span> Base64Utils.decode(key);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">encryptBASE64</span><span class="params">(<span class="type">byte</span>[] key)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">String</span>(Base64Utils.encode(key));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>base64简单使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jiami = Base64Util.encryptBASE64(<span class="string">&quot;字符串&quot;</span>.getBytes());</span><br><span class="line"><span class="type">String</span> <span class="variable">jiemi</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(Base64Util.decryptBASE64(jiami.getBytes()), <span class="string">&quot;UTF-8&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/06/%E5%AE%9E%E9%AA%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -353,7 +438,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -366,7 +451,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
