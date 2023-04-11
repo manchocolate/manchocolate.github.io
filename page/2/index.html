@@ -157,6 +157,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/12/docker%E5%AE%89%E8%A3%85mongodb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/12/docker%E5%AE%89%E8%A3%85mongodb/" class="post-title-link" itemprop="url">docker安装mongodb</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-11-12 19:58:17 / Modified: 23:37:34" itemprop="dateCreated datePublished" datetime="2022-11-12T19:58:17+08:00">2022-11-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1、下载mongodb(3.4.4版本)</p>
+<p>官网可查[Docker Hub](<a target="_blank" rel="noopener" href="https://hub.docker.com/">Docker Hub</a>)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mongo:3.4.4</span><br></pre></td></tr></table></figure>
+
+<p>2、创建挂载文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /mydata/mongodb3.4.4/datadb</span><br></pre></td></tr></table></figure>
+
+<p>3、启动</p>
+<p>27017端口映射到宿主机的27018端口，root密码为000000</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name mongodb3.4.4 -v /mydata/mongodb3.4.4/datadb:/data/db -p 27018:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=000000 --privileged=true 34ba9aead272</span><br></pre></td></tr></table></figure>
+
+<p>4、进入mongodb设置用户</p>
+<p>进入mongodb</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mongodb3.4.4 mongo admin</span><br></pre></td></tr></table></figure>
+
+<p>（可选操作）</p>
+<p>设置用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(&#123; user:&#x27;root&#x27;,pwd:&#x27;000000&#x27;,roles:[ &#123; role:&#x27;userAdminAnyDatabase&#x27;, db: &#x27;admin&#x27;&#125;,&#x27;readWriteAnyDatabase&#x27;]&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/10/docker-compose%E6%90%AD%E5%BB%BAemqx%E9%9B%86%E7%BE%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -5018,95 +5104,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/02/con_docker/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/wuwu.jpg">
-      <meta itemprop="name" content="DeLongSun">
-      <meta itemprop="description" content="upup">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="德龙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/02/con_docker/" class="post-title-link" itemprop="url">con_docker</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-09-02 19:33:11" itemprop="dateCreated datePublished" datetime="2022-09-02T19:33:11+08:00">2022-09-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-09-03 00:03:50" itemprop="dateModified" datetime="2022-09-03T00:03:50+08:00">2022-09-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="连接虚拟机的docker启动的mysql镜像"><a href="#连接虚拟机的docker启动的mysql镜像" class="headerlink" title="连接虚拟机的docker启动的mysql镜像"></a>连接虚拟机的docker启动的mysql镜像</h1><p>整体关系图<br><img src="/2022/09/02/con_docker/3.png" alt="guanxi"></p>
-<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="1、下载mysql镜像"><a href="#1、下载mysql镜像" class="headerlink" title="1、下载mysql镜像"></a>1、下载mysql镜像</h3><p><em>ubuntu下需要root权限</em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:5.7</span><br></pre></td></tr></table></figure>
-<h3 id="2、启动镜像"><a href="#2、启动镜像" class="headerlink" title="2、启动镜像"></a>2、启动镜像</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=mysql -it -p 3396:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7</span><br></pre></td></tr></table></figure>
-<dl><dt>-it:交互式<br>-p:自定义端口(宿主机端口:容器内启动的端口)</dt><dd>每个容器启动之后相当于一个系统<br>-e:设置<br>-d:后台挂载<br>–name:容器启动后的名字</dd></dl><h3 id="3、进入mysql镜像"><a href="#3、进入mysql镜像" class="headerlink" title="3、进入mysql镜像"></a>3、进入mysql镜像</h3><h4 id="查看启动之后镜像的id"><a href="#查看启动之后镜像的id" class="headerlink" title="查看启动之后镜像的id"></a>查看启动之后镜像的id</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/09/02/con_docker/1.png" alt="img"><br>如图👆</p>
-<h4 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it dd3be6ee5104 /bin/bash</span><br></pre></td></tr></table></figure>
-<h4 id="启动进入mysql"><a href="#启动进入mysql" class="headerlink" title="启动进入mysql"></a>启动进入mysql</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it dd3be6ee5104 /bin/bash</span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
-<h4 id="设置所有地址可用root用户进入"><a href="#设置所有地址可用root用户进入" class="headerlink" title="设置所有地址可用root用户进入"></a>设置所有地址可用root用户进入</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> host <span class="operator">=</span> <span class="string">&#x27;%&#x27;</span> <span class="keyword">where</span> <span class="keyword">user</span> <span class="operator">=</span> <span class="string">&#x27;root&#x27;</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> admin@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;root&#x27;</span> <span class="keyword">with</span> <span class="keyword">grant</span> option;</span><br><span class="line">flush privileges;   刷新权限</span><br></pre></td></tr></table></figure>
-<h4 id="检查是否设置成功"><a href="#检查是否设置成功" class="headerlink" title="检查是否设置成功"></a>检查是否设置成功</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> host,<span class="keyword">user</span>,plugin,authentication_string <span class="keyword">from</span> mysql.user;</span><br></pre></td></tr></table></figure>
-<p>如图<br><img src="/2022/09/02/con_docker/2.png" alt="mysql"><br>mysql8.0以上需要将plugin的caching_sha2_password设置为my_native_password，<br>这里我们用的是mysql5.7所以不用设置<br>mysql设置结束</p>
-<h3 id="4、查看是否能ping通虚拟机"><a href="#4、查看是否能ping通虚拟机" class="headerlink" title="4、查看是否能ping通虚拟机"></a>4、查看是否能ping通虚拟机</h3><h4 id="查看虚拟机ip（enss33网卡上的ip）"><a href="#查看虚拟机ip（enss33网卡上的ip）" class="headerlink" title="查看虚拟机ip（enss33网卡上的ip）"></a>查看虚拟机ip（enss33网卡上的ip）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/09/02/con_docker/4.png" alt="mysql"><br>红色部分(即192.168.127.129)  </p>
-<h4 id="回到主机-win10-打开cmd"><a href="#回到主机-win10-打开cmd" class="headerlink" title="回到主机(win10)打开cmd"></a>回到主机(win10)打开cmd</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.127.129</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/09/02/con_docker/5.png" alt="mysql"><br>正常能ping通即可，如果不行就关闭虚拟机的防火墙</p>
-<h3 id="5、使用图形化工具连接mysql-navicat为例"><a href="#5、使用图形化工具连接mysql-navicat为例" class="headerlink" title="5、使用图形化工具连接mysql(navicat为例)"></a>5、使用图形化工具连接mysql(navicat为例)</h3><p><img src="/2022/09/02/con_docker/6.png" alt="img.png"><br><img src="/2022/09/02/con_docker/7.png" alt="img.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -5178,7 +5175,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

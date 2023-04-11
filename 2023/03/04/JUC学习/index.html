@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Java内存模型简介Java 内存模型主要由以下三部分构成：1 个主内存、n 个线程、n 个工作内存（与线程一一对应），数据就在它们三者之间来回倒腾。 依靠Java提供的8个原子操作：lock、unlock、read、load、use、assign、store、write，其操作流程示意图如下：   一个变量从主内存拷贝到工作内存，再从工作内存同步回主内存的流程为： |主内存| -&gt; rea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JUC学习">
+<meta property="og:url" content="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="德龙的博客">
+<meta property="og:description" content="Java内存模型简介Java 内存模型主要由以下三部分构成：1 个主内存、n 个线程、n 个工作内存（与线程一一对应），数据就在它们三者之间来回倒腾。 依靠Java提供的8个原子操作：lock、unlock、read、load、use、assign、store、write，其操作流程示意图如下：   一个变量从主内存拷贝到工作内存，再从工作内存同步回主内存的流程为： |主内存| -&gt; rea">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C1.jpg">
+<meta property="og:image" content="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C2.png">
+<meta property="og:image" content="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C3.png">
+<meta property="og:image" content="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C4.png">
+<meta property="og:image" content="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C5.png">
+<meta property="og:image" content="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C6.png">
+<meta property="og:image" content="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C7.png">
+<meta property="article:published_time" content="2023-03-04T02:56:31.000Z">
+<meta property="article:modified_time" content="2023-04-11T14:51:05.808Z">
+<meta property="article:author" content="DeLongSun">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C1.jpg">
+
+<link rel="canonical" href="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>JUC学习 | 德龙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">德龙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuwu.jpg">
+      <meta itemprop="name" content="DeLongSun">
+      <meta itemprop="description" content="upup">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="德龙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JUC学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-04 10:56:31" itemprop="dateCreated datePublished" datetime="2023-03-04T10:56:31+08:00">2023-03-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-04-11 22:51:05" itemprop="dateModified" datetime="2023-04-11T22:51:05+08:00">2023-04-11</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Java 内存模型主要由以下三部分构成：<strong>1 个主内存、n 个线程、n 个工作内存（与线程一一对应）</strong>，数据就在它们三者之间来回倒腾。</p>
+<p>依靠Java提供的8个原子操作：<code>lock</code>、<code>unlock</code>、<code>read</code>、<code>load</code>、<code>use</code>、<code>assign</code>、<code>store</code>、<code>write</code>，其操作流程示意图如下：</p>
+<p><img src="/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C1.jpg" alt="1"> </p>
+<p><strong>一个变量从主内存拷贝到工作内存，再从工作内存同步回主内存的流程为：</strong></p>
+<p>|主内存| -&gt; read -&gt; load -&gt; |工作内存| -&gt; use -&gt; |Java线程| -&gt; assign -&gt; |工作内存| -&gt; store -&gt; write -&gt; |主内存|</p>
+<h2 id="Java-内存模型中的-8-个原子操作"><a href="#Java-内存模型中的-8-个原子操作" class="headerlink" title="Java 内存模型中的 8 个原子操作"></a>Java 内存模型中的 8 个原子操作</h2><ul>
+<li><code>lock</code>：作用于主内存，把一个变量标识为一个线程独占状态。</li>
+<li><code>unlock</code>：作用于主内存，释放一个处于锁定状态的变量。</li>
+<li><code>read</code>：作用于主内存，把一个变量的值从主内存传输到线程工作内存中，供之后的 <code>load</code> 操作使用。</li>
+<li><code>load</code>：作用于工作内存，把 <code>read</code> 操作从主内存中得到的变量值放入工作内存的变量副本中。</li>
+<li><code>use</code>：作用于工作内存，把工作内存中的一个变量传递给执行引擎，虚拟机遇到使用变量值的字节码指令时会执行。</li>
+<li><code>assign</code>：作用于工作内存，把一个从执行引擎得到的值赋给工作内存的变量，虚拟机遇到给变量赋值的字节码指令时会执行。</li>
+<li><code>store</code>：作用于工作内存，把工作内存中的一个变量传送到主内存中，供之后的 <code>write</code> 操作使用。</li>
+<li><code>write</code>：作用于主内存，把 <code>store</code> 操作从工作内存中得到的变量值存入主内存的变量中。</li>
+</ul>
+<h2 id="8-个原子操作的执行规则"><a href="#8-个原子操作的执行规则" class="headerlink" title="8 个原子操作的执行规则"></a>8 个原子操作的执行规则</h2><h3 id="有关变量拷贝过程的规则"><a href="#有关变量拷贝过程的规则" class="headerlink" title="有关变量拷贝过程的规则"></a>有关变量拷贝过程的规则</h3><ul>
+<li>不允许 <code>read</code> 和 <code>load</code>，<code>store</code> 和 <code>write</code> 单独出现</li>
+<li>不允许线程丢弃它最近的 <code>assign</code> 操作，即工作内存变化之后必须把该变化同步回主内存中</li>
+<li>不允许一个线程在没有 <code>assign</code> 的情况下将工作内存同步回主内存中，也就是说，只有虚拟机遇到变量赋值的字节码时才会将工作内存同步回主内存</li>
+<li>新的变量只能从主内存中诞生，即不能在工作内存中使用未被 <code>load</code> 和 <code>assign</code> 的变量，一个变量在 <code>use</code> 和 <code>store</code> 前一定先经过了 <code>load</code> 和 <code>assign</code></li>
+</ul>
+<h3 id="有关加锁的规则"><a href="#有关加锁的规则" class="headerlink" title="有关加锁的规则"></a>有关加锁的规则</h3><p>一个变量在同一时刻只允许一个线程对其进行 lock 操作，但是可以被一个线程多次 lock（锁的可重入）<br>对一个变量进行 lock 操作会清空这个变量在工作内存中的值，然后在执行引擎使用这个变量时，需要通过 assign 或 load 重新对这个变量进行初始化<br>对一个变量执行 unlock 前，必须将该变量同步回主内存中，即执行 store 和 write 操作<br>一个变量没有被 lock，就不能被 unlock，也不能去 unlock一个被其他线程 lock 的变量  </p>
+<h3 id="可见性问题-gt-有序性问题"><a href="#可见性问题-gt-有序性问题" class="headerlink" title="可见性问题 -&gt; 有序性问题"></a>可见性问题 -&gt; 有序性问题</h3><p> 通过上图可以发现，Java 线程只能操作自己的工作内存，其对变量的所有操作（读取、赋值等）都必须在工作内存中进行，不能直接读写主内存中的变量。这就有可能会导致可见性问题：  </p>
+<ul>
+<li>因为对于主内存中的变量 A，其在不同的线程的工作内存中可能存在不同的副本 A1、A2、A3。</li>
+<li>不同线程的 read 和 load、store 和 write 不一定是连续执行的，中间可以插入其他命令。Java 只能保证 read 和 load、store 和 write 的执行对于一个线程而言是连续的，但是并不保证不同线程的 read 和 load、store 和 write 的执行是连续的<h3 id="Happens-Before-规则"><a href="#Happens-Before-规则" class="headerlink" title="Happens-Before 规则"></a>Happens-Before 规则</h3></li>
+</ul>
+<p>根据语义，Happens-Before，就是即便是对于不同的线程，前面的操作也应该发生在后面操作的前面，也就是说，Happens-Before 规则保证：前面的操作的结果对后面的操作一定是可见的。<br>Happens-Before 规则本质上是一种顺序约束规范，用来约束编译器的优化行为。就是说，为了执行效率，我们允许编译器的优化行为，但是为了保证程序运行的正确性，我们要求编译器优化后需要满足 Happens-Before 规则。<br>根据类别，我们将 Happens-Before 规则分为了以下 4 类：  </p>
+<ul>
+<li>操作的顺序：<br>程序顺序规则： 如果代码中操作 A 在操作 B 之前，那么同一个线程中 A 操作一定在 B 操作前执行，即在本线程内观察，所有操作都是有序的。<br>传递性： 在同一个线程中，如果 A 先于 B ，B 先于 C 那么 A 必然先于 C。</li>
+<li>锁和 volatile：<br>监视器锁规则： 监视器锁的解锁操作必须在同一个监视器锁的加锁操作前执行。<br>volatile 变量规则： 对 volatile 变量的写操作必须在对该变量的读操作前执行，保证时刻读取到这个变量的最新值。  </li>
+<li>线程和中断：<br>线程启动规则： Thread#start() 方法一定先于该线程中执行的操作。<br>线程结束规则： 线程的所有操作先于线程的终结。<br>中断规则： 假设有线程 A，其他线程 interrupt A 的操作先于检测 A 线程是否中断的操作，即对一个线程的 interrupt() 操作和 interrupted() 等检测中断的操作同时发生，那么 interrupt() 先执行。    <h3 id="volatile-的实现原理"><a href="#volatile-的实现原理" class="headerlink" title="volatile 的实现原理"></a>volatile 的实现原理</h3></li>
+</ul>
+<h1 id="线程池的使用"><a href="#线程池的使用" class="headerlink" title="线程池的使用"></a>线程池的使用</h1><h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><p>ThreadPoolExecutor 是线程池的核心实现类，用来执行被提交的任务。一般通过 Executors 工具类创建，我们可以通过 Executor 创建如下三种 ThreadPoolExecutor：  </p>
+<ul>
+<li>FixedThreadPool</li>
+<li>CacheThreadPool </li>
+<li>SingleThreadExecutor  </li>
+</ul>
+<p>首先，我们需要介绍一下 ThreadPoolExecutor 的构造方法，因为以上三种 ThreadPoolExecutor 其实都是被赋予了不同的构造参数的 ThreadPoolExecutor 对象。  </p>
+<h3 id="FixedThreadPool"><a href="#FixedThreadPool" class="headerlink" title="FixedThreadPool"></a>FixedThreadPool</h3><p>特点： 固定长度的线程池，每当提交一个任务时就创建一个线程，直到达到线程池的最大数量，<br>如果某个线程由于发生了未预期的 Exception 而结束，那么线程池会补充一个新的线程。  </p>
+<h3 id="CacheThreadPool"><a href="#CacheThreadPool" class="headerlink" title="CacheThreadPool"></a>CacheThreadPool</h3><p>特点： 可缓存的线程池，如果线程池的当前规模超过了处理需求时，那么将回收空闲的线程，<br>而当需求增加时，则可以添加新的线程，线程池的规模不存在任何限制  </p>
+<p>注意： </p>
+<ul>
+<li>池中不会有空闲线程，也不会有等待的线程  </li>
+<li>一旦任务到达的速度大于线程池处理任务的速度，就会创建一个新的线程给任务  </li>
+<li>与另外两个线程池不同的地方在于，这个工作队列并不是用来放还没有执行的任务的，<br>而是用来放执行过任务后空闲下的线程的，空闲下来的线程会被：SynchronousQueue#poll(keepAliveTime, TimeUnit.NANOSECONDS) poll 到工作队列中等待 60s，如果这 60s 有新的任务到达了，这个线程就被派出去执行任务，如果没有，就销毁。</li>
+</ul>
+<h3 id="SingleThreadPool"><a href="#SingleThreadPool" class="headerlink" title="SingleThreadPool"></a>SingleThreadPool</h3><h2 id="Future-接口-amp-FutureTask-实现类"><a href="#Future-接口-amp-FutureTask-实现类" class="headerlink" title="Future 接口 &amp; FutureTask 实现类"></a>Future 接口 &amp; FutureTask 实现类</h2><h2 id="Runnable-接口-amp-Callable-接口"><a href="#Runnable-接口-amp-Callable-接口" class="headerlink" title="Runnable 接口 &amp; Callable 接口"></a>Runnable 接口 &amp; Callable 接口</h2><h2 id="Executor-的生命周期"><a href="#Executor-的生命周期" class="headerlink" title="Executor 的生命周期"></a>Executor 的生命周期</h2><h1 id="Java并发机制的底层实现"><a href="#Java并发机制的底层实现" class="headerlink" title="Java并发机制的底层实现"></a>Java并发机制的底层实现</h1><h2 id="volatile的应用"><a href="#volatile的应用" class="headerlink" title="volatile的应用"></a>volatile的应用</h2><p>​      在多线程并发编程中synchronized和volatile都扮演着重要的角色，volatile是轻量级的synchronized，它在多处理器开发中保证了共享变量的“可见性”。可见性的意思是当一个线程修改一个共享变量时，另外一个线程能读到这个修改的值。如果volatile变量修饰符使用恰当的话，它比synchronized的使用和执行成本更低，因为它不会引起线程上下文的切换和调度。本文将深入分析在硬件层面上Intel处理器是如何实现volatile的，通过深入分析帮助我们正确地使用volatile变量。</p>
+<p>​    有volatile变量修饰的共享变量进行写操作的时候会多出第二行汇编代码，通过查IA-32架构软件开发者手册可知，Lock前缀的指令在多核处理器下会引发了两件事情 [<a target="_blank" rel="noopener" href="https://www.neat-reader.cn/text00013.html#ch1-back">1]</a> 。</p>
+<p>1）将当前处理器缓存行的数据写回到系统内存。</p>
+<p>2）这个写回内存的操作会使在其他CPU里缓存了该内存地址的数据无效。</p>
+<p>​        为了提高处理速度，处理器不直接和内存进行通信，而是先将系统内存的数据读到内部缓存（L1，L2或其他）后再进行操作，但操作完不知道何时会写到内存。如果对声明了volatile的变量进行写操作，JVM就会向处理器发送一条Lock前缀的指令，将这个变量所在缓存行的数据写回到系统内存。但是，就算写回到内存，如果其他处理器缓存的值还是旧的，再执行计算操作就会有问题。所以，在多处理器下，为了保证各个处理器的缓存是一致的，就会实现缓存一致性协议，每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作的时候，会重新从系统内存中把数据读到处理器缓存里。</p>
+<h3 id="volatile的两条实现原则。"><a href="#volatile的两条实现原则。" class="headerlink" title="volatile的两条实现原则。"></a>volatile的两条实现原则。</h3><p>​        1）Lock前缀指令会引起处理器缓存回写到内存 。</p>
+<p>​        2）一个处理器的缓存回写到内存会导致其他处理器的缓存无效 。</p>
+<h2 id="synchronized的实现原理与应用"><a href="#synchronized的实现原理与应用" class="headerlink" title="synchronized的实现原理与应用"></a>synchronized的实现原理与应用</h2><p>在多线程并发编程中synchronized一直是元老级角色，很多人都会称呼它为重量级锁。但是，随着Java SE 1.6对synchronized进行了各种优化之后，有些情况下它就并不那么重了。本文详细介绍Java SE 1.6中为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁，以及锁的存储结构和升级过程。</p>
+<p>先来看下利用synchronized实现同步的基础：Java中的每一个对象都可以作为锁。具体表现为以下3种形式。</p>
+<p>·对于普通同步方法，锁是当前实例对象。</p>
+<p>·对于静态同步方法，锁是当前类的Class对象。</p>
+<p>·对于同步方法块，锁是Synchonized括号里配置的对象。</p>
+<p>当一个线程试图访问同步代码块时，它首先必须得到锁，退出或抛出异常时必须释放锁。那么锁到底存在哪里呢？锁里面会存储什么信息呢？</p>
+<p>从JVM规范中可以看到Synchonized在JVM里的实现原理，JVM基于进入和退出Monitor对象来实现方法同步和代码块同步，但两者的实现细节不一样。代码块同步是使用monitorenter和monitorexit指令实现的，而方法同步是使用另外一种方式实现的，细节在JVM规范里并没有详细说明。但是，方法的同步同样可以使用这两个指令来实现。</p>
+<p>monitorenter指令是在编译后插入到同步代码块的开始位置，而monitorexit是插入到方法结束处和异常处，JVM要保证每个monitorenter必须有对应的monitorexit与之配对。任何对象都有一个monitor与之关联，当且一个monitor被持有后，它将处于锁定状态。线程执行到monitorenter指令时，将会尝试获取对象所对应的monitor的所有权，即尝试获得对象的锁。</p>
+<h3 id="Java对象头"><a href="#Java对象头" class="headerlink" title="Java对象头"></a>Java对象头</h3><p>synchronized用的锁是存在Java对象头里的。如果对象是数组类型，则虚拟机用3个字宽（Word）存储对象头，如果对象是非数组类型，则用2字宽存储对象头。在32位虚拟机中，1字宽等于4字节，即32bit↓</p>
+<p><img src="/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C2.png" alt="1"> </p>
+<p>Java对象头里的Mark Word里默认存储对象的HashCode、分代年龄和锁标记位。32位JVM的Mark Word的默认存储结构↓</p>
+<p><img src="/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C3.png" alt="1"> </p>
+<p>在运行期间，Mark Word里存储的数据会随着锁标志位的变化而变化。Mark Word可能变化为存储以下4种数据↓</p>
+<p><img src="/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C4.png" alt="1"> </p>
+<p>在64位虚拟机下，Mark Word是64bit大小的↓</p>
+<p><img src="/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C5.png" alt="1"> </p>
+<h3 id="锁的升级与对比"><a href="#锁的升级与对比" class="headerlink" title="锁的升级与对比"></a>锁的升级与对比</h3><h4 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h4><p>HotSpot [<a target="_blank" rel="noopener" href="https://www.neat-reader.cn/text00016.html#ch1-back">1]</a> 的作者经过研究发现，大多数情况下，锁不仅不存在多线程竞争，而且总是由同一线程多次获得，为了让线程获得锁的代价更低而引入了偏向锁。当一个线程访问同步块并获取锁时，会在对象头和栈帧中的锁记录里存储锁偏向的线程ID，以后该线程在进入和退出同步块时不需要进行CAS操作来加锁和解锁，只需简单地测试一下对象头的Mark Word里是否存储着指向当前线程的偏向锁。如果测试成功，表示线程已经获得了锁。如果测试失败，则需要再测试一下Mark Word中偏向锁的标识是否设置成1（表示当前是偏向锁）：如果没有设置，则使用CAS竞争锁；如果设置了，则尝试使用CAS将对象头的偏向锁指向当前线程。</p>
+<p>（1）偏向锁的撤销</p>
+<p>偏向锁使用了一种等到竞争出现才释放锁的机制，所以当其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁。偏向锁的撤销，需要等待全局安全点（在这个时间点上没有正在执行的字节码）。它会首先暂停拥有偏向锁的线程，然后检查持有偏向锁的线程是否活着，如果线程不处于活动状态，则将对象头设置成无锁状态；如果线程仍然活着，拥有偏向锁的栈会被执行，遍历偏向对象的锁记录，栈中的锁记录和对象头的Mark Word要么重新偏向于其他线程，要么恢复到无锁或者标记对象不适合作为偏向锁，最后唤醒暂停的线程。</p>
+<p>（2）关闭偏向锁</p>
+<p>偏向锁在Java 6和Java 7里是默认启用的，但是它在应用程序启动几秒钟之后才激活，如有必要可以使用JVM参数来关闭延迟：-XX:BiasedLockingStartupDelay=0。如果你确定应用程序里所有的锁通常情况下处于竞争状态，可以通过JVM参数关闭偏向锁：-XX:-UseBiasedLocking=false，那么程序默认会进入轻量级锁状态。</p>
+<h4 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h4><p>（1）轻量级锁加锁</p>
+<p>线程在执行同步块之前，JVM会先在当前线程的栈桢中创建用于存储锁记录的空间，并将对象头中的Mark Word复制到锁记录中，官方称为Displaced Mark Word。然后线程尝试使用CAS将对象头中的Mark Word替换为指向锁记录的指针。如果成功，当前线程获得锁，如果失败，表示其他线程竞争锁，当前线程便尝试使用自旋来获取锁。</p>
+<p>（2）轻量级锁解锁</p>
+<p>轻量级解锁时，会使用原子的CAS操作将Displaced Mark Word替换回到对象头，如果成功，则表示没有竞争发生。如果失败，表示当前锁存在竞争，锁就会膨胀成重量级锁。</p>
+<p>因为自旋会消耗CPU，为了避免无用的自旋（比如获得锁的线程被阻塞住了），一旦锁升级成重量级锁，就不会再恢复到轻量级锁状态。当锁处于这个状态下，其他线程试图获取锁时，都会被阻塞住，当持有锁的线程释放锁之后会唤醒这些线程，被唤醒的线程就会进行新一轮的夺锁之争。</p>
+<h4 id="锁的优缺点对比"><a href="#锁的优缺点对比" class="headerlink" title="锁的优缺点对比"></a>锁的优缺点对比</h4><p><img src="/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C6.png" alt="1"> </p>
+<h2 id="原子操作的实现原理"><a href="#原子操作的实现原理" class="headerlink" title="原子操作的实现原理"></a>原子操作的实现原理</h2><p><img src="/2023/03/04/JUC%E5%AD%A6%E4%B9%A0/%5CJUC%E5%AD%A6%E4%B9%A0%5C7.png" alt="1"> </p>
+<h3 id="处理器如何实现原子操作"><a href="#处理器如何实现原子操作" class="headerlink" title="处理器如何实现原子操作"></a>处理器如何实现原子操作</h3><p>32位IA-32处理器使用基于对缓存加锁或总线加锁的方式来实现多处理器之间的原子操作。首先处理器会自动保证基本的内存操作的原子性。处理器保证从系统内存中读取或者写入一个字节是原子的，意思是当一个处理器读取一个字节时，其他处理器不能访问这个字节的内存地址。Pentium 6和最新的处理器能自动保证单处理器对同一个缓存行里进行16/32/64位的操作是原子的，但是复杂的内存操作处理器是不能自动保证其原子性的，比如跨总线宽度、跨多个缓存行和跨页表的访问。但是，处理器提供总线锁定和缓存锁定两个机制来保证复杂内存操作的原子性。</p>
+<p>（1）使用总线锁保证原子性</p>
+<p>（2）使用缓存锁保证原子性</p>
+<p>但是有两种情况下处理器不会使用缓存锁定。</p>
+<p>第一种情况是：当操作的数据不能被缓存在处理器内部，或操作的数据跨多个缓存行（cache line）时，则处理器会调用总线锁定。</p>
+<p>第二种情况是：有些处理器不支持缓存锁定。对于Intel 486和Pentium处理器，就算锁定的内存区域在处理器的缓存行中也会调用总线锁定。</p>
+<h3 id="Java如何实现原子操作"><a href="#Java如何实现原子操作" class="headerlink" title="Java如何实现原子操作"></a>Java如何实现原子操作</h3><p>（1）使用循环CAS实现原子操作</p>
+<p>（2）CAS实现原子操作的三大问题</p>
+<ul>
+<li>ABA问题 </li>
+<li>循环时间长开销大 </li>
+<li>只能保证一个共享变量的原子操作</li>
+</ul>
+<p>（3）使用锁机制实现原子操作</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/02/12/mybtis%E5%92%8Cmybatis-plus%E9%85%8D%E7%BD%AE%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="mybtis和mybatis-plus配置时的问题">
+      <i class="fa fa-chevron-left"></i> mybtis和mybatis-plus配置时的问题
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">Java内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E4%B8%AD%E7%9A%84-8-%E4%B8%AA%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.</span> <span class="nav-text">Java 内存模型中的 8 个原子操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E4%B8%AA%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%9A%84%E6%89%A7%E8%A1%8C%E8%A7%84%E5%88%99"><span class="nav-number">1.3.</span> <span class="nav-text">8 个原子操作的执行规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%85%B3%E5%8F%98%E9%87%8F%E6%8B%B7%E8%B4%9D%E8%BF%87%E7%A8%8B%E7%9A%84%E8%A7%84%E5%88%99"><span class="nav-number">1.3.1.</span> <span class="nav-text">有关变量拷贝过程的规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%85%B3%E5%8A%A0%E9%94%81%E7%9A%84%E8%A7%84%E5%88%99"><span class="nav-number">1.3.2.</span> <span class="nav-text">有关加锁的规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%E9%97%AE%E9%A2%98-gt-%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.3.</span> <span class="nav-text">可见性问题 -&gt; 有序性问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Happens-Before-%E8%A7%84%E5%88%99"><span class="nav-number">1.3.4.</span> <span class="nav-text">Happens-Before 规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile-%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.5.</span> <span class="nav-text">volatile 的实现原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">线程池的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadPoolExecutor"><span class="nav-number">2.1.</span> <span class="nav-text">ThreadPoolExecutor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FixedThreadPool"><span class="nav-number">2.1.1.</span> <span class="nav-text">FixedThreadPool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CacheThreadPool"><span class="nav-number">2.1.2.</span> <span class="nav-text">CacheThreadPool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SingleThreadPool"><span class="nav-number">2.1.3.</span> <span class="nav-text">SingleThreadPool</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Future-%E6%8E%A5%E5%8F%A3-amp-FutureTask-%E5%AE%9E%E7%8E%B0%E7%B1%BB"><span class="nav-number">2.2.</span> <span class="nav-text">Future 接口 &amp; FutureTask 实现类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runnable-%E6%8E%A5%E5%8F%A3-amp-Callable-%E6%8E%A5%E5%8F%A3"><span class="nav-number">2.3.</span> <span class="nav-text">Runnable 接口 &amp; Callable 接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Executor-%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">2.4.</span> <span class="nav-text">Executor 的生命周期</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">Java并发机制的底层实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">3.1.</span> <span class="nav-text">volatile的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile%E7%9A%84%E4%B8%A4%E6%9D%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E5%88%99%E3%80%82"><span class="nav-number">3.1.1.</span> <span class="nav-text">volatile的两条实现原则。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text">synchronized的实现原理与应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%AF%B9%E8%B1%A1%E5%A4%B4"><span class="nav-number">3.2.1.</span> <span class="nav-text">Java对象头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E5%8D%87%E7%BA%A7%E4%B8%8E%E5%AF%B9%E6%AF%94"><span class="nav-number">3.2.2.</span> <span class="nav-text">锁的升级与对比</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%81%8F%E5%90%91%E9%94%81"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">偏向锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">轻量级锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%AF%B9%E6%AF%94"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">锁的优缺点对比</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">3.3.</span> <span class="nav-text">原子操作的实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%99%A8%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C"><span class="nav-number">3.3.1.</span> <span class="nav-text">处理器如何实现原子操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C"><span class="nav-number">3.3.2.</span> <span class="nav-text">Java如何实现原子操作</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DeLongSun"
+      src="/images/wuwu.jpg">
+  <p class="site-author-name" itemprop="name">DeLongSun</p>
+  <div class="site-description" itemprop="description">upup</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/manchocolate" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/manchocolate" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;manchocolate" rel="noopener" target="_blank"><i class="fab fa-gitee fa-fw"></i>Gitee</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DeLongSun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+<script type="text/javascript" src="/js/my_js/clicklove.js"></script>
+</html>
